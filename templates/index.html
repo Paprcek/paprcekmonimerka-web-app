@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Přehled Projektů{% endblock %}
+
+{% block content %}
+    <h1>Vítejte v Mém IT Portfoliu</h1>
+    <p>Tato stránka slouží jako ukázka mé práce ve vývoji webových aplikací pomocí Pythonu (Flask).</p>
+    
+    <h2>Projekty</h2>
+    <ul>
+        <li><a href="{{ url_for('air_quality') }}" style="color: #4CAF50;">Monitor Kvality Vzduchu</a> - Projekt získávající data z externího API (OpenWeatherMap).</li>
+        <li><a href="{{ url_for('contacts') }}" style="color: #4CAF50;">Kontakty</a> - Ukázka základní Flask routy.</li>
+    </ul>
+    
+    <p>Prohlédněte si navigaci v záhlaví pro přístup k dalším sekcím.</p>
+{% endblock %}

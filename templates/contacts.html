@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Kontakty{% endblock %}
+
+{% block content %}
+    <h1>Kontaktujte Mne</h1>
+    <p>Děkuji za Váš zájem. Zde jsou mé kontaktní údaje:</p>
+    
+    <div class="data-box" style="max-width: 400px; margin: 20px 0;">
+        <p>
+            <!-- Odkaz pro E-MAIL - spustí e-mailového klienta (mailto:) -->
+            <strong>E-mail:</strong> <a href="paprcekmonimerka@gmail.com" style="color: #4CAF50; text-decoration: underline;">paprcekmonimerka@gmail.com</a>
+        </p>
+        <p>
+            <!-- Odkaz na LINKEDIN - otevře v nové záložce -->
+            <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/monika-krausov%C3%A1-260817b3/" target="_blank" style="color: #4CAF50; text-decoration: underline;">LinkedIn</a>
+        </p>
+        <p>
+            <!-- Odkaz pro TELEFON - spustí volání na mobilu/PC (tel:) -->
+            <strong>GitHub:</strong> <a href="https://github.com/Paprcek" style="color: #4CAF50; text-decoration: underline;">GitHub</a>
+        </p>
+    </div>
+    
+    <p>Tato stránka demonstruje základní routing ve Flasku.</p>
+{% endblock %}

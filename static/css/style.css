@@ -1,0 +1,140 @@
+/* Global Reset and Typography */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a; /* Tmavé pozadí */
+    color: #f0f0f0; /* Světlý text */
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Header and Navigation */
+header {
+    background-color: #2c2c2c;
+    color: white;
+    padding: 15px 0;
+    border-bottom: 3px solid #4CAF50; /* Zelená linka pro kontrast */
+}
+
+header a {
+    color: #f0f0f0;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+header a:hover {
+    color: #4CAF50; /* Zelená při najetí */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .logo {
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 25px;
+}
+
+nav ul li a {
+    font-size: 1.1em;
+    padding: 5px 0;
+}
+
+/* Main Content Area */
+main {
+    padding: 40px 0;
+    min-height: 70vh;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #4CAF50; /* Zelená pro nadpisy */
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+/* Footer */
+footer {
+    background-color: #2c2c2c;
+    color: #999;
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #3a3a3a;
+    font-size: 0.9em;
+}
+
+/* Styly pro datovy ramecek na strance Kvality Vzduchu */
+.data-box { 
+    background-color: #2c2c2c; /* Tmavě šedé pozadí rámečku */
+    color: #ffffff;
+    border: 1px solid #4CAF50; /* Světle zelený okraj */
+    padding: 30px; 
+    border-radius: 8px; 
+    max-width: 500px; /* Šířka, aby se nelámalo */
+    text-align: left;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Jemný stín */
+    margin-left: auto; /* Centrování */
+    margin-right: auto; /* Centrování */
+}
+
+/* Styly pro indikaci statusu (good/moderate) */
+.status-good { 
+    background-color: #194d21; /* Tmavší zelená */
+    border-color: #38761d; 
+    padding: 10px;
+    border-radius: 4px;
+}
+.status-moderate { 
+    background-color: #6d5b00; /* Tmavší žlutá/oranžová */
+    border-color: #b45f06; 
+    padding: 10px;
+    border-radius: 4px;
+}
+.status-unhealthy_sensitive { 
+    background-color: #8B4513; /* Hnědá/Oranžová */
+    border-color: #D2691E; 
+    padding: 10px;
+    border-radius: 4px;
+}
+.status-unhealthy { 
+    background-color: #691d21; /* Tmavší červená */
+    border-color: #cc0000; 
+    padding: 10px;
+    border-radius: 4px;
+}
+.status-hazardous { 
+    background-color: #4B0082; /* Tmavě Fialová */
+    border-color: #8A2BE2; 
+    padding: 10px;
+    border-radius: 4px;
+}
+.status-unknown { 
+    background-color: #333333;
+    border-color: #777777;
+    padding: 10px;
+    border-radius: 4px;
+}

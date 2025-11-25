@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monika's IT Portfolio | {% block title %}{% endblock %}</title>
+    <!-- TOTO JE KRITICKY DULEZITY RADEK PRO NACITANI STYLU -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <!-- HLAVNÍ NAVIGACE -->
+            <nav>
+                <a href="{{ url_for('index') }}" class="logo">Monika's IT Portfolio</a>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Přehled Projektů</a></li>
+                    <li><a href="{{ url_for('air_quality') }}">Kvalita Vzduchu</a></li>
+                    <li><a href="{{ url_for('contacts') }}">Kontakty</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ now().year }} Monika's IT Portfolio. Všechna práva vyhrazena.</p>
+        </div>
+    </footer>
+</body>
+</html>
