@@ -1,28 +1,32 @@
 import os
 import requests
 import datetime
+# import time # TENTO IMPORT JSME ZRUSILI A NAHRAZUJEME DATETIME LOGIKOU
 from flask import Flask, render_template
 
 # --- NASTAVENÍ A KONFIGURACE ---
 
-# Precteni API klice z promenne prostredi (bezpecne ulozeno v .env)
-API_KEY = os.getenv("OPENWEATHER_API_KEY")
+# Precteni API klice z promenne prostredi
+API_KEY = os.getenv("OPENWEATHER_API_KEY") 
+
 app = Flask(__name__)
 
-# --- POMOCNÉ FUNKCE pro API (Znovu aktivováno) ---
+# Souradnice pro Prahu
+LAT = 50.07 
+LON = 14.43
+
+# --- POMOCNÉ FUNKCE pro API ---
 
 def get_air_quality_data(lat, lon, api_key):
-    """Získá data o kvalitě vzduchu z OpenWeatherMap API a ošetřuje chyby."""
+    """Získá aktuální data o kvalitě vzduchu z OpenWeatherMap API."""
     if not api_key:
-        return {"error_title": "CHYBA KONFIGURACE", "error_message": "OPENWEATHERMAP_API_KEY není nastaven! Data nelze získat."}
+        return {"error_title": "CHYBA KONFIGURACE", "error_message": "OPENWEATHER_API_KEY není nastaven! Data nelze získat."}
 
-    # API volání pro aktuální kvalitu vzduchu
     url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={api_key}"
     
     try:
-        # Volani API s timeoutem 10s
         response = requests.get(url, timeout=10)
-        response.raise_for_status() # Vyhodi chybu pro 4xx/5xx odpovedi (napr. 401)
+        response.raise_for_status() 
 
         json_data = response.json()
         
@@ -43,19 +47,52 @@ def get_air_quality_data(lat, lon, api_key):
     except requests.exceptions.HTTPError as e:
         error_code = e.response.status_code
         if error_code == 401:
-            return {"error_title": "CHYBA AUTORIZACE (401)", "error_message": "Váš API klíč je neplatný nebo chybí. Zkontrolujte OPENWEATHERMAP_API_KEY."}
+            return {"error_title": "CHYBA AUTORIZACE (401)", "error_message": "Váš API klíč je neplatný nebo chybí."}
         else:
             return {"error_title": f"CHYBA HTTP ({error_code})", "error_message": f"Došlo k chybě při volání API: {e}"}
             
     except requests.exceptions.ConnectionError:
-        return {"error_title": "CHYBA SÍTĚ", "error_message": "Nepodařilo se připojit k OpenWeatherMap API. Zkontrolujte síťové připojení serveru."}
+        return {"error_title": "CHYBA SÍTĚ", "error_message": "Nepodařilo se připojit k API."}
         
     except requests.exceptions.Timeout:
-        return {"error_title": "VYPRŠENÍ ČASU", "error_message": "Volání API trvalo příliš dlouho a vypršel časový limit (10 sekund)."}
+        return {"error_title": "VYPRŠENÍ ČASU", "error_message": "Volání API trvalo příliš dlouho."}
         
     except Exception as e:
         return {"error_title": "NEZNÁMÁ CHYBA", "error_message": f"Nastala neočekávaná chyba: {e}"}
 
+
+def get_air_quality_history(lat, lon, api_key):
+    """Získá historická data za posledních 72 hodin (3 dny)."""
+    if not api_key:
+        return {"error_title": "CHYBA KONFIGURACE", "error_message": "OPENWEATHER_API_KEY není nastaven! Historická data nelze získat."}
+
+    # ZJEDNODUŠENÁ LOGIKA DATUMU:
+    # Zjistime aktualni cas a odecteme 72 hodin pomoci datetime
+    now = datetime.datetime.now(datetime.timezone.utc) # UTC cas (pozadavek OpenWeather)
+    
+    end_time_dt = now
+    start_time_dt = now - datetime.timedelta(hours=72)
+    
+    # Prevod datetime objektu na UNIX timestamp (int)
+    end_time = int(end_time_dt.timestamp())
+    start_time = int(start_time_dt.timestamp())
+    
+    # API volání pro historickou kvalitu vzduchu
+    url = f"http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start_time}&end={end_time}&appid={api_key}"
+    
+    try:
+        response = requests.get(url, timeout=20) # Vetsi timeout pro vetsi objem dat
+        response.raise_for_status() 
+        json_data = response.json()
+        
+        if json_data.get('list'):
+            # Vratime cely seznam historickych dat
+            return json_data['list']
+        else:
+            return {"error_title": "CHYBA DAT", "error_message": "API nevrátilo seznam historických dat (list)."}
+
+    except Exception as e:
+        return {"error_title": "NEZNÁMÁ CHYBA", "error_message": f"Nastala chyba pri volani historie: {e}"}
 
 # --- ZPRACOVÁNÍ STATUSŮ (BEZE ZMĚN) ---
 
@@ -87,7 +124,7 @@ def get_aqi_status_cz(aqi_index):
         return "Velmi špatná"
     return "Neznámá"
 
-# --- FLASK KONTEXTOVY PROCESOR (PRO FOOTER) ---
+# --- FLASK KONTEXTOVY PROCESOR ---
 
 @app.context_processor
 def inject_now():
@@ -103,22 +140,15 @@ def index():
 
 @app.route('/air-quality')
 def air_quality():
-    """Stranka pro projekt Monitor Kvality Vzduchu. POUŽÍVÁ REÁLNÁ DATA."""
+    """Stranka pro projekt Monitor Kvality Vzduchu (Aktualni data)."""
     
-    # Souradnice pro Prahu (50.07, 14.43)
-    lat = 50.07 
-    lon = 14.43
+    api_result = get_air_quality_data(LAT, LON, API_KEY)
     
-    api_result = get_air_quality_data(lat, lon, API_KEY)
-    
-    # Kontrola, zda vysledek obsahuje chybovou zpravu (klic 'error_message')
     if 'error_message' in api_result:
-        # Pokud je v datech chyba, renderujeme template s chybovou zpravou
         return render_template('air_quality.html', 
                                error_title=api_result['error_title'],
                                error_message=api_result['error_message'])
     else:
-        # Zpracovani a zobrazeni realnych dat
         data = api_result
         status_css = get_aqi_status_css(data['aqi'])
         status_cz = get_aqi_status_cz(data['aqi'])
@@ -127,6 +157,40 @@ def air_quality():
                                data=data, 
                                status_css=status_css, 
                                status_cz=status_cz)
+
+@app.route('/air-history')
+def air_history():
+    """NOVA ROUTA: Historicka data AQI a PM2.5 pro vizualizaci."""
+    
+    history_data = get_air_quality_history(LAT, LON, API_KEY)
+    
+    if isinstance(history_data, dict) and 'error_message' in history_data:
+        # Pokud doslo k chybe (napr. neplatny klic), posleme chybovou hlasku
+        return render_template('history.html', 
+                               error_title=history_data['error_title'],
+                               error_message=history_data['error_message'])
+    
+    # 1. Extrakce dat pro graf
+    labels = []  # Casove razitka pro osu X
+    aqi_values = [] # Hodnoty AQI pro prvni radu Y
+    pm25_values = [] # Hodnoty PM2.5 pro druhou radu Y
+    
+    # Historicka data z API prichazeji serazena
+    for entry in history_data:
+        # Prevod UNIX timestamp (entry['dt']) na citelny format (HH:MM dd.mm.)
+        timestamp = entry['dt']
+        dt_object = datetime.datetime.fromtimestamp(timestamp)
+        formatted_time = dt_object.strftime("%H:%M %d.%m.")
+        
+        labels.append(formatted_time)
+        aqi_values.append(entry['main']['aqi'])
+        pm25_values.append(entry['components']['pm2_5'])
+
+    # 2. Renderovani sablony s daty ve formatu, ktery JS snadno zpracuje
+    return render_template('history.html', 
+                           labels=labels, 
+                           aqi_values=aqi_values, 
+                           pm25_values=pm25_values)
 
 @app.route('/contacts')
 def contacts():
