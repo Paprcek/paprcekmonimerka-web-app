@@ -1,37 +1,156 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="{{ g.lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monika's IT Portfolio | {% block title %}{% endblock %}</title>
-    <!-- TOTO JE KRITICKY DULEZITY RADEK PRO NACITANI STYLU -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>{{ g.T['home_title'] }} - {% block title %}{% endblock %}</title>
+    
+    <!-- Tailwind CSS CDN pro moderní a responzivní styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Font: Inter (čistý a moderní) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Nastavení fontu pro celou stránku */
+        body {
+            font-family: 'Source Code Pro', monospace;
+            background-color: rgb(24, 24, 24); /* Téměř černá */
+            color: #f3f4f6; /* Světlý text */
+        }
+        /* Styling pro aktivní navigační prvek */
+        .nav-link.active {
+	    font-weight: 600; /* Semi-bold */
+            color: #4CAF50; /* Jasně zelená */
+            border-bottom: 2px solid #4CAF50;
+        }
+        /* Základní styly pro linky (bez podtržení) */
+        a {
+            text-decoration: none;
+        }
+        
+	/* Globální styl pro nadpisy (zelený akcent) */
+        h1, h2, h3, h4 {
+            color: #4CAF50; /* Jasně zelená barva */
+        }
+
+        /* Zajištění, že se boxy s daty (air_quality, history) správně zobrazí v dark mode */
+        .data-box {
+            background-color: #1f2937; /* Tmavší šedá pro odlišení od pozadí */
+            border: 1px solid #4CAF50; /* Zelený okraj */
+    </style>
 </head>
-<body>
-    <header>
-        <div class="container">
-            <!-- HLAVNÍ NAVIGACE -->
-            <nav>
-                <a href="{{ url_for('index') }}" class="logo">Monika's IT Portfolio</a>
-                <ul>
-                    <li><a href="{{ url_for('index') }}">Přehled Projektů</a></li>
-                    <li><a href="{{ url_for('air_quality') }}">Kvalita Vzduchu</a></li>
-                    <li><a href="{{ url_for('air_history') }}">Historická Data AQI</a></li> <!-- NOVÝ ODKAZ -->
-                    <li><a href="{{ url_for('contacts') }}">Kontakty</a></li>
-                </ul>
-            </nav>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navigační lišta (Header) -->
+    <!-- ZMĚNA 4: Hlavička - Tmavé pozadí a menší stín -->
+    <header class="bg-gray-900 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                
+                <!-- Logo/Název Portfolia -->
+                <div class="flex-shrink-0">
+                    <!-- ZMĚNA 5: Bílý text pro logo -->
+                    <a href="{{ url_for('index') }}" class="text-xl font-bold text-white hover:text-green-400 transition duration-150">Paprcekmonimerka</a>
+                </div>
+
+                <!-- Navigační odkazy -->
+                <nav class="hidden md:flex space-x-4">
+                    <!-- ZMĚNA 6: Světlejší text, zelený hover -->
+                    <a href="{{ url_for('index') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                        {{ g.T['nav_home'] }}
+                    </a>
+                    <a href="{{ url_for('about') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                        {{ g.T['nav_about'] }}
+                    </a>
+                    <a href="{{ url_for('contacts') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                        {{ g.T['nav_contact'] }}
+                    </a>
+                </nav>
+
+                <!-- Přepínání jazyka a mobilní menu ikona -->
+                <div class="flex items-center space-x-3">
+                    <!-- Přepínání jazyka -->
+                    <!-- ZMĚNA 7: Text pro jazyk - Bílý, aktivní zelený -->
+                    <a href="{{ url_for('set_language', lang_code='cs') }}" class="text-sm font-medium p-1 rounded-md transition duration-150 {% if g.lang == 'cs' %}text-green-400 font-bold{% else %}text-gray-400 hover:text-gray-200{% endif %}">CZ</a>
+                    <span class="text-gray-600">|</span>
+                    <a href="{{ url_for('set_language', lang_code='en') }}" class="text-sm font-medium p-1 rounded-md transition duration-150 {% if g.lang == 'en' %}text-green-400 font-bold{% else %}text-gray-400 hover:text-gray-200{% endif %}">EN</a>
+
+                    <!-- Mobilní menu (skryté na desktopu) -->
+                    <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition duration-150">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobilní menu (skryté, JS ho ukáže) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <!-- ZMĚNA 8: Mobilní menu - Světlejší text na tmavém pozadí -->
+                <a href="{{ url_for('index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700">
+                    {{ g.T['nav_home'] }}
+                </a>
+                <a href="{{ url_for('about') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700">
+                    {{ g.T['nav_about'] }}
+                </a>
+                <a href="{{ url_for('contacts') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700">
+                    {{ g.T['nav_contact'] }}
+                </a>
+                <!-- Odkazy na projekty v mobilním menu -->
+                <a href="{{ url_for('air_quality') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 ml-4">
+                    - {{ g.T['nav_air_quality'] }}
+                </a>
+                <a href="{{ url_for('air_history') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 ml-4">
+                    - {{ g.T['nav_air_history'] }}
+                </a>
+            </div>
         </div>
     </header>
 
-    <main class="container">
-        {% block content %}{% endblock %}
+    <!-- Hlavní obsah - Responzivní kontejner s odsazením -->
+    <main class="flex-grow">
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <!-- Blok pro specifický obsah stránky -->
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; {{ now().year }} Monika's IT Portfolio. Všechna práva vyhrazena.</p>
+    <!-- Patička -->
+    <!-- ZMĚNA 9: Patička - Tmavé pozadí -->
+    <footer class="bg-gray-900 text-gray-400 mt-8">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm">
+            &copy; {{ now().year }} Monika Paprcek. Všechna práva vyhrazena. | 
+            <a href="https://github.com/Paprcek/paprcekmonimerka-web-app" target="_blank" class="hover:text-green-400 transition duration-150">GitHub</a> |
+            <a href="{{ url_for('set_language', lang_code='cs') }}" class="hover:text-green-400">Čeština</a> / 
+            <a href="{{ url_for('set_language', lang_code='en') }}" class="hover:text-green-400">English</a>
         </div>
     </footer>
+
+    <script>
+        // Aktivace mobilního menu
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Nastavení aktivního odkazu v navigaci
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                // Zkontrolujeme, zda cesta odkazu odpovídá aktuální cestě
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

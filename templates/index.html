@@ -1,16 +1,61 @@
 {% extends "base.html" %}
 
-{% block title %}Přehled Projektů{% endblock %}
+{% block title %}Domů{% endblock %}
 
 {% block content %}
-    <h1>Vítejte v Mém IT Portfoliu</h1>
-    <p>Tato stránka slouží jako ukázka mé práce ve vývoji webových aplikací pomocí Pythonu (Flask).</p>
-    
-    <h2>Projekty</h2>
-    <ul>
-        <li><a href="{{ url_for('air_quality') }}" style="color: #4CAF50;">Monitor Kvality Vzduchu</a> - Projekt získávající data z externího API (OpenWeatherMap).</li>
-        <li><a href="{{ url_for('contacts') }}" style="color: #4CAF50;">Kontakty</a> - Ukázka základní Flask routy.</li>
-    </ul>
-    
-    <p>Prohlédněte si navigaci v záhlaví pro přístup k dalším sekcím.</p>
+<div class="text-center mb-12">
+    <!-- H1 je nyní zelený díky globálnímu CSS v base.html -->
+    <h1 class="text-5xl font-extrabold mb-4">{{ g.T['greeting'] }}</h1>
+    <!-- ZMĚNA 1: Světlejší text pro úvodní odstavec -->
+    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+        {{ g.T['intro_text'] }}
+    </p>
+</div>
+
+<!-- Sekce Projektů -->
+<section class="mt-16">
+    <!-- H2 je nyní zelený díky globálnímu CSS v base.html -->
+    <h2 class="text-4xl font-bold text-center mb-10">{{ g.T['projects_title'] }}</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 sm:px-0">
+
+        <!-- Box 1: Air Quality Monitor (Projekt) -->
+        <!-- ZMĚNA 2: Tmavé pozadí boxu a bílý text -->
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-[1.02] border border-green-700">
+            <div class="flex items-center mb-4">
+                <!-- ZMĚNA 3: Ikona - Zelená barva -->
+                <span class="text-green-500 text-3xl mr-3">
+                    <!-- SVG Ikona pro Vzduch/Životní prostředí -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M12 2a10 10 0 0 0 9.8 11.6c-4.3 4.4-11.3 4.4-15.6 0A10 10 0 0 0 12 2z"></path><path d="M16 17a4 4 0 0 0-8 0"></path><path d="M12 17v4"></path></svg>
+                </span>
+                <!-- ZMĚNA 4: Bílý text pro nadpis boxu -->
+                <h3 class="text-2xl font-semibold text-white">{{ g.T['project_air_title'] }}</h3>
+            </div>
+            <!-- ZMĚNA 5: Světlejší text pro popis -->
+            <p class="text-gray-300 mb-6">{{ g.T['project_air_desc'] }}</p>
+            
+            <div class="flex flex-col space-y-3">
+                <!-- Tlačítko 1: Plné zelené -->
+                <a href="{{ url_for('air_quality') }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-500 font-medium rounded-full text-sm px-5 py-2.5 text-center transition duration-150 shadow-md">
+                    {{ g.T['project_air_link'] }} (Aktuální data)
+                </a>
+                <!-- Tlačítko 2: Světlejší s tmavým pozadím (pro tmavý režim) -->
+                <a href="{{ url_for('air_history') }}" class="text-green-400 bg-gray-700 hover:bg-gray-600 focus:ring-4 focus:ring-green-500 font-medium rounded-full text-sm px-5 py-2.5 text-center transition duration-150 shadow-md">
+                    {{ g.T['nav_air_history'] }}
+                </a>
+            </div>
+        </div>
+
+        <!-- Box 2: Placeholder pro Budoucí Projekt (pro symetrii) -->
+        <!-- ZMĚNA 6: Placeholder box - Tmavší šedá a bílý/šedý text -->
+        <div class="bg-gray-900 p-6 rounded-xl shadow-inner border-dashed border-2 border-green-700">
+            <h3 class="text-2xl font-semibold text-green-500 mb-4">Budoucí Projekt</h3>
+            <p class="text-gray-400">
+                Zde se brzy objeví další projekt, pravděpodobně zaměřený na datovou analýzu, vizualizace nebo interaktivní hru.
+            </p>
+        </div>
+        
+    </div>
+</section>
+
 {% endblock %}

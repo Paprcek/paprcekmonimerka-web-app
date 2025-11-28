@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('nav_current') }}{% endblock %}
+
+{% block content %}
+    <h1>{{ _('nav_current') }} ({{ _('city') }} Praha)</h1>
+
+    {% if error_message %}
+        <!-- CHYBOVÉ HLÁŠENÍ -->
+        <div class="data-box status-unknown">
+            <h2>{{ error_title }}</h2>
+            <p>{{ error_message }}</p>
+            <p>{{ _('contact_admin') }}</p>
+        </div>
+    {% else %}
+        <!-- ZOBRAZENÍ DAT -->
+        <div class="data-box status-{{ status_css }}">
+            <h2>{{ _('aqi_status') }}: {{ status_name }}</h2> 
+            <p><strong>{{ _('aqi_index') }}:</strong> {{ data.aqi }} / 5</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div class="data-box status-unknown">
+                <p><strong>{{ _('pm25') }}:</strong> {{ data.pm25 }} &micro;g/m³</p>
+            </div>
+            <div class="data-box status-unknown">
+                <p><strong>{{ _('pm10') }}:</strong> {{ data.pm10 }} &micro;g/m³</p>
+            </div>
+            <div class="data-box status-unknown">
+                <p><strong>{{ _('co') }}:</strong> {{ data.co }} &micro;g/m³</p>
+            </div>
+            <div class="data-box status-unknown">
+                <p><strong>{{ _('no2') }}:</strong> {{ data.no2 }} &micro;g/m³</p>
+            </div>
+            <div class="data-box status-unknown">
+                <p><strong>{{ _('so2') }}:</strong> {{ data.so2 }} &micro;g/m³</p>
+            </div>
+            <div class="data-box status-unknown">
+                <p><strong>{{ _('o3') }}:</strong> {{ data.o3 }} &micro;g/m³</p>
+            </div>
+        </div>
+
+        <p class="mt-8">{{ _('project_desc') }}</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,25 +1,123 @@
 {% extends "base.html" %}
 
-{% block title %}Kontakty{% endblock %}
+{% block title %}{{ g.T['contact_title'] }}{% endblock %}
 
 {% block content %}
-    <h1>Kontaktujte Mne</h1>
-    <p>Děkuji za Váš zájem. Zde jsou mé kontaktní údaje:</p>
-    
-    <div class="data-box" style="max-width: 400px; margin: 20px 0;">
-        <p>
-            <!-- Odkaz pro E-MAIL - spustí e-mailového klienta (mailto:) -->
-            <strong>E-mail:</strong> <a href="paprcekmonimerka@gmail.com" style="color: #4CAF50; text-decoration: underline;">paprcekmonimerka@gmail.com</a>
-        </p>
-        <p>
-            <!-- Odkaz na LINKEDIN - otevře v nové záložce -->
-            <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/monika-krausov%C3%A1-260817b3/" target="_blank" style="color: #4CAF50; text-decoration: underline;">LinkedIn</a>
-        </p>
-        <p>
-            <!-- Odkaz pro TELEFON - spustí volání na mobilu/PC (tel:) -->
-            <strong>GitHub:</strong> <a href="https://github.com/Paprcek" style="color: #4CAF50; text-decoration: underline;">GitHub</a>
-        </p>
+<div class="contact-container">
+    <h2 class="text-center mb-4 text-4xl font-bold text-green-400">{{ g.T['contact_title'] }}</h2>
+    <p class="text-center mb-8 text-lg text-gray-400">
+        Níže naleznete nejpřímější cesty, jak mě kontaktovat a prohlédnout si moji práci. Těším se na Vaši zprávu nebo spolupráci!
+    </p>
+
+    <!-- Karta s kontaktními odkazy -->
+    <div class="links-card">
+        
+        <!-- Odkaz na Gmail (mailto) -->
+        <a href="mailto:paprcekmonimerka@gmail.com?subject=Dotaz ohledně IT Portfolia" 
+           class="contact-link email-link">
+            <i class="fas fa-envelope mr-3"></i>
+            Email (Gmail)
+            <span class="url">paprcekmonimerka@gmail.com</span>
+        </a>
+
+        <!-- Odkaz na LinkedIn -->
+        <a href="https://www.linkedin.com/in/monika-krausov%C3%A1-260817b3/" target="_blank" 
+           class="contact-link linkedin-link">
+            <i class="fab fa-linkedin mr-3"></i>
+            LinkedIn Profil
+            <span class="url">/in/MonikaKrausová</span>
+        </a>
+
+        <!-- Odkaz na GitHub -->
+        <a href="https://github.com/Paprcek" target="_blank" 
+           class="contact-link github-link">
+            <i class="fab fa-github mr-3"></i>
+            GitHub Repozitáře
+            <span class="url">Paprcek</span>
+        </a>
+
     </div>
     
-    <p>Tato stránka demonstruje základní routing ve Flasku.</p>
+    <p class="text-center mt-8 text-sm text-gray-500">
+
+    </p>
+</div>
+
+<style>
+    /* Zjednodušené a stylové kontaktní styly */
+    .contact-container {
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 40px;
+        background-color: #2c2c2c; /* Tmavší pozadí pro kartu */
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        border: 1px solid #444;
+    }
+    
+    .links-card {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .contact-link {
+        display: flex;
+        align-items: center;
+        padding: 18px 25px;
+        border-radius: 10px;
+        font-size: 1.15em;
+        font-weight: 600;
+        text-decoration: none;
+        color: white;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .url {
+        margin-left: auto;
+        font-weight: 400;
+        font-size: 0.85em;
+        color: rgba(255, 255, 255, 0.7);
+        opacity: 0.8;
+        transition: opacity 0.3s;
+    }
+
+    .contact-link:hover .url {
+        opacity: 1;
+    }
+
+    /* Barevné schéma pro jednotlivé odkazy */
+    .email-link {
+        background: #D93025; /* Gmail/Google Red */
+    }
+    .email-link:hover {
+        background: #c32c21;
+    }
+
+    .linkedin-link {
+        background: #0077B5; /* LinkedIn Blue */
+    }
+    .linkedin-link:hover {
+        background: #006093;
+    }
+
+    .github-link {
+        background: #333; /* GitHub Dark */
+        border: 2px solid #5cb85c;
+    }
+    .github-link:hover {
+        background: #444;
+        border-color: #4cae4c;
+    }
+
+</style>
+
 {% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hlavní karta - Tmavé pozadí, světlý text -->
+<div class="bg-gray-800 p-8 rounded-xl shadow-2xl transition duration-300 hover:shadow-3xl max-w-3xl mx-auto border border-gray-700">
+    
+    <!-- Titulek - Zelený -->
+    <h1 class="text-4xl font-bold text-green-500 mb-8 border-b-4 border-green-700 pb-3 text-center">{{ g.T['about_title'] }}</h1>
+    
+    <div class="text-center mb-10">
+        <img src="{{ url_for('static', filename='images/my_photo.jpg') }}" 
+             alt="{{ g.T['about_my_photo_alt'] }}" 
+             class="w-32 h-32 mx-auto rounded-full object-cover mb-4 border-4 border-green-600 shadow-xl"
+        >
+        <p class="text-2xl font-semibold text-green-400">{{ g.T['about_greeting'] }}</p>
+    </div>
+
+    <!-- Tělo textu -->
+    <div class="space-y-6 text-gray-300 leading-relaxed">
+        <p class="text-lg">
+            {{ g.T['about_text_placeholder'] }}
+        </p>
+        <p>
+            Věnuji se primárně Pythonu a frameworku Flask, abych dokázala vytvářet robustní backendové aplikace s jednoduchým, ale funkčním frontendem (jako je tento projekt, který využívá Tailwind CSS). Mým cílem je neustále se učit nové technologie a posouvat své hranice ve vývoji webu.
+        </p>
+        <p class="italic text-gray-500 border-l-2 border-gray-600 pl-4">
+            "Každý velký projekt začíná malou chybou, kterou je třeba opravit."
+        </p>
+    </div>
+    
+</div>
+{% endblock %}
