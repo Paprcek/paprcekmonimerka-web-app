@@ -3,8 +3,8 @@
 {% block title %}Historická Data AQI{% endblock %}
 
 {% block content %}
-    <h1>Historie Kvality Vzduchu (Posledních 72 hodin)</h1>
-    <p>Vizualizace vývoje indexu AQI (Air Quality Index) a koncentrace PM2.5 v čase.</p>
+    <h1>{{ g.T['history_title'] }}</h1>
+    <p>{{ g.T['history_desc'] }}</p>
 
     {% if error_message %}
         <!-- CHYBOVÉ HLÁŠENÍ -->

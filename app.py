@@ -35,14 +35,32 @@ TEXT_DATA = {
         'projects_title': 'Moje Projekty',
         'project_air_title': 'Air Quality Monitor (CZ)',
         'project_air_desc': 'Webová aplikace demonstrující integraci externího API (OpenWeatherMap) pro vizualizaci dat o znečištění ovzduší v Praze.',
-        'project_air_link': 'Zobrazit aplikaci',
+        'project_air_link': 'Zobrazit aplikaci (Aktuální data)',
+	'future_project': 'Budoucí Projekt',
+	'future_placeholder': 'Zde se brzy objeví další projekt, pravděpodobně zaměřený na datovou analýzu, vizualizaci nebo interaktivní hru.',
         'about_title': 'O Mně',
         'about_greeting': 'Ahoj, jsem Monika!',
         'about_text_placeholder': 'Zde brzy doplním podrobné informace o svých dovednostech a cestě k IT. Zaměřuji se na Python a Flask, ale ráda se učím i moderní frontendové frameworky.',
-        'error_title': 'Chyba API',
+	'about_text_01': ' Věnuji se primárně Pythonu a frameworku Flask, abych dokázala vytvářet robustní backendové aplikace s jednoduchým, ale funkčním frontendem (jako je tento projekt, který využívá Tailwind CSS). Mým cílem je neustále se neustále učit a posouvat své hranice ve vývoji.',
+        'about_motto': ' "Nejde o to, jak rychle kód píšete, ale kolik se toho naučíte, když ho ladíte." ',
+	'error_title': 'Chyba API',
         'error_msg': 'Nastala chyba při volání OpenWeatherMap API. Zkuste to prosím později.',
-        'contact_title': 'Kontaktní údaje', # Změna titulku pro stránku s odkazy
-        'contact_message_sent': 'Děkuji Vám za zprávu! Byla úspěšně odeslána.'
+        'contact_title': 'Kontaktní údaje',
+        'contact_text': 'Níže naleznete nejpřímější cesty, jak mě kontaktovat a prohlédnout si moji práci. Těším se na Vaši zprávu nebo spolupráci!',
+	'air_quality_title': 'Monitor Kvality Vzduchu v Praze',
+	'air_project_desc': 'Projekt demonstruje integraci Flask backendu s externím API (OpenWeatherMap) a zpracování JSON dat.',
+	'air_quality_back': 'Zpět na Přehled Projektů',
+	'history_title': 'Historie Kvality Vzduchu (Posledních 72 hodin)',
+	'history_desc': 'Vizualizace vývoje indexu AQI (Air Quality Index) a koncentrace PM2.5 v čase.',
+	'footer': 'Všechna práva vyhrazena.',
+	'aqi_status': 'Stav AQI',
+        'status_good': 'Dobrý',
+        'status_fair': 'Uspokojivý',
+        'status_unhealthy_sensitive': 'Nezdravý pro citlivé skupiny',
+        'status_unhealthy': 'Nezdravý',
+        'status_hazardous': 'Velmi nezdravý',
+        'status_unknown': 'Neznámý',
+
     },
     'en': {
         'home_title': "Monika Paprcek | IT Portfolio",
@@ -56,14 +74,31 @@ TEXT_DATA = {
         'projects_title': 'My Projects',
         'project_air_title': 'Air Quality Monitor (EN)',
         'project_air_desc': 'A web application demonstrating the integration of an external API (OpenWeatherMap) to visualize air pollution data in Prague.',
-        'project_air_link': 'View Application',
-        'about_title': 'About Me',
+        'project_air_link': 'View Application (Current data)',
+        'future_project': 'Future Project',
+	'future_placeholder': 'Another project will appear here soon, probably focused on data analysis, visualizations, or an interactive game.',
+	'about_title': 'About Me',
         'about_greeting': 'Hi, I am Monika!',
         'about_text_placeholder': 'I will soon fill in detailed information about my skills and journey into IT here. I focus on Python and Flask, but I am also keen on learning modern frontend frameworks.',
-        'error_title': 'API Error',
+        'about_text_01': 'I primarily focus on Python and the Flask framework to create robust backend applications with a simple but functional frontend (like this project using Tailwind CSS). My goal is to constantly learn and push my boundaries in development.',
+	'about_motto': ' "It is not how fast you write code, but how much you learn while debug it." ',
+	'error_title': 'API Error',
         'error_msg': 'An error occurred while calling the OpenWeatherMap API. Please try again later.',
-        'contact_title': 'Contact Details', # Změna titulku pro stránku s odkazy
-        'contact_message_sent': 'Thank you for your message! It has been successfully sent.'
+        'contact_title': 'Contact Details',
+        'contact_text': 'Below you will find the most direct ways to contact me and view my work. I look forward to hearing from you or collaborating with you!',
+	'air_quality_title': 'Prague Air Quality Monitor',
+	'air_project_desc': 'The project demonstrates the integration of a Flask backend with an external API (OpenWeatherMap) and the processing of JSON data.',
+	'air_quality_back': 'Back to Project Overview',
+	'history_title': 'Air Quality History (Last 72 hours)',
+	'history_desc':	'Visualization of the development of the AQI (Air Quality Index) and PM2.5 concentration over time.',
+	'footer': 'All rights reserved.',
+	'aqi_status': 'AQI Status',
+        'status_good': 'Good',
+        'status_fair': 'Moderate',
+        'status_unhealthy_sensitive': 'Unhealthy for Sensitive Groups',
+        'status_unhealthy': 'Unhealthy',
+        'status_hazardous': 'Hazardous',
+        'status_unknown': 'Unknown'
     }
 }
 
@@ -80,6 +115,18 @@ def inject_global_vars():
         'dt': datetime,
         'now': datetime.datetime.now # Přidáno pro použití v šabloně jako {{ now().year }}
     }
+
+@app.context_processor
+def inject_translation():
+    """Vloží překladovou funkci _ do kontextu všech šablon."""
+    def _(key):
+        # Vezme aktuálně vybraný jazyk (g.lang) a vrátí překlad pro daný klíč (key)
+        # Zajišťuje, že se neobjeví chyba, když překlad chybí
+        return g.T.get(key, key)
+    
+    # Do šablony se vloží funkce, kterou lze volat jako _('klíč')
+    return dict(_=_)
+
 
 @app.before_request
 def before_request_func():
@@ -116,10 +163,9 @@ def about():
     """Stránka O mně."""
     return render_template('about.html')
 
-@app.route('/contacts') # Odstraněna metoda POST, routa je nyní jen GET
+@app.route('/contacts') 
 def contacts():
     """Stránka s kontaktními údaji (statické odkazy)."""
-    # Odstraněna veškerá logika pro zpracování formuláře a zpráv.
     return render_template('contacts.html')
 
 @app.route('/air_quality')
@@ -142,27 +188,31 @@ def air_quality():
         aqi = data['list'][0]['main']['aqi']
         pm25 = data['list'][0]['components']['pm2_5']
 
-        # Mapování AQI na lidsky čitelný status a CSS třídu
         aqi_map = {
-            1: ('Dobrý', 'good'),
-            2: ('Uspokojivý', 'moderate'),
-            3: ('Nezdravý pro citlivé skupiny', 'unhealthy_sensitive'),
-            4: ('Nezdravý', 'unhealthy'),
-            5: ('Velmi nezdravý', 'hazardous')
+            1: ('status_good', 'good'),
+            2: ('status_fair', 'moderate'),
+            3: ('status_unhealthy_sensitive', 'unhealthy_sensitive'),
+            4: ('status_unhealthy', 'unhealthy'),
+            5: ('status_hazardous', 'hazardous')
         }
-        status_cz, status_css = aqi_map.get(aqi, ('Neznámý', 'unknown'))
+        status_key, status_css = aqi_map.get(aqi, ('status_unknown', 'unknown'))
 
         return render_template('air_quality.html',
                                data={'aqi': aqi, 'pm25': round(pm25, 2)},
-                               status_cz=status_cz,
+                               status_key=status_key, 
                                status_css=status_css,
                                error_title=None)
 
-    except requests.exceptions.HTTPError as e:
+    except (requests.exceptions.RequestException, KeyError) as e:
         error_message = f"Nastala chyba: {response.status_code} - {e.response.reason}. Klíč API může být neplatný nebo neaktivní."
-        return render_template('air_quality.html',
-                               error_title=g.T['error_title'],
-                               error_message=error_message)
+       	return render_template('air_quality.html',
+            		data={'aqi': 'N/A', 'pm25': 'N/A'},
+            		status_key='status_unknown',  # Nyní posíláme klíč pro "Neznámý"
+            		status_css='unknown',
+            		error_title=_('error_api_title'),
+            		error_message=_('error_api_message')
+            		)
+
     except Exception as e:
         error_message = f"Nastala chyba při zpracování dat: {e}"
         return render_template('air_quality.html',

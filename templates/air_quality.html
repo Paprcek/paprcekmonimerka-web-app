@@ -4,20 +4,18 @@
 
 {% block content %}
     <!-- Stránka má tmavý styl a kompletní layout díky dědičnosti z base.html -->
-    <h1>Monitor Kvality Vzduchu v Praze</h1>
+    <h1>{{ g.T['air_quality_title'] }}</h1>
 
     {% if data %}
-        <!-- ZOBRAZENÍ DAT (Nyní již REÁLNÝCH) -->
-        <!-- Celá karta se daty je obalena div-em pro centrování a styl (data-box) -->
+        <!-- ZOBRAZENÍ DAT  -->
+        <!-- Celá karta s daty je obalena div-em pro centrování a styl (data-box) -->
         <div class="data-box {{ status_css }}">
-            <h2>AQI Status: {{ status_cz }}</h2>
+            <h2>{{ g.T['aqi_status'] }}: {{ _(status_key) }}</h2>
             <p><strong>AQI Index:</strong> {{ data.aqi }} / 5</p>
             <!-- Zde zobrazujeme realna data s diakritikou µg/m³ a zaokrouhlenim -->
             <p><strong>PM2.5 Koncentrace:</strong> {{ data.pm25 | round(2) }} µg/m³</p>
-            <p>
-                Projekt demonstruje integraci Flask backendu s externím API (OpenWeatherMap)
-                a zpracování JSON dat.
-            </p>
+	</div>
+	<div class="text-gray-300 mb-6">{{ g.T['air_project_desc'] }}
         </div>
     {% elif error_message %}
         <!-- CHYBOVÉ HLÁŠENÍ (pokud klíč nefunguje) -->
@@ -29,5 +27,5 @@
         </div>
     {% endif %}
 
-    <p style="text-align: center; margin-top: 30px;"><a href="{{ url_for('index') }}" style="color: #4CAF50;">Zpět na Přehled Projektů</a></p>
+    <p style="text-align: center; margin-top: 30px;"><a href="{{ url_for('index') }}" style="color: #4CAF50;">{{ g.T['air_quality_back'] }}</a></p>
 {% endblock %}

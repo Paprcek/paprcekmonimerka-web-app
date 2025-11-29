@@ -37,7 +37,7 @@
             <div class="flex flex-col space-y-3">
                 <!-- Tlačítko 1: Plné zelené -->
                 <a href="{{ url_for('air_quality') }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-500 font-medium rounded-full text-sm px-5 py-2.5 text-center transition duration-150 shadow-md">
-                    {{ g.T['project_air_link'] }} (Aktuální data)
+                    {{ g.T['project_air_link'] }}
                 </a>
                 <!-- Tlačítko 2: Světlejší s tmavým pozadím (pro tmavý režim) -->
                 <a href="{{ url_for('air_history') }}" class="text-green-400 bg-gray-700 hover:bg-gray-600 focus:ring-4 focus:ring-green-500 font-medium rounded-full text-sm px-5 py-2.5 text-center transition duration-150 shadow-md">
@@ -49,9 +49,8 @@
         <!-- Box 2: Placeholder pro Budoucí Projekt (pro symetrii) -->
         <!-- ZMĚNA 6: Placeholder box - Tmavší šedá a bílý/šedý text -->
         <div class="bg-gray-900 p-6 rounded-xl shadow-inner border-dashed border-2 border-green-700">
-            <h3 class="text-2xl font-semibold text-green-500 mb-4">Budoucí Projekt</h3>
-            <p class="text-gray-400">
-                Zde se brzy objeví další projekt, pravděpodobně zaměřený na datovou analýzu, vizualizace nebo interaktivní hru.
+            <h3 class="text-2xl font-semibold text-green-500 mb-4">{{ g.T['future_project'] }}</h3>
+            <p class="text-gray-400">{{ g.T['future_placeholder'] }}
             </p>
         </div>
         

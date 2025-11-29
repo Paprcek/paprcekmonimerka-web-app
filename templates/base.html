@@ -123,7 +123,7 @@
     <!-- ZMĚNA 9: Patička - Tmavé pozadí -->
     <footer class="bg-gray-900 text-gray-400 mt-8">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm">
-            &copy; {{ now().year }} Monika Paprcek. Všechna práva vyhrazena. | 
+            &copy; {{ now().year }} Monika Paprcek. {{ g.T['footer'] }} | 
             <a href="https://github.com/Paprcek/paprcekmonimerka-web-app" target="_blank" class="hover:text-green-400 transition duration-150">GitHub</a> |
             <a href="{{ url_for('set_language', lang_code='cs') }}" class="hover:text-green-400">Čeština</a> / 
             <a href="{{ url_for('set_language', lang_code='en') }}" class="hover:text-green-400">English</a>
