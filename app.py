@@ -41,7 +41,7 @@ TEXT_DATA = {
         'about_title': 'O Mně',
         'about_greeting': 'Ahoj, jsem Monika!',
         'about_text_placeholder': 'Zde brzy doplním podrobné informace o svých dovednostech a cestě k IT. Zaměřuji se na Python a Flask, ale ráda se učím i moderní frontendové frameworky.',
-	'about_text_01': ' Věnuji se primárně Pythonu a frameworku Flask, abych dokázala vytvářet robustní backendové aplikace s jednoduchým, ale funkčním frontendem (jako je tento projekt, který využívá Tailwind CSS). Mým cílem je neustále se neustále učit a posouvat své hranice ve vývoji.',
+	'about_text_01': ' Věnuji se primárně Pythonu a frameworku Flask, abych dokázala vytvářet robustní backendové aplikace s jednoduchým, ale funkčním frontendem (jako je tento projekt, který využívá Tailwind CSS). Mým cílem je neustále se učit a posouvat své hranice ve vývoji.',
         'about_motto': ' "Nejde o to, jak rychle kód píšete, ale kolik se toho naučíte, když ho ladíte." ',
 	'error_title': 'Chyba API',
         'error_msg': 'Nastala chyba při volání OpenWeatherMap API. Zkuste to prosím později.',
