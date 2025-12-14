@@ -4,6 +4,9 @@ FROM python:3.11-slim
 # 2. NASTAVENÍ: Pracovní adresář v kontejneru
 WORKDIR /usr/src/app
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gettext
+
 # 3. KÓD: Kopíruje závislosti a instaluje je
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
