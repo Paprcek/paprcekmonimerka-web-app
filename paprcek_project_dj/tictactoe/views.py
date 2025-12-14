@@ -44,7 +44,7 @@ def tictactoe_game(request):
     return render(request, 'tictactoe/tictactoe_game.html', context)
 
 # --- View pro Zpracování Tahu hráče a AI (API ENDPOINT) ---
-def move(request, game_id):
+def make_move(request, game_id):
     if request.method != 'POST':
         return HttpResponseBadRequest("Očekáván POST požadavek.")
 
@@ -109,5 +109,5 @@ def new_game(request):
     return redirect('tictactoe_game')
 
 # Původní game_index view
-def index(request):
+def game_index(request):
     return render(request, 'tictactoe/index.html', {})
