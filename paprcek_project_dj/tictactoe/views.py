@@ -108,6 +108,15 @@ def new_game(request):
     GameState.objects.create(board='.........', is_x_turn=True, status='Active')
     return redirect('tictactoe_game')
 
-# Původní game_index view
 def game_index(request):
-    return render(request, 'tictactoe/index.html', {})
+    """
+    Zobrazí rozcestník (index) se seznamem dostupných her.
+    """
+    context = {
+        'games': [
+            # Zde definujeme hru a jméno její URL cesty
+            {'name': 'Piškvorky (TicTacToe)', 'url_name': 'tictactoe_game'},
+        ]
+    }
+    # Použijeme vaši existující šablonu 'tictactoe/index.html'
+    return render(request, 'tictactoe/index.html', context)

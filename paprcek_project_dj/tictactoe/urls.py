@@ -4,6 +4,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # NOVÝ ŘÁDEK: Toto zachytí /game/ a přesměruje na tictactoe_game view    
+    path('', views.game_index, name='game_index'),
     # Cesta pro zobrazení hry (načtení aktivní hry nebo začátek nové)
     path('tictactoe/', views.tictactoe_game, name='tictactoe_game'),
 
