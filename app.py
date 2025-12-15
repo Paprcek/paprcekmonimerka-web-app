@@ -37,7 +37,7 @@ TEXT_DATA = {
         'project_air_desc': 'Webová aplikace demonstrující integraci externího API (OpenWeatherMap) pro vizualizaci dat o znečištění ovzduší v Praze.',
         'project_air_link': 'Zobrazit aplikaci (Aktuální data)',
 	'future_project': 'Budoucí Projekt',
-	'future_placeholder': 'Zde se brzy objeví další projekt, pravděpodobně zaměřený na datovou analýzu, vizualizaci nebo interaktivní hru.',
+	'future_placeholder': 'Zde je v současnosti vyvíjena nová herní aplikace, postavená na frameworku Django.',
         'about_title': 'O Mně',
         'about_greeting': 'Ahoj, jsem Monika!',
         'about_text_placeholder': 'Zde brzy doplním podrobné informace o svých dovednostech a cestě k IT. Zaměřuji se na Python a Flask, ale ráda se učím i moderní frontendové frameworky.',
@@ -60,7 +60,7 @@ TEXT_DATA = {
         'status_unhealthy': 'Nezdravý',
         'status_hazardous': 'Velmi nezdravý',
         'status_unknown': 'Neznámý',
-
+	'play_game': 'Spustit Hru',
     },
     'en': {
         'home_title': "Monika Paprcek | IT Portfolio",
@@ -76,7 +76,7 @@ TEXT_DATA = {
         'project_air_desc': 'A web application demonstrating the integration of an external API (OpenWeatherMap) to visualize air pollution data in Prague.',
         'project_air_link': 'View Application (Current data)',
         'future_project': 'Future Project',
-	'future_placeholder': 'Another project will appear here soon, probably focused on data analysis, visualizations, or an interactive game.',
+	'future_placeholder': 'A new game application is currently being developed here, built on the Django framework.',
 	'about_title': 'About Me',
         'about_greeting': 'Hi, I am Monika!',
         'about_text_placeholder': 'I will soon fill in detailed information about my skills and journey into IT here. I focus on Python and Flask, but I am also keen on learning modern frontend frameworks.',
@@ -98,7 +98,8 @@ TEXT_DATA = {
         'status_unhealthy_sensitive': 'Unhealthy for Sensitive Groups',
         'status_unhealthy': 'Unhealthy',
         'status_hazardous': 'Hazardous',
-        'status_unknown': 'Unknown'
+        'status_unknown': 'Unknown',
+	'play_game': 'Play Game'
     }
 }
 
