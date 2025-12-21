@@ -1,12 +1,1 @@
-{% load i18n %}
 
-<div class="container">
-    <h1>{% translate "Výběr hry" %}</h1>
-    <ul>
-        {% for game in games %}
-            <li>
-                <a href="{% url game.url_name %}">{{ game.name }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
