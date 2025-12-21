@@ -1,6 +1,10 @@
-{% load static i18n %}
-    
+
 <style>
+    body {
+        background-color: black; 
+        color: white; /* Umožní čtení textu na černém pozadí */
+	font-family: 'Source Code Pro', monospace;    
+}
     .cell {
         /* Standardní buňka pro dark mode */
         border: 2px solid #4CAF50; /* Zelený okraj */
@@ -48,122 +52,3 @@
     }
 </style>
 
-<div class="language-switcher">
-    {% get_current_language as LANGUAGE_CODE %}
-    {% get_language_info for 'cs' as lang_cs %}
-    {% get_language_info for 'en' as lang_en %}
-
-    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
-        {% csrf_token %}
-        <input name="next" type="hidden" value="{{ request.get_full_path }}">
-        <input name="language" type="hidden" value="cs">
-        <button type="submit" {% if LANGUAGE_CODE == 'cs' %}class="active"{% endif %}>{{ lang_cs.name_local }}</button>
-    </form>
-    |
-    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
-        {% csrf_token %}
-        <input name="next" type="hidden" value="{{ request.get_full_path }}">
-        <input name="language" type="hidden" value="en">
-        <button type="submit" {% if LANGUAGE_CODE == 'en' %}class="active"{% endif %}>{{ lang_en.name_local }}</button>
-    </form>
-</div>
-
-<h2>{% trans "Hra Piškvorky proti AI" %}</h2>
-
-<div id="game-status">{% trans "Stav hry: Hraje" %} **X** ({% trans "Ty" %})</div>
-<div id="game-board" style="display: grid; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); gap: 5px; margin-top: 10px;">
-    {% for i in "012345678"|make_list %}
-        <div class="cell" data-index="{{ i }}">
-            {{ game.board|slice:i|slice:"-1" }}
-        </div>
-    {% endfor %}
-</div>
-
-<p><a href="{% url 'new_game' %}">{% trans "Začít novou hru" %}</a></p>
-
-<input type="hidden" id="game-id" value="{{ game.id }}">
-{% csrf_token %}
-
-<script>
-    const gameBoard = document.getElementById('game-board');
-    const statusDisplay = document.getElementById('game-status');
-    const cells = document.querySelectorAll('.cell');
-    const gameId = document.getElementById('game-id').value;
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    
-    let isGameOver = "{{ game.status }}" !== 'Active';
-
-    // 1. Funkce pro vykreslení stavu
-    function renderBoard(boardString) {
-        cells.forEach((cell, index) => {
-            const mark = boardString[index];
-            cell.textContent = mark === '.' ? '' : mark;
-            cell.classList.remove('won', 'draw');
-        });
-    }
-    
-    // 2. Funkce pro aktualizaci stavu z API
-    function updateStatus(status, winner) {
-        isGameOver = status !== 'Active';
-
-        let statusText = '';
-        if (status === 'Active') {
-            statusText = "{% trans 'Stav hry: Hraje' %} **X** ({% trans 'Ty' %})";
-        } else if (winner === 'X') {
-            statusText = "{% trans 'Stav hry: VYHRÁL JSI (X)!' %} 🎉";
-            highlightWinner(winner);
-        } else if (winner === 'O') {
-            statusText = "{% trans 'Stav hry: Prohrál/a jsi. Vyhrála AI (O).' %} 🤖";
-            highlightWinner(winner);
-        } else if (status === 'Draw') {
-            statusText = "{% trans 'Stav hry: Remíza!' %}";
-            gameBoard.classList.add('draw');
-        }
-        statusDisplay.innerHTML = statusText;
-    }
-
-    function highlightWinner(player) {
-        cells.forEach(cell => {
-            if (cell.textContent === player) {
-                cell.classList.add('won');
-            }
-        });
-    }
-
-    // 3. Hlavní funkce pro provedení tahu
-    async function handleMove(index) {
-        if (isGameOver) return; 
-        
-        const response = await fetch(`{% url 'make_move' game.id %}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            },
-            body: JSON.stringify({ index: index })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            renderBoard(data.board);
-            updateStatus(data.status, data.winner);
-        } else {
-            alert(data.error || "{% trans 'Došlo k chybě při provádění tahu.' %}");
-        }
-    }
-
-    // 4. Přidání event listenerů pro kliknutí
-    cells.forEach(cell => {
-        cell.addEventListener('click', (event) => {
-            const index = event.target.dataset.index;
-            if (event.target.textContent === '' && !isGameOver) {
-                handleMove(parseInt(index));
-            }
-        });
-    });
-
-    // Inicializace při načtení stránky
-    updateStatus("{{ game.status }}", "{{ game.status|slice:'0:1' }}");
-    renderBoard("{{ game.board }}");
-</script>

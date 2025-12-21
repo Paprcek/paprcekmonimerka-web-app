@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-20 21:39+0100\n"
+"PO-Revision-Date: 2025-12-20 21:45+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: paprcek_hra/settings.py:76
+msgid "Czech"
+msgstr "Czech"
+
+#: paprcek_hra/settings.py:77
+msgid "English"
+msgstr "English"
+
+msgid "Herní centrum"
+msgstr "Game Hub"
+
+msgid "Herní centrum Paprcek"
+msgstr "Paprcek Game Hub"
+
+msgid "Vítejte v sekci her. Zde si můžete vyzkoušet projekty zaměřené na logiku a interaktivitu."
+msgstr "Welcome to the game section. Here you can try projects focused on logic and interactivity."
+
+msgid "Dostupné hry"
+msgstr "Available Games"
+
+msgid "Piškvorky proti AI"
+msgstr "Tic-Tac-Toe vs AI"
+
+msgid "Klasická strategická hra 3x3. Dokážete porazit náš algoritmus?"
+msgstr "Classic 3x3 strategy game. Can you beat our algorithm?"
+
+msgid "Spustit hru"
+msgstr "Start Game"
+
+msgid "Připravujeme další hru"
+msgstr "New game coming soon"
+
+msgid "Pracujeme na logických hádankách."
+msgstr "We are working on logic puzzles."
