@@ -1,14 +1,8 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-20 22:53+0100\n"
+"POT-Creation-Date: 2025-12-22 01:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,20 +12,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/base.html:58
-msgid "All rights reserved"
-msgstr "All rights resered"
+#: templates/base.html:65
+msgid "Všechna práva vyhrazena"
+msgstr "All rights reserved"
 
 #: templates/hub.html:8
 msgid "Herní centrum Paprcek"
 msgstr "Game center Paprcek"
 
 #: templates/hub.html:10
-msgid ""
-"Vítejte v sekci her. Zde si můžete vyzkoušet projekty zaměřené na logiku a "
-"interaktivitu."
-msgstr "Welcome to the games section. Here you can try out projects focused on logic and "
-"interactivity."
+msgid "Vítejte v sekci her. Zde si můžete vyzkoušet projekty zaměřené na logiku a interaktivitu."
+msgstr "Welcome to the games section. Here you can try out projects focused on logic and interactivity."
+
+#: templates/hub.html:15
+msgid "Dostupné hry"
+msgstr "Available Games"
+
+#: templates/hub.html:24
+msgid "Piškvorky proti AI"
+msgstr "Tic-Tac-Toe vs AI"
 
 #: templates/hub.html:26
 msgid "Klasická strategická hra 3x3. Dokážete porazit náš algoritmus?"

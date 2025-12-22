@@ -90,6 +90,11 @@ LANGUAGES = [
     ('en', _('English')),
 ]
 
+LANGUAGE_COOKIE_NAME = 'django_language'
+LANGUAGE_COOKIE_SECURE = True 
+LANGUAGE_COOKIE_SAMESITE = 'Lax'
+LANGUAGE_COOKIE_DOMAIN = None 
+
 LOCALE_PATHS = [
     BASE_DIR / 'locale',
 ]
