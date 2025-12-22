@@ -6,7 +6,6 @@ def game_hub(request):
     return render(request, 'hub.html')
 
 def set_language_custom(request):
-    print("!!! POŽADAVEK NA ZMĚNU JAZYKA DORAZIL DO DJANGA !!!")
     lang_code = request.POST.get('language') or request.GET.get('language')
     next_url = request.POST.get('next', '/')
     
@@ -15,6 +14,23 @@ def set_language_custom(request):
     if lang_code and lang_code in dict(settings.LANGUAGES):
         translation.activate(lang_code)
         response = redirect(next_url)
-        response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code)
+        
+        # Nastavení cookie s parametry pro moderní prohlížeče
+        response.set_cookie(
+            settings.LANGUAGE_COOKIE_NAME, 
+            lang_code,
+            max_age=365*24*60*60,  # 1 rok
+            path='/',              # Důležité: platnost pro celý web
+            secure=True,           # Nutné pro HTTPS (Cloudflare)
+            samesite='Lax'         # Standard pro bezpečnost
+        )
+        print(f"DEBUG: Cookie {settings.LANGUAGE_COOKIE_NAME} nastavena na {lang_code}")
         return response
+    
+    print("DEBUG: Jazyk nebyl rozpoznán nebo není v settings.LANGUAGES")
     return redirect(next_url)
+
+def tictactoe_view(request):
+# Zatím jen vrátí jednoduchý text, dokud hru nedoděláš
+    from django.http import HttpResponse
+    return HttpResponse("Tady se připravují piškvorky!")
