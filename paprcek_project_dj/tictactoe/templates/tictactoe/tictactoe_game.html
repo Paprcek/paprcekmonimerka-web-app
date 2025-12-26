@@ -1,54 +1,149 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+{% csrf_token %}
+<div class="container text-center mt-5">
+    <h1 class="text-success mb-4">{% translate "Piškvorky proti AI" %}</h1>
+    
+    <div id="game-status" class="text-light mb-3">
+        {% translate "Na tahu jsi ty (X)" %}
+    </div>
+
+    <div id="game-board" style="
+        display: grid; 
+        grid-template-columns: repeat(15, 30px); 
+        gap: 2px; 
+        justify-content: center;
+        background-color: #444;
+        padding: 10px;
+        border-radius: 8px;
+        margin: 0 auto;
+        width: fit-content;
+    ">
+        </div>
+
+    <a href="." class="btn btn-outline-success mt-4">
+        {% translate "Restartovat hru" %}
+    </a>
+</div>
 
 <style>
-    body {
-        background-color: black; 
-        color: white; /* Umožní čtení textu na černém pozadí */
-	font-family: 'Source Code Pro', monospace;    
-}
-    .cell {
-        /* Standardní buňka pro dark mode */
-        border: 2px solid #4CAF50; /* Zelený okraj */
-        text-align: center;
-        line-height: 100px;
-        font-size: 40px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        user-select: none;
-        color: #f3f4f6; /* Světlý text pro 'X' a 'O' */
-    }
-    
     .cell:hover {
-        /* Tmavší pozadí při hoveru */
-        background-color: #1f2937; 
-    }
+    background-color: #333 !important;
+}
+.cell {
+    transition: background-color 0.2s;
+    border: 1px solid #444;
+}
+</style>
+
+<script>
+    const boardSize = 15;
+    const boardElement = document.getElementById('game-board');
+    const statusElement = document.getElementById('game-status');
     
-    /* Vítězný stav (Victory/Won) */
-    .won {
-        background-color: #155724; /* Tmavě zelené pozadí */
-        color: #4CAF50; /* Jasně zelený text */
-        font-weight: bold;
-    }
-    
-    /* Remíza (Draw) */
-    .draw {
-        background-color: #333; /* Šedý odstín */
-        color: #f3f4f6; /* Světlý text */
+    // Inicializace desky
+    let board = Array(boardSize).fill().map(() => Array(boardSize).fill(""));
+    let gameActive = true;
+
+    function createBoard() {
+        if (!boardElement) return;
+        boardElement.innerHTML = ''; 
+        for (let y = 0; y < boardSize; y++) {
+            for (let x = 0; x < boardSize; x++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.dataset.x = x;
+                cell.dataset.y = y;
+                
+                // Vrátíme tam ty styly, které ti fungovaly
+                cell.style.width = '30px';
+                cell.style.height = '30px';
+                cell.style.backgroundColor = '#1e1e1e';
+                cell.style.cursor = 'pointer';
+                cell.style.display = 'flex';
+                cell.style.alignItems = 'center';
+                cell.style.justifyContent = 'center';
+                cell.style.fontSize = '20px';
+                cell.style.fontWeight = 'bold';
+                cell.style.color = '#fff';
+                cell.style.border = '1px solid #333';
+                
+                cell.addEventListener('click', () => makeMove(x, y));
+                boardElement.appendChild(cell);
+            }
+        }
     }
 
-    /* Ostatní styly pro přepínač jazyka */
-    .language-switcher a, .language-switcher button {
-        padding: 5px;
-        text-decoration: none;
-        color: #f3f4f6; /* Světlý text */
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-family: 'Source Code Pro', monospace; /* Tvé kóderské písmo */
-        font-size: 1rem;
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
     }
-    .language-switcher a.active, .language-switcher button.active {
-        font-weight: bold;
-        color: #4CAF50; /* Jasně zelený akcent */
+
+    function makeMove(x, y) {
+        if (!gameActive || board[y][x] !== "") return;
+
+        const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+        if (!cell || cell.innerText !== '') return;
+
+        // Tah hráče
+        board[y][x] = "X";
+        cell.innerText = 'X';
+        cell.style.color = '#00ff00';
+        
+        if (statusElement) statusElement.innerText = "AI přemýšlí...";
+
+        fetch('/game/tictactoe/move/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ x: x, y: y, board: board })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'win') {
+                gameActive = false;
+                if (statusElement) {
+                    statusElement.innerHTML = data.winner === 'player' ? "<h2>VYHRÁLA JSI! 🎉</h2>" : "<h2>AI VYHRÁLA! 🤖</h2>";
+                } else {
+                    alert(data.winner === 'player' ? "Vyhrála jsi!" : "AI vyhrála!");
+                }
+                
+                if (data.winner === 'ai') {
+                    drawAiMove(data.ai_x, data.ai_y);
+                }
+            } else if (data.status === 'success') {
+                board[data.ai_y][data.ai_x] = "O";
+                drawAiMove(data.ai_x, data.ai_y);
+                if (statusElement) statusElement.innerText = "Na tahu jsi ty (X)";
+            }
+        })
+        .catch(error => console.error('Chyba:', error));
     }
-</style>
+
+    function drawAiMove(x, y) {
+        const aiCell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+        if (aiCell) {
+            aiCell.innerText = 'O';
+            aiCell.style.color = '#ff0000';
+        }
+    }
+
+    // Spuštění mřížky
+    createBoard();
+</script>
+{% endblock %}
 
