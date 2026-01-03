@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-26 23:00+0100\n"
+"POT-Creation-Date: 2026-01-03 22:17+0100\n"
 "PO-Revision-Date: 2025-12-26 23:10+0100\n"
 "Last-Translator: Monika\n"
 "Language-Team: Czech\n"
@@ -45,7 +45,9 @@ msgid "Piškvorky proti AI"
 msgstr "Tic-Tac-Toe vs AI"
 
 #: templates/hub.html:26
-msgid "Klasická strategická hra 3x3. Dokážete porazit náš algoritmus?"
+#, fuzzy
+#| msgid "Klasická strategická hra. Dokážete porazit náš algoritmus?"
+msgid "Klasická strategická hra. Dokážete porazit náš algoritmus?"
 msgstr "A classic strategic game. Can you beat our algorithm?"
 
 #: templates/hub.html:30
