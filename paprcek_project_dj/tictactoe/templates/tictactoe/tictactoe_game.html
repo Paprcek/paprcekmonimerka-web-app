@@ -10,6 +10,12 @@
         {% translate "Na tahu jsi ty (X)" %}
     </div>
 
+    <div class="text-light mb-2">
+        {% translate "Čas:" %} <span id="current-time">0</span>s
+    <span class="ms-3">{% translate "Tvůj rekord:" %} <span id="personal-best">--</span>s</span>
+    <span class="ms-3">{% translate "Světový rekord:" %} <span id="world-best">--</span>s</span>
+    </div>
+
     <div id="game-board" style="
         display: grid; 
         grid-template-columns: repeat(15, 30px); 
@@ -38,14 +44,53 @@
 }
 </style>
 
+<div id="js-translations" style="display: none;"
+    data-win-player="{% translate 'VYHRÁLA JSI! 🎉' %}"
+    data-win-ai="{% translate 'AI VYHRÁLA! 🤖' %}"
+    data-your-turn="{% translate 'Na tahu jsi ty (X)' %}"
+    data-ai-thinking="{% translate 'AI přemýšlí...' %}">
+</div>
+
 <script>
     const boardSize = 15;
     const boardElement = document.getElementById('game-board');
     const statusElement = document.getElementById('game-status');
+    const transElement = document.getElementById('js-translations');
+    const trans = transElement ? transElement.dataset : {};
     
-    // Inicializace desky
     let board = Array(boardSize).fill().map(() => Array(boardSize).fill(""));
     let gameActive = true;
+    let startTime;
+    let timerInterval;
+    let timeElapsed = 0;
+
+function startTimer() {
+        if (!startTime) {
+            console.log("Stopky startují právě teď!"); 
+            startTime = Date.now();
+            // Uložíme interval do okna, aby byl globálně dostupný a nesmazal se
+            window.gameTimer = setInterval(() => {
+                timeElapsed = Math.floor((Date.now() - startTime) / 1000);
+                const timeElement = document.getElementById('current-time');
+                if (timeElement) {
+                    timeElement.innerText = timeElapsed;
+                }
+            }, 1000);
+        }
+    }
+
+    function stopTimer() {
+        clearInterval(window.gameTimer);
+    }
+
+    function loadBestScore() {
+        const best = localStorage.getItem('tictactoe_best');
+        const personalBestElement = document.getElementById('personal-best');
+        if (personalBestElement) {
+            personalBestElement.innerText = best ? best : "--";
+        }
+    }
+    // --------------------------------
 
     function createBoard() {
         if (!boardElement) return;
@@ -93,6 +138,8 @@
 
     function makeMove(x, y) {
         if (!gameActive || board[y][x] !== "") return;
+       
+        startTimer();
 
         const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
         if (!cell || cell.innerText !== '') return;
@@ -116,19 +163,30 @@
         .then(data => {
             if (data.status === 'win') {
                 gameActive = false;
+                stopTimer();
+
+                const winText = data.winner === 'player' ? trans.winPlayer : trans.winAi;
                 if (statusElement) {
-                    statusElement.innerHTML = data.winner === 'player' ? "<h2>VYHRÁLA JSI! 🎉</h2>" : "<h2>AI VYHRÁLA! 🤖</h2>";
-                } else {
-                    alert(data.winner === 'player' ? "Vyhrála jsi!" : "AI vyhrála!");
+                    statusElement.innerHTML = `<h2>${winText}</h2>`;
                 }
-                
+
+                if (data.winner === 'player') {
+                    const currentBest = localStorage.getItem('tictactoe_best');
+                    if (!currentBest || timeElapsed < parseInt(currentBest)) {
+                        localStorage.setItem('tictactoe_best', timeElapsed);
+                    }
+
                 if (data.winner === 'ai') {
                     drawAiMove(data.ai_x, data.ai_y);
                 }
+
+                loadBestScore();
+            }    
+
             } else if (data.status === 'success') {
                 board[data.ai_y][data.ai_x] = "O";
                 drawAiMove(data.ai_x, data.ai_y);
-                if (statusElement) statusElement.innerText = "Na tahu jsi ty (X)";
+                if (statusElement) statusElement.innerText = trans.yourTurn;
             }
         })
         .catch(error => console.error('Chyba:', error));
@@ -144,6 +202,7 @@
 
     // Spuštění mřížky
     createBoard();
+    loadBestScore();
 </script>
 {% endblock %}
 
