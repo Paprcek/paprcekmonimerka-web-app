@@ -175,13 +175,32 @@ function startTimer() {
                     if (!currentBest || timeElapsed < parseInt(currentBest)) {
                         localStorage.setItem('tictactoe_best', timeElapsed);
                     }
+                    fetch('/game/tictactoe/update-record/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        body: JSON.stringify({ time: timeElapsed })
+                    })
+                    .then(response => response.json())
+                    .then(dbData => {
+                        if (dbData.world_best) {
+                            // Aktualizujeme nápis Světový rekord na stránce
+                            const worldBestDisplay = document.getElementById('world-best');
+                            if (worldBestDisplay) {
+                                worldBestDisplay.innerText = dbData.world_best;
+                            }
+                        }
+                    })
+                    .catch(err => console.error("Chyba při ukládání světového rekordu:", err));
+                }
 
                 if (data.winner === 'ai') {
                     drawAiMove(data.ai_x, data.ai_y);
                 }
 
                 loadBestScore();
-            }    
 
             } else if (data.status === 'success') {
                 board[data.ai_y][data.ai_x] = "O";

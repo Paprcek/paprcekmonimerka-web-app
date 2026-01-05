@@ -1,6 +1,30 @@
 import json
+from .models import TicTacToeRecord
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.shortcuts import render
 from django.http import JsonResponse
+
+def update_tictactoe_record(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            new_time = data.get('time')
+            
+            if new_time is not None:
+                # Uložíme nový čas do databáze
+                TicTacToeRecord.objects.create(time_seconds=int(new_time))
+                
+                # Získáme ten úplně nejlepší čas (první v pořadí)
+                best_record = TicTacToeRecord.objects.order_by('time_seconds').first()
+                
+                return JsonResponse({
+                    'status': 'success',
+                    'world_best': best_record.time_seconds if best_record else None
+                })
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+            
+    return JsonResponse({'status': 'error'}, status=400)
 
 def tictactoe_game(request):
     return render(request, 'tictactoe/tictactoe_game.html', {})
