@@ -16,18 +16,22 @@
     <span class="ms-3">{% translate "Světový rekord:" %} <span id="world-best">--</span>s</span>
     </div>
 
-    <div id="game-board" style="
+<div id="game-board" style="
         display: grid; 
-        grid-template-columns: repeat(15, 30px); 
-        gap: 2px; 
+        /* Změna: repeat(15, minmax(15px, 30px)) dovolí políčku se zmenšit */
+        grid-template-columns: repeat(15, minmax(15px, 30px)); 
+        gap: 1px; 
         justify-content: center;
         background-color: #444;
         padding: 10px;
         border-radius: 8px;
         margin: 0 auto;
         width: fit-content;
+        /* Přidáno: aby mřížka nepřetekla displej */
+        max-width: 100%;
+        box-sizing: border-box;
     ">
-        </div>
+    </div>
 
     <a href="." class="btn btn-outline-success mt-4">
         {% translate "Restartovat hru" %}
@@ -68,7 +72,6 @@ function startTimer() {
         if (!startTime) {
             console.log("Stopky startují právě teď!"); 
             startTime = Date.now();
-            // Uložíme interval do okna, aby byl globálně dostupný a nesmazal se
             window.gameTimer = setInterval(() => {
                 timeElapsed = Math.floor((Date.now() - startTime) / 1000);
                 const timeElement = document.getElementById('current-time');
@@ -90,9 +93,8 @@ function startTimer() {
             personalBestElement.innerText = best ? best : "--";
         }
     }
-    // --------------------------------
 
-    function createBoard() {
+function createBoard() {
         if (!boardElement) return;
         boardElement.innerHTML = ''; 
         for (let y = 0; y < boardSize; y++) {
@@ -102,15 +104,18 @@ function startTimer() {
                 cell.dataset.x = x;
                 cell.dataset.y = y;
                 
-                // Vrátíme tam ty styly, které ti fungovaly
-                cell.style.width = '30px';
-                cell.style.height = '30px';
+                cell.style.width = '100%'; 
+                cell.style.aspectRatio = '1 / 1';
+                // cell.style.height = '30px'; // 
+
                 cell.style.backgroundColor = '#1e1e1e';
                 cell.style.cursor = 'pointer';
                 cell.style.display = 'flex';
                 cell.style.alignItems = 'center';
                 cell.style.justifyContent = 'center';
-                cell.style.fontSize = '20px';
+                
+                cell.style.fontSize = 'min(20px, 4vw)'; 
+                
                 cell.style.fontWeight = 'bold';
                 cell.style.color = '#fff';
                 cell.style.border = '1px solid #333';
@@ -144,7 +149,6 @@ function startTimer() {
         const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
         if (!cell || cell.innerText !== '') return;
 
-        // Tah hráče
         board[y][x] = "X";
         cell.innerText = 'X';
         cell.style.color = '#00ff00';
@@ -186,7 +190,6 @@ function startTimer() {
                     .then(response => response.json())
                     .then(dbData => {
                         if (dbData.world_best) {
-                            // Aktualizujeme nápis Světový rekord na stránce
                             const worldBestDisplay = document.getElementById('world-best');
                             if (worldBestDisplay) {
                                 worldBestDisplay.innerText = dbData.world_best;
@@ -219,7 +222,6 @@ function startTimer() {
         }
     }
 
-    // Spuštění mřížky
     createBoard();
     loadBestScore();
 </script>
