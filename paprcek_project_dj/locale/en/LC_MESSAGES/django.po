@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-03 22:17+0100\n"
+"POT-Creation-Date: 2026-01-05 17:14+0100\n"
 "PO-Revision-Date: 2025-12-26 23:10+0100\n"
 "Last-Translator: Monika\n"
 "Language-Team: Czech\n"
@@ -63,9 +63,34 @@ msgid "Pracujeme na logických hádankách."
 msgstr "We're working on logic puzzles."
 
 #: tictactoe/templates/tictactoe/tictactoe_game.html:10
+#: tictactoe/templates/tictactoe/tictactoe_game.html:50
 msgid "Na tahu jsi ty (X)"
 msgstr "Your turn (X)"
 
-#: tictactoe/templates/tictactoe/tictactoe_game.html:27
+#: tictactoe/templates/tictactoe/tictactoe_game.html:14
+msgid "Čas:"
+msgstr "Time"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:15
+msgid "Tvůj rekord:"
+msgstr "Your record"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:16
+msgid "Světový rekord:"
+msgstr "World record"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:33
 msgid "Restartovat hru"
 msgstr "Restart Game"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:48
+msgid "VYHRÁLA JSI! 🎉"
+msgstr "YOU WIN! 🎉"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:49
+msgid "AI VYHRÁLA! 🤖"
+msgstr "AI WIN! 🤖"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:51
+msgid "AI přemýšlí..."
+msgstr "AI is thinking..."
