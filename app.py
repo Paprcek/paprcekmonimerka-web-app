@@ -40,8 +40,8 @@ TEXT_DATA = {
 	'future_placeholder': 'Zde jsou v současnosti vyvíjeny nové herní aplikace, postavené na frameworku Django.',
         'about_title': 'O Mně',
         'about_greeting': 'Ahoj, jsem Monika!',
-        'about_text_placeholder': 'Tady se časem víc rozepíšu o tom, jak jsem se k IT dostala. Zatím jen vím, že mě baví tvořit věci, co fungují. Momentálně si hraju hlavně s Pythonem a Flaskem a postupně zkouším, co všechno se dá na webu postavit.',
-	'about_text_01': 'Baví mě Python a framework Flask, protože v nich věci dávají smysl. Nehraju si na profíka, prostě mě baví ten proces – od první řádky kódu až po moment, kdy se mi to podaří rozběhat na vlastním serveru. Kromě backendu občas bojuju i s frontendem (třeba přes Tailwind), aby to k něčemu vypadalo. Je to pro mě hlavně cesta, jak se pořád učit něco nového.',
+        'about_text_placeholder': 'Moje cesta do světa IT nezačala u kódu, ale u hledání chyb. Vše odstartoval rekvalifikační kurz na manuálního testera, kde jsem poprvé nahlédla pod kapotu softwaru. Ta zkušenost mě nadchla natolik, že mi pouhé testování přestalo stačit, chtěla jsem vědět, jak věci vznikají, a začít je sama tvořit. Nevím kam moje cesta povede, zatím jen vím, že mě baví tvořit věci, co fungují. Momentálně si hraju hlavně s Pythonem a Flaskem nebo Djangem a postupně zkouším, co všechno se dá na webu postavit a hlavně jak.',
+	'about_text_01': 'Fascinace technologiemi mě dovedla k Pythonu, který se stal mým základním kamenem. Co začalo jako učení se syntaxe, postupně přerostlo v potřebu vytvořit něco vlastního a hmatatelného. Tak vznikl tento web, který je mým technologickým hřištěm. Na backendu kombinuji sílu frameworků Flask a Django. Baví mě zkoušet, co který z nich nabízí. Vše je kontejnerizováno pomocí Dockeru pro hladký vývoj a nasazení. Web mi běží na vlastním domácím serveru. Aby byl bezpečně dostupný světu, používám Cloudflare Tunnel. Díky tomu nemusím řešit veřejnou IP adresu a vše šlape, jak má. Nehraju si na profíka, prostě mě baví ten proces, od první řádky kódu až po moment, kdy se mi to podaří rozběhat na vlastním serveru. Kromě backendu občas bojuju i s frontendem (třeba přes Tailwind), aby to k něčemu vypadalo. Je to pro mě hlavně cesta, jak se pořád učit něco nového.',
         'about_motto': ' "Nejde o to, jak rychle kód píšete, ale kolik se toho naučíte, když ho ladíte." ',
 	'error_title': 'Chyba API',
         'error_msg': 'Nastala chyba při volání OpenWeatherMap API. Zkuste to prosím později.',
@@ -61,6 +61,7 @@ TEXT_DATA = {
         'status_hazardous': 'Velmi nezdravý',
         'status_unknown': 'Neznámý',
 	'play_game': 'Spustit Hru',
+    'nav_game_center': 'Herní centrum',
     },
     'en': {
         'home_title': "Monika Paprcek | IT Portfolio",
@@ -79,8 +80,8 @@ TEXT_DATA = {
 	'future_placeholder': 'A new game applications are currently being developed here, built on the Django framework.',
 	'about_title': 'About Me',
         'about_greeting': 'Hi, I am Monika!',
-        'about_text_placeholder': 'In time, I will write more here about how I found my way into IT. For now, all I know is that I love creating things that actually work. Currently, I am mainly playing around with Python and Flask, gradually exploring everything that can be built on the web.',
-        'about_text_01': 'I enjoy Python and the Flask framework because, to me, they just make sense. I am not trying to act like a pro; I simply love the process – from writing the first line of code to the moment I successfully get it running on my own server. Besides the backend, I occasionally wrestle with the frontend (using Tailwind, for example) just to make it look decent. For me, it is mainly a journey of constantly learning something new.',
+        'about_text_placeholder': "My journey into the world of IT didn't start with code, but with finding bugs. It all began with a retraining course for manual testing, where I got my first look under the hood of software. That experience excited me so much that testing alone was no longer enough; I wanted to understand how things are built and start creating them myself. I’m not sure where my path will lead yet, but I know that I enjoy building things that work. Currently, I’m mainly playing around with Python and Flask or Django, exploring what can be built on the web and, more importantly, how.",
+        'about_text_01': "My fascination with technology led me to Python, which has become my foundation. What started as learning syntax gradually turned into a drive to create something tangible of my own. That’s how this website was born—it’s my personal tech playground. On the backend, I combine the power of Flask and Django; I enjoy exploring what each framework has to offer. Everything is containerized using Docker for smooth development and deployment. The site runs on my own home server. To make it safely accessible to the world, I use a Cloudflare Tunnel—it saves me from dealing with public IP addresses and keeps everything running smoothly. I’m not trying to act like a pro; I just love the process, from the first line of code to the moment everything comes to life on my server. Besides the backend, I also occasionally wrestle with frontend (like Tailwind) to make sure things look decent. For me, it’s all about the journey of constantly learning something new.",
 	'about_motto': ' "It is not how fast you write code, but how much you learn while debug it." ',
 	'error_title': 'API Error',
         'error_msg': 'An error occurred while calling the OpenWeatherMap API. Please try again later.',
@@ -99,7 +100,8 @@ TEXT_DATA = {
         'status_unhealthy': 'Unhealthy',
         'status_hazardous': 'Hazardous',
         'status_unknown': 'Unknown',
-	'play_game': 'Play Game'
+	'play_game': 'Play Game',
+    'nav_game_center': 'Game Hub'
     }
 }
 
