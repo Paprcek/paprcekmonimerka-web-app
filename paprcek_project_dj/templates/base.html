@@ -1,0 +1,71 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paprcekmonimerka - {% block title %}{% endblock %}</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200..900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            /* ZMĚNA: Nastavení fontu na Source Code Pro */
+            font-family: 'Source Code Pro', monospace;
+            background-color: rgb(24, 24, 24);
+            color: #f3f4f6;
+        }
+        .nav-link.active {
+            font-weight: 600;
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+        }
+        h1, h2, h3, h4 { color: #4CAF50; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-gray-900 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-xl font-bold text-white hover:text-green-400 transition duration-150">Paprcekmonimerka</a>
+                </div>
+
+        <div class="flex items-center space-x-2">
+            <form action="{% url 'set_language' %}" method="post" class="flex items-center space-x-2">                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.get_full_path }}">
+
+                <button type="submit" name="language" value="cs" 
+                        class="hover:text-green-400 {% if LANGUAGE_CODE == 'cs' %}text-green-500 font-bold{% endif %}">
+                    CZ
+                </button>
+        
+                <span class="text-gray-600">|</span>
+        
+                <button type="submit" name="language" value="en" 
+                        class="hover:text-green-400 {% if LANGUAGE_CODE == 'en' %}text-green-500 font-bold{% endif %}">
+                    EN
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 mt-8">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm">
+            &copy; 2026 Monika Paprcek. {% translate "Všechna práva vyhrazena" %}. | 
+            <a href="https://github.com/Paprcek/paprcekmonimerka-web-app" target="_blank" class="hover:text-green-400 transition duration-150">GitHub</a>
+        </div>
+    </footer>
+
+</body>
+</html>

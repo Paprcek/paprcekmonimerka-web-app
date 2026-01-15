@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+{% csrf_token %}
+<div class="container text-center mt-5">
+    <h1 class="text-success mb-4">{% translate "Piškvorky proti AI" %}</h1>
+    
+    <div id="game-status" class="text-light mb-3">
+        {% translate "Na tahu jsi ty (X)" %}
+    </div>
+
+    <div class="text-light mb-2">
+        {% translate "Čas:" %} <span id="current-time">0</span>s
+    <span class="ms-3">{% translate "Tvůj rekord:" %} <span id="personal-best">--</span>s</span>
+    <span class="ms-3">{% translate "Světový rekord:" %} <span id="world-best">--</span>s</span>
+    </div>
+
+<div id="game-board" style="
+        display: grid; 
+        /* Změna: repeat(15, minmax(15px, 30px)) dovolí políčku se zmenšit */
+        grid-template-columns: repeat(15, minmax(15px, 30px)); 
+        gap: 1px; 
+        justify-content: center;
+        background-color: #444;
+        padding: 10px;
+        border-radius: 8px;
+        margin: 0 auto;
+        width: fit-content;
+        /* Přidáno: aby mřížka nepřetekla displej */
+        max-width: 100%;
+        box-sizing: border-box;
+    ">
+    </div>
+
+    <a href="." class="btn btn-outline-success mt-4">
+        {% translate "Restartovat hru" %}
+    </a>
+</div>
+
+<style>
+    .cell:hover {
+    background-color: #333 !important;
+}
+.cell {
+    transition: background-color 0.2s;
+    border: 1px solid #444;
+}
+</style>
+
+<div id="js-translations" style="display: none;"
+    data-win-player="{% translate 'VYHRÁLA JSI! 🎉' %}"
+    data-win-ai="{% translate 'AI VYHRÁLA! 🤖' %}"
+    data-your-turn="{% translate 'Na tahu jsi ty (X)' %}"
+    data-ai-thinking="{% translate 'AI přemýšlí...' %}">
+</div>
+
+<script>
+    const boardSize = 15;
+    const boardElement = document.getElementById('game-board');
+    const statusElement = document.getElementById('game-status');
+    const transElement = document.getElementById('js-translations');
+    const trans = transElement ? transElement.dataset : {};
+    
+    let board = Array(boardSize).fill().map(() => Array(boardSize).fill(""));
+    let gameActive = true;
+    let startTime;
+    let timerInterval;
+    let timeElapsed = 0;
+
+function startTimer() {
+        if (!startTime) {
+            console.log("Stopky startují právě teď!"); 
+            startTime = Date.now();
+            window.gameTimer = setInterval(() => {
+                timeElapsed = Math.floor((Date.now() - startTime) / 1000);
+                const timeElement = document.getElementById('current-time');
+                if (timeElement) {
+                    timeElement.innerText = timeElapsed;
+                }
+            }, 1000);
+        }
+    }
+
+    function stopTimer() {
+        clearInterval(window.gameTimer);
+    }
+
+    function loadBestScore() {
+        const best = localStorage.getItem('tictactoe_best');
+        const personalBestElement = document.getElementById('personal-best');
+        if (personalBestElement) {
+            personalBestElement.innerText = best ? best : "--";
+        }
+    }
+
+function createBoard() {
+        if (!boardElement) return;
+        boardElement.innerHTML = ''; 
+        for (let y = 0; y < boardSize; y++) {
+            for (let x = 0; x < boardSize; x++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.dataset.x = x;
+                cell.dataset.y = y;
+                
+                cell.style.width = '100%'; 
+                cell.style.aspectRatio = '1 / 1';
+                // cell.style.height = '30px'; // 
+
+                cell.style.backgroundColor = '#1e1e1e';
+                cell.style.cursor = 'pointer';
+                cell.style.display = 'flex';
+                cell.style.alignItems = 'center';
+                cell.style.justifyContent = 'center';
+                
+                cell.style.fontSize = 'min(20px, 4vw)'; 
+                
+                cell.style.fontWeight = 'bold';
+                cell.style.color = '#fff';
+                cell.style.border = '1px solid #333';
+                
+                cell.addEventListener('click', () => makeMove(x, y));
+                boardElement.appendChild(cell);
+            }
+        }
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function makeMove(x, y) {
+        if (!gameActive || board[y][x] !== "") return;
+       
+        startTimer();
+
+        const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+        if (!cell || cell.innerText !== '') return;
+
+        board[y][x] = "X";
+        cell.innerText = 'X';
+        cell.style.color = '#00ff00';
+        
+        if (statusElement) statusElement.innerText = "AI přemýšlí...";
+
+        fetch('/game/tictactoe/move/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ x: x, y: y, board: board })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'win') {
+                gameActive = false;
+                stopTimer();
+
+                const winText = data.winner === 'player' ? trans.winPlayer : trans.winAi;
+                if (statusElement) {
+                    statusElement.innerHTML = `<h2>${winText}</h2>`;
+                }
+
+                if (data.winner === 'player') {
+                    const currentBest = localStorage.getItem('tictactoe_best');
+                    if (!currentBest || timeElapsed < parseInt(currentBest)) {
+                        localStorage.setItem('tictactoe_best', timeElapsed);
+                    }
+                    fetch('/game/tictactoe/update-record/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        body: JSON.stringify({ time: timeElapsed })
+                    })
+                    .then(response => response.json())
+                    .then(dbData => {
+                        if (dbData.world_best) {
+                            const worldBestDisplay = document.getElementById('world-best');
+                            if (worldBestDisplay) {
+                                worldBestDisplay.innerText = dbData.world_best;
+                            }
+                        }
+                    })
+                    .catch(err => console.error("Chyba při ukládání světového rekordu:", err));
+                }
+
+                if (data.winner === 'ai') {
+                    drawAiMove(data.ai_x, data.ai_y);
+                }
+
+                loadBestScore();
+
+            } else if (data.status === 'success') {
+                board[data.ai_y][data.ai_x] = "O";
+                drawAiMove(data.ai_x, data.ai_y);
+                if (statusElement) statusElement.innerText = trans.yourTurn;
+            }
+        })
+        .catch(error => console.error('Chyba:', error));
+    }
+
+    function drawAiMove(x, y) {
+        const aiCell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+        if (aiCell) {
+            aiCell.innerText = 'O';
+            aiCell.style.color = '#ff0000';
+        }
+    }
+
+    createBoard();
+    loadBestScore();
+</script>
+{% endblock %}
+

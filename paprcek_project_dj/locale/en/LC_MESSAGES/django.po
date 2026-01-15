@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-05 17:14+0100\n"
+"PO-Revision-Date: 2025-12-26 23:10+0100\n"
+"Last-Translator: Monika\n"
+"Language-Team: Czech\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: paprcek_hra/settings.py:89
+msgid "Czech"
+msgstr "Czech"
+
+#: paprcek_hra/settings.py:90
+msgid "English"
+msgstr "English"
+
+#: templates/base.html:65
+msgid "Všechna práva vyhrazena"
+msgstr "All rights reserved"
+
+#: templates/hub.html:8
+msgid "Herní centrum Paprcek"
+msgstr "Paprcek Game Center"
+
+#: templates/hub.html:10
+msgid ""
+"Vítejte v sekci her. Zde si můžete vyzkoušet projekty zaměřené na logiku a "
+"interaktivitu."
+msgstr ""
+"Welcome to the games section. Here you can try out projects focused on logic "
+"and interactivity."
+
+#: templates/hub.html:15
+msgid "Dostupné hry"
+msgstr "Available Games"
+
+#: templates/hub.html:24 tictactoe/templates/tictactoe/tictactoe_game.html:7
+msgid "Piškvorky proti AI"
+msgstr "Tic-Tac-Toe vs AI"
+
+#: templates/hub.html:26
+#, fuzzy
+#| msgid "Klasická strategická hra. Dokážete porazit náš algoritmus?"
+msgid "Klasická strategická hra. Dokážete porazit náš algoritmus?"
+msgstr "A classic strategic game. Can you beat our algorithm?"
+
+#: templates/hub.html:30
+msgid "Spustit hru"
+msgstr "Play Game"
+
+#: templates/hub.html:36
+msgid "Připravujeme další hru"
+msgstr "New game coming soon"
+
+#: templates/hub.html:37
+msgid "Pracujeme na logických hádankách."
+msgstr "We're working on logic puzzles."
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:10
+#: tictactoe/templates/tictactoe/tictactoe_game.html:50
+msgid "Na tahu jsi ty (X)"
+msgstr "Your turn (X)"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:14
+msgid "Čas:"
+msgstr "Time"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:15
+msgid "Tvůj rekord:"
+msgstr "Your record"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:16
+msgid "Světový rekord:"
+msgstr "World record"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:33
+msgid "Restartovat hru"
+msgstr "Restart Game"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:48
+msgid "VYHRÁLA JSI! 🎉"
+msgstr "YOU WIN! 🎉"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:49
+msgid "AI VYHRÁLA! 🤖"
+msgstr "AI WIN! 🤖"
+
+#: tictactoe/templates/tictactoe/tictactoe_game.html:51
+msgid "AI přemýšlí..."
+msgstr "AI is thinking..."
