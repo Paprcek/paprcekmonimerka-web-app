@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 17:14+0100\n"
+"POT-Creation-Date: 2026-01-15 17:24+0100\n"
 "PO-Revision-Date: 2025-12-26 23:10+0100\n"
 "Last-Translator: Monika\n"
 "Language-Team: Czech\n"
@@ -12,11 +12,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: paprcek_hra/settings.py:89
+#: paprcek_hra/settings.py:90
 msgid "Czech"
 msgstr "Czech"
 
-#: paprcek_hra/settings.py:90
+#: paprcek_hra/settings.py:91
 msgid "English"
 msgstr "English"
 
@@ -50,20 +50,24 @@ msgstr "Tic-Tac-Toe vs AI"
 msgid "Klasická strategická hra. Dokážete porazit náš algoritmus?"
 msgstr "A classic strategic game. Can you beat our algorithm?"
 
-#: templates/hub.html:30
+#: templates/hub.html:30 templates/hub.html:46
 msgid "Spustit hru"
 msgstr "Play Game"
 
-#: templates/hub.html:36
-msgid "Připravujeme další hru"
-msgstr "New game coming soon"
+#: templates/hub.html:40
+#, fuzzy
+#| msgid "Logic"
+msgid "Logik"
+msgstr "Logic"
 
-#: templates/hub.html:37
-msgid "Pracujeme na logických hádankách."
-msgstr "We're working on logic puzzles."
+#: templates/hub.html:42
+#, fuzzy
+#| msgid "Klasická strategická hra. Dokážete porazit náš algoritmus?"
+msgid "Klasická logická hra. Jak rychle dokážete najít spránou kombinaci?"
+msgstr "A classic strategic game. Can you beat our algorithm?"
 
 #: tictactoe/templates/tictactoe/tictactoe_game.html:10
-#: tictactoe/templates/tictactoe/tictactoe_game.html:50
+#: tictactoe/templates/tictactoe/tictactoe_game.html:54
 msgid "Na tahu jsi ty (X)"
 msgstr "Your turn (X)"
 
@@ -79,18 +83,24 @@ msgstr "Your record"
 msgid "Světový rekord:"
 msgstr "World record"
 
-#: tictactoe/templates/tictactoe/tictactoe_game.html:33
+#: tictactoe/templates/tictactoe/tictactoe_game.html:37
 msgid "Restartovat hru"
 msgstr "Restart Game"
 
-#: tictactoe/templates/tictactoe/tictactoe_game.html:48
+#: tictactoe/templates/tictactoe/tictactoe_game.html:52
 msgid "VYHRÁLA JSI! 🎉"
 msgstr "YOU WIN! 🎉"
 
-#: tictactoe/templates/tictactoe/tictactoe_game.html:49
+#: tictactoe/templates/tictactoe/tictactoe_game.html:53
 msgid "AI VYHRÁLA! 🤖"
 msgstr "AI WIN! 🤖"
 
-#: tictactoe/templates/tictactoe/tictactoe_game.html:51
+#: tictactoe/templates/tictactoe/tictactoe_game.html:55
 msgid "AI přemýšlí..."
 msgstr "AI is thinking..."
+
+#~ msgid "Připravujeme další hru"
+#~ msgstr "New game coming soon"
+
+#~ msgid "Pracujeme na logických hádankách."
+#~ msgstr "We're working on logic puzzles."
