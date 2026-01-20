@@ -1,7 +1,9 @@
 from django.urls import path
 from . import views
 
+app_name = 'logic'
+
 urlpatterns = [
-    # Jméno 'Logic' musí odpovídat tomu, co voláš v HTML šabloně
-    path('', views.logic_view, name='logic'),
+    path('', views.logic_game, name='logic'),
+    path('save-score/', views.save_score, name='save_score'),
 ]
