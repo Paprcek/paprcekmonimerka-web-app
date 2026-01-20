@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-10 p-6 bg-gray-900 rounded-3xl shadow-2xl border-4 border-gray-800">
+    <h2 class="text-3xl font-black text-white mb-8 text-center tracking-widest uppercase">{% translate "Hra Logik" %}</h2>
+    
+    <div class="grid grid-cols-3 gap-4 mb-8 bg-gray-800/40 p-5 rounded-2xl border border-gray-700 shadow-inner">
+    <div class="flex flex-col items-center border-r border-gray-700">
+        <span class="text-gray-500 uppercase text-[10px] font-bold tracking-widest mb-1">
+            {% translate "Aktuální čas" %}
+        </span>
+        <span id="timer" class="text-green-400 font-mono text-xl md:text-2xl leading-none">
+            0.00s
+        </span>
+    </div>
+    
+    <div class="flex flex-col items-center">
+        <span class="text-gray-500 uppercase text-[10px] font-bold tracking-widest mb-1">
+            {% translate "Tvůj rekord" %}
+        </span>
+        <span id="personal-best-display" class="text-blue-400 font-mono text-xl md:text-2xl leading-none">
+            --.--s
+        </span>
+    </div>
+
+    <div class="flex flex-col items-center border-l border-gray-700">
+        <span class="text-gray-500 uppercase text-[10px] font-bold tracking-widest mb-1">
+            {% translate "Světový rekord" %}
+        </span>
+        <span id="best-time-display" class="text-yellow-400 font-mono text-xl md:text-2xl leading-none">
+            {{ best_time }}s
+        </span>
+    </div>
+    </div>
+
+    <div id="game-board" class="space-y-2 mb-4">
+        </div>
+
+    <div class="sticky bottom-0 bg-gray-900 pt-4 border-t border-gray-700">
+        <div class="flex justify-center items-center gap-3 mb-6 p-4 bg-gray-800 rounded-2xl shadow-inner border border-gray-700">
+            <div id="slot-0" onclick="setSlotColor(0)" class="w-10 h-10 rounded-full border-2 border-gray-600 cursor-pointer hover:border-white transition shadow-lg"></div>
+            <div id="slot-1" onclick="setSlotColor(1)" class="w-10 h-10 rounded-full border-2 border-gray-600 cursor-pointer hover:border-white transition shadow-lg"></div>
+            <div id="slot-2" onclick="setSlotColor(2)" class="w-10 h-10 rounded-full border-2 border-gray-600 cursor-pointer hover:border-white transition shadow-lg"></div>
+            <div id="slot-3" onclick="setSlotColor(3)" class="w-10 h-10 rounded-full border-2 border-gray-600 cursor-pointer hover:border-white transition shadow-lg"></div>
+            <div id="slot-4" onclick="setSlotColor(4)" class="w-10 h-10 rounded-full border-2 border-gray-600 cursor-pointer hover:border-white transition shadow-lg"></div>
+            
+            <button onclick="submitGuess()" class="ml-2 bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95 shadow-lg">
+                OK
+            </button>
+        </div>
+
+        <div class="grid grid-cols-9 gap-2 justify-items-center bg-gray-800 p-4 rounded-xl border border-gray-700 mb-2">
+            <div onclick="selectColor('red')" class="color-opt w-8 h-8 rounded-full bg-red-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Červená"></div>
+            <div onclick="selectColor('blue')" class="color-opt w-8 h-8 rounded-full bg-blue-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Modrá"></div>
+            <div onclick="selectColor('yellow')" class="color-opt w-8 h-8 rounded-full bg-yellow-400 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Žlutá"></div>
+            <div onclick="selectColor('green')" class="color-opt w-8 h-8 rounded-full bg-green-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Zelená"></div>
+            <div onclick="selectColor('purple')" class="color-opt w-8 h-8 rounded-full bg-purple-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Fialová"></div>
+            <div onclick="selectColor('orange')" class="color-opt w-8 h-8 rounded-full bg-orange-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Oranžová"></div>
+            <div onclick="selectColor('pink')" class="color-opt w-8 h-8 rounded-full bg-pink-400 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Růžová"></div>
+            <div onclick="selectColor('gray')" class="color-opt w-8 h-8 rounded-full bg-gray-400 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Šedá"></div>
+            <div onclick="selectColor('white')" class="color-opt w-8 h-8 rounded-full bg-white cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Bílá"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const COLOR_MAP = {
+        'red': 'bg-red-500', 'blue': 'bg-blue-500', 'yellow': 'bg-yellow-400',
+        'green': 'bg-green-500', 'purple': 'bg-purple-500', 'orange': 'bg-orange-500',
+        'pink': 'bg-pink-400', 'gray': 'bg-gray-400', 'white': 'bg-white'
+    };
+    
+    // Načtení osobního rekordu z prohlížeče při startu
+    window.onload = function() {
+    const pb = localStorage.getItem('logic_personal_best');
+    if (pb) {
+        document.getElementById('personal-best-display').innerText = parseFloat(pb).toFixed(2) + 's';
+    }
+    initGame();
+    };
+
+    let selectedColor = 'red'; 
+    let currentGuess = [null, null, null, null, null];
+    let secretCode = [];
+
+    let startTime;
+    let timerInterval;
+    let gameActive = false;
+
+    function startTimer() {
+        if (!gameActive) {
+            gameActive = true;
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 10);
+        }
+    }
+
+    function updateTimer() {
+        const currentTime = Date.now();
+        const elapsedTime = (currentTime - startTime) / 1000;
+        document.getElementById('timer').innerText = elapsedTime.toFixed(2);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+        gameActive = false;
+        return document.getElementById('timer').innerText;
+    }
+
+    // Inicializace hry 
+    function initGame() {
+        const colors = Object.keys(COLOR_MAP);
+        secretCode = Array.from({length: 5}, () => colors[Math.floor(Math.random() * colors.length)]);
+        console.log("Hra připravena. Tajný kód vygenerován.");
+    }
+
+    // Výběr barvy z dolní palety
+    function selectColor(color) {
+        selectedColor = color;
+        document.querySelectorAll('.color-opt').forEach(el => el.classList.remove('border-white', 'scale-110'));
+        event.target.classList.add('border-white', 'scale-110');
+    }
+
+    // Obarvení kuličky v aktivním řádku 
+    function setSlotColor(slotIndex) {
+        if (!selectedColor) return;
+        startTimer()
+        const slot = document.getElementById(`slot-${slotIndex}`);
+        
+        // Vyčištění starých barev
+        Object.values(COLOR_MAP).forEach(cls => slot.classList.remove(cls));
+        slot.classList.remove('border-gray-600');
+        
+        // Přidání nové barvy
+        slot.classList.add(COLOR_MAP[selectedColor]);
+        currentGuess[slotIndex] = selectedColor;
+    }
+
+    // Vyhodnocení pozice po pozici
+    function evaluateGuess(guess, secret) {
+        let results = [null, null, null, null, null];
+        let s_copy = [...secret];
+
+        // 1. Přesná shoda (Černá)
+        for (let i = 0; i < 5; i++) {
+            if (guess[i] === secret[i]) {
+                results[i] = 'black';
+                s_copy[i] = null;
+            }
+        }
+
+        // 2. Shoda barvy jinde (Bílá)
+        for (let i = 0; i < 5; i++) {
+            if (results[i] === null) {
+                let foundIndex = s_copy.indexOf(guess[i]);
+                if (foundIndex !== -1) {
+                    results[i] = 'white';
+                    s_copy[foundIndex] = null;
+                }
+            }
+        }
+        return results;
+    }
+
+    // Potvrzení tahu tlačítkem OK
+    function submitGuess() {
+        if (currentGuess.includes(null)) {
+            alert("Doplň všech 5 kuliček!");
+            return;
+        }
+
+        const results = evaluateGuess(currentGuess, secretCode);
+
+
+        if (results.every(r => r === 'black')) {
+            const finalTime = stopTimer();
+            const numericFinalTime = parseFloat(finalTime);
+            alert(`GRATULACE! Čas: ${finalTime}s`);
+        
+        const oldPB = localStorage.getItem('logic_personal_best');
+        if (!oldPB || numericFinalTime < parseFloat(oldPB)) {
+            localStorage.setItem('logic_personal_best', numericFinalTime);
+            alert(`NOVÝ OSOBNÍ REKORD: ${finalTime}s!`);
+        } else {
+            alert(`GRATULACE! Čas: ${finalTime}s`);
+        }
+
+        // Odeslání na Django
+            fetch("{% url 'logic:save_score' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json"
+                }, 
+                body: JSON.stringify({ time: finalTime })
+            }).then(() => {
+                location.reload();
+            });
+        }
+        const board = document.getElementById('game-board');
+
+        const row = document.createElement('div');
+        row.className = "flex justify-between items-center bg-gray-800/50 p-2 rounded-lg border border-gray-700/50";
+
+        // Historie kuliček
+        let pegsHtml = '<div class="flex gap-2">';
+        currentGuess.forEach(color => {
+            pegsHtml += `<div class="w-7 h-7 rounded-full ${COLOR_MAP[color]} shadow-sm"></div>`;
+        });
+        pegsHtml += '</div>';
+
+        // Historie kolíčků 
+        let indicatorsHtml = '<div class="flex gap-2 ml-4 bg-gray-900 p-2 rounded-md">';
+        results.forEach(res => {
+            if (res === 'black') {
+                indicatorsHtml += '<div class="w-3 h-3 rounded-full bg-black border border-gray-500 shadow-[0_0_5px_rgba(0,0,0,0.8)]"></div>';
+            } else if (res === 'white') {
+                indicatorsHtml += '<div class="w-3 h-3 rounded-full bg-white border border-gray-400 shadow-[0_0_5px_rgba(255,255,255,0.5)]"></div>';
+            } else {
+                indicatorsHtml += '<div class="w-3 h-3 rounded-full bg-gray-800 border border-gray-700 opacity-20"></div>';
+            }
+        });
+        indicatorsHtml += '</div>';
+
+        row.innerHTML = pegsHtml + indicatorsHtml;
+        board.appendChild(row);
+
+        // Kontrola výhry
+        if (results.every(r => r === 'black')) {
+            alert("GRATULACE! Uhodla jsi to přesně!");
+            location.reload();
+        } else {
+            resetCurrentGuess();
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    }
+
+    // Vyčištění aktivního řádku po tahu
+    function resetCurrentGuess() {
+        currentGuess = [null, null, null, null, null];
+        for (let i = 0; i < 5; i++) {
+            const slot = document.getElementById(`slot-${i}`);
+            Object.values(COLOR_MAP).forEach(cls => slot.classList.remove(cls));
+            slot.classList.add('border-gray-600');
+        }
+    }
+
+    // Spustit hru
+    initGame();
+</script>
+{% endblock %}

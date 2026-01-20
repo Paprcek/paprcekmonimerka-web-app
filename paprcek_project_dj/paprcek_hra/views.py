@@ -31,6 +31,9 @@ def set_language_custom(request):
     return redirect(next_url)
 
 def tictactoe_view(request):
-# Zatím jen vrátí jednoduchý text, dokud hru nedoděláš
     from django.http import HttpResponse
     return HttpResponse("Tady se připravují piškvorky!")
+
+def logic_view(request):
+    from django.http import HttpResponse
+    return HttpResponse("Tady se připravuje logic!")

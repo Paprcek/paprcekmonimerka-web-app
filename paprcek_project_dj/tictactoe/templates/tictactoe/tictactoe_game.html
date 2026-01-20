@@ -13,7 +13,7 @@
     <div class="text-light mb-2">
         {% translate "Čas:" %} <span id="current-time">0</span>s
     <span class="ms-3">{% translate "Tvůj rekord:" %} <span id="personal-best">--</span>s</span>
-    <span class="ms-3">{% translate "Světový rekord:" %} <span id="world-best">--</span>s</span>
+    <span class="ms-3">{% translate "Světový rekord:" %} <span id="world-best">{% if world_best %}{{ world_best }}{% else %}--{% endif %}</span>s</span>    
     </div>
 
 <div id="game-board" style="

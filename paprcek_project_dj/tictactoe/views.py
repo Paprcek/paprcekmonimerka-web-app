@@ -27,7 +27,11 @@ def update_tictactoe_record(request):
     return JsonResponse({'status': 'error'}, status=400)
 
 def tictactoe_game(request):
-    return render(request, 'tictactoe/tictactoe_game.html', {})
+    best_record = TicTacToeRecord.objects.order_by('time_seconds').first()
+    context = {
+        'world_best': best_record.time_seconds if best_record else None
+    }
+    return render(request, 'tictactoe/tictactoe_game.html', context)
 
 import random
 
