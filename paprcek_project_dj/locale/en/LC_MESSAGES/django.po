@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-15 17:24+0100\n"
+"POT-Creation-Date: 2026-01-21 14:47+0100\n"
 "PO-Revision-Date: 2025-12-26 23:10+0100\n"
 "Last-Translator: Monika\n"
 "Language-Team: Czech\n"
@@ -11,6 +11,61 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: logic/templates/logic/logic_game.html:6
+#| msgid "Logik"
+msgid "Hra Logik"
+msgstr "Logic"
+
+#: logic/templates/logic/logic_game.html:11
+msgid "Aktuální čas"
+msgstr "Elapsed Time"
+
+#: logic/templates/logic/logic_game.html:20
+#| msgid "Tvůj rekord:"
+msgid "Tvůj rekord"
+msgstr "Your record"
+
+#: logic/templates/logic/logic_game.html:29
+#| msgid "Světový rekord:"
+msgid "Světový rekord"
+msgstr "World record"
+
+#: logic/templates/logic/logic_game.html:54
+msgid "Červená"
+msgstr "Red"
+
+#: logic/templates/logic/logic_game.html:55
+msgid "Modrá"
+msgstr "Blue"
+
+#: logic/templates/logic/logic_game.html:56
+msgid "Žlutá"
+msgstr "Yellow"
+
+#: logic/templates/logic/logic_game.html:57
+msgid "Zelená"
+msgstr "Green"
+
+#: logic/templates/logic/logic_game.html:58
+msgid "Fialová"
+msgstr "Purple"
+
+#: logic/templates/logic/logic_game.html:59
+msgid "Oranžová"
+msgstr "Orange"
+
+#: logic/templates/logic/logic_game.html:60
+msgid "Růžová"
+msgstr "Pink"
+
+#: logic/templates/logic/logic_game.html:61
+msgid "Šedá"
+msgstr "Grey"
+
+#: logic/templates/logic/logic_game.html:62
+msgid "Bílá"
+msgstr "White"
 
 #: paprcek_hra/settings.py:90
 msgid "Czech"
@@ -45,8 +100,6 @@ msgid "Piškvorky proti AI"
 msgstr "Tic-Tac-Toe vs AI"
 
 #: templates/hub.html:26
-#, fuzzy
-#| msgid "Klasická strategická hra. Dokážete porazit náš algoritmus?"
 msgid "Klasická strategická hra. Dokážete porazit náš algoritmus?"
 msgstr "A classic strategic game. Can you beat our algorithm?"
 
@@ -55,16 +108,12 @@ msgid "Spustit hru"
 msgstr "Play Game"
 
 #: templates/hub.html:40
-#, fuzzy
-#| msgid "Logic"
 msgid "Logik"
 msgstr "Logic"
 
 #: templates/hub.html:42
-#, fuzzy
-#| msgid "Klasická strategická hra. Dokážete porazit náš algoritmus?"
 msgid "Klasická logická hra. Jak rychle dokážete najít spránou kombinaci?"
-msgstr "A classic strategic game. Can you beat our algorithm?"
+msgstr "A classic puzzle game. How fast can you find the right combination?"
 
 #: tictactoe/templates/tictactoe/tictactoe_game.html:10
 #: tictactoe/templates/tictactoe/tictactoe_game.html:54

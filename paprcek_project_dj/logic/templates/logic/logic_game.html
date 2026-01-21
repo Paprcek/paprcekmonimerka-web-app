@@ -51,18 +51,21 @@
         </div>
 
         <div class="grid grid-cols-9 gap-2 justify-items-center bg-gray-800 p-4 rounded-xl border border-gray-700 mb-2">
-            <div onclick="selectColor('red')" class="color-opt w-8 h-8 rounded-full bg-red-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Červená"></div>
-            <div onclick="selectColor('blue')" class="color-opt w-8 h-8 rounded-full bg-blue-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Modrá"></div>
-            <div onclick="selectColor('yellow')" class="color-opt w-8 h-8 rounded-full bg-yellow-400 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Žlutá"></div>
-            <div onclick="selectColor('green')" class="color-opt w-8 h-8 rounded-full bg-green-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Zelená"></div>
-            <div onclick="selectColor('purple')" class="color-opt w-8 h-8 rounded-full bg-purple-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Fialová"></div>
-            <div onclick="selectColor('orange')" class="color-opt w-8 h-8 rounded-full bg-orange-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Oranžová"></div>
-            <div onclick="selectColor('pink')" class="color-opt w-8 h-8 rounded-full bg-pink-400 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Růžová"></div>
-            <div onclick="selectColor('gray')" class="color-opt w-8 h-8 rounded-full bg-gray-400 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Šedá"></div>
-            <div onclick="selectColor('white')" class="color-opt w-8 h-8 rounded-full bg-white cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="Bílá"></div>
+            <div onclick="selectColor('red')" class="color-opt w-8 h-8 rounded-full bg-red-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Červená' %}"></div>
+            <div onclick="selectColor('blue')" class="color-opt w-8 h-8 rounded-full bg-blue-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Modrá' %}"></div>
+            <div onclick="selectColor('yellow')" class="color-opt w-8 h-8 rounded-full bg-yellow-400 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Žlutá' %}"></div>
+            <div onclick="selectColor('green')" class="color-opt w-8 h-8 rounded-full bg-green-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Zelená' %}"></div>
+            <div onclick="selectColor('purple')" class="color-opt w-8 h-8 rounded-full bg-purple-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Fialová' %}"></div>
+            <div onclick="selectColor('orange')" class="color-opt w-8 h-8 rounded-full bg-orange-500 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Oranžová' %}"></div>
+            <div onclick="selectColor('pink')" class="color-opt w-8 h-8 rounded-full bg-pink-400 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Růžová' %}"></div>
+            <div onclick="selectColor('gray')" class="color-opt w-8 h-8 rounded-full bg-gray-400 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Šedá' %}"></div>
+            <div onclick="selectColor('white')" class="color-opt w-8 h-8 rounded-full bg-white cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Bílá' %}"></div>
         </div>
     </div>
 </div>
+
+<script src="{% url 'javascript-catalog' %}"></script>
+
 
 <script>
     const COLOR_MAP = {
@@ -112,7 +115,7 @@
     function initGame() {
         const colors = Object.keys(COLOR_MAP);
         secretCode = Array.from({length: 5}, () => colors[Math.floor(Math.random() * colors.length)]);
-        console.log("Hra připravena. Tajný kód vygenerován.");
+        console.log(gettext("Hra připravena. Tajný kód vygenerován."));
     }
 
     // Výběr barvy z dolní palety
@@ -166,7 +169,7 @@
     // Potvrzení tahu tlačítkem OK
     function submitGuess() {
         if (currentGuess.includes(null)) {
-            alert("Doplň všech 5 kuliček!");
+            alert(gettext("Doplň všech 5 kuliček!"));
             return;
         }
 
@@ -176,14 +179,14 @@
         if (results.every(r => r === 'black')) {
             const finalTime = stopTimer();
             const numericFinalTime = parseFloat(finalTime);
-            alert(`GRATULACE! Čas: ${finalTime}s`);
+            alert(gettext("GRATULACE! Čas: ") + finalTime + "s");
         
         const oldPB = localStorage.getItem('logic_personal_best');
         if (!oldPB || numericFinalTime < parseFloat(oldPB)) {
             localStorage.setItem('logic_personal_best', numericFinalTime);
-            alert(`NOVÝ OSOBNÍ REKORD: ${finalTime}s!`);
+            alert(gettext("NOVÝ OSOBNÍ REKORD: ") + finalTime + "s!");
         } else {
-            alert(`GRATULACE! Čas: ${finalTime}s`);
+            alert(gettext("GRATULACE! Čas: " ) + finalTime + "s");
         }
 
         // Odeslání na Django
@@ -228,7 +231,7 @@
 
         // Kontrola výhry
         if (results.every(r => r === 'black')) {
-            alert("GRATULACE! Uhodla jsi to přesně!");
+            alert(gettext("GRATULACE! Uhodla jsi to přesně!"));
             location.reload();
         } else {
             resetCurrentGuess();

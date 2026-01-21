@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.views.i18n import JavaScriptCatalog
 from . import views
  
 
@@ -10,4 +11,5 @@ urlpatterns = [
     path('game/tictactoe/', include('tictactoe.urls')),
     path('game/logic/', include('logic.urls', namespace='logic')),
     path('', views.game_hub, name='home'),
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 ]
