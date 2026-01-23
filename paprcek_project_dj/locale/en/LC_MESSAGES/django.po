@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 14:47+0100\n"
+"POT-Creation-Date: 2026-01-23 16:32+0100\n"
 "PO-Revision-Date: 2025-12-26 23:10+0100\n"
 "Last-Translator: Monika\n"
 "Language-Team: Czech\n"
@@ -13,7 +13,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: logic/templates/logic/logic_game.html:6
-#| msgid "Logik"
 msgid "Hra Logik"
 msgstr "Logic"
 
@@ -22,48 +21,58 @@ msgid "Aktuální čas"
 msgstr "Elapsed Time"
 
 #: logic/templates/logic/logic_game.html:20
-#| msgid "Tvůj rekord:"
 msgid "Tvůj rekord"
 msgstr "Your record"
 
 #: logic/templates/logic/logic_game.html:29
-#| msgid "Světový rekord:"
 msgid "Světový rekord"
 msgstr "World record"
 
-#: logic/templates/logic/logic_game.html:54
+#: logic/templates/logic/logic_game.html:44
+msgid "Základní"
+msgstr "Basic"
+
+#: logic/templates/logic/logic_game.html:48
+msgid "Obtížná"
+msgstr "Advanced"
+
+#: logic/templates/logic/logic_game.html:57
+msgid "Nová hra"
+msgstr "New Game"
+
+#: logic/templates/logic/logic_game.html:75
 msgid "Červená"
 msgstr "Red"
 
-#: logic/templates/logic/logic_game.html:55
+#: logic/templates/logic/logic_game.html:76
 msgid "Modrá"
 msgstr "Blue"
 
-#: logic/templates/logic/logic_game.html:56
+#: logic/templates/logic/logic_game.html:77
 msgid "Žlutá"
 msgstr "Yellow"
 
-#: logic/templates/logic/logic_game.html:57
+#: logic/templates/logic/logic_game.html:78
 msgid "Zelená"
 msgstr "Green"
 
-#: logic/templates/logic/logic_game.html:58
+#: logic/templates/logic/logic_game.html:79
 msgid "Fialová"
 msgstr "Purple"
 
-#: logic/templates/logic/logic_game.html:59
+#: logic/templates/logic/logic_game.html:80
 msgid "Oranžová"
 msgstr "Orange"
 
-#: logic/templates/logic/logic_game.html:60
+#: logic/templates/logic/logic_game.html:81
 msgid "Růžová"
 msgstr "Pink"
 
-#: logic/templates/logic/logic_game.html:61
+#: logic/templates/logic/logic_game.html:82
 msgid "Šedá"
 msgstr "Grey"
 
-#: logic/templates/logic/logic_game.html:62
+#: logic/templates/logic/logic_game.html:83
 msgid "Bílá"
 msgstr "White"
 
@@ -75,7 +84,35 @@ msgstr "Czech"
 msgid "English"
 msgstr "English"
 
-#: templates/base.html:65
+#: templates/base.html:35
+#, fuzzy
+#| msgid "Herní centrum Paprcek"
+msgid "Herní centrum"
+msgstr "Paprcek Game Center"
+
+#: templates/base.html:39
+msgid "Hry"
+msgstr "Games"
+
+#: templates/base.html:43 templates/hub.html:40
+msgid "Logik"
+msgstr "Logic"
+
+#: templates/base.html:44
+#, fuzzy
+#| msgid "Piškvorky proti AI"
+msgid "Piškvorky"
+msgstr "Tic-Tac-Toe vs AI"
+
+#: templates/base.html:48
+msgid "O Mně"
+msgstr "About me"
+
+#: templates/base.html:49
+msgid "Kontakt"
+msgstr "Contact"
+
+#: templates/base.html:74
 msgid "Všechna práva vyhrazena"
 msgstr "All rights reserved"
 
@@ -106,10 +143,6 @@ msgstr "A classic strategic game. Can you beat our algorithm?"
 #: templates/hub.html:30 templates/hub.html:46
 msgid "Spustit hru"
 msgstr "Play Game"
-
-#: templates/hub.html:40
-msgid "Logik"
-msgstr "Logic"
 
 #: templates/hub.html:42
 msgid "Klasická logická hra. Jak rychle dokážete najít spránou kombinaci?"

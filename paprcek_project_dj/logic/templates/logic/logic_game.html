@@ -5,37 +5,29 @@
 <div class="max-w-2xl mx-auto mt-10 p-6 bg-gray-900 rounded-3xl shadow-2xl border-4 border-gray-800">
     <h2 class="text-3xl font-black text-white mb-8 text-center tracking-widest uppercase">{% translate "Hra Logik" %}</h2>
     
+    <div class="flex justify-center gap-4 mb-6">
+        <button id="btn-normal" onclick="setDifficulty('normal')" class="px-4 py-2 rounded-lg text-xs font-bold transition uppercase tracking-wider bg-green-600 text-white shadow-lg">{% translate "Základní" %}</button>
+        <button id="btn-hard" onclick="setDifficulty('hard')" class="px-4 py-2 rounded-lg text-xs font-bold transition uppercase tracking-wider text-gray-400 hover:text-white">{% translate "Těžká" %}</button>
+    </div>
+
     <div class="grid grid-cols-3 gap-4 mb-8 bg-gray-800/40 p-5 rounded-2xl border border-gray-700 shadow-inner">
-    <div class="flex flex-col items-center border-r border-gray-700">
-        <span class="text-gray-500 uppercase text-[10px] font-bold tracking-widest mb-1">
-            {% translate "Aktuální čas" %}
-        </span>
-        <span id="timer" class="text-green-400 font-mono text-xl md:text-2xl leading-none">
-            0.00s
-        </span>
-    </div>
-    
-    <div class="flex flex-col items-center">
-        <span class="text-gray-500 uppercase text-[10px] font-bold tracking-widest mb-1">
-            {% translate "Tvůj rekord" %}
-        </span>
-        <span id="personal-best-display" class="text-blue-400 font-mono text-xl md:text-2xl leading-none">
-            --.--s
-        </span>
-    </div>
-
-    <div class="flex flex-col items-center border-l border-gray-700">
-        <span class="text-gray-500 uppercase text-[10px] font-bold tracking-widest mb-1">
-            {% translate "Světový rekord" %}
-        </span>
-        <span id="best-time-display" class="text-yellow-400 font-mono text-xl md:text-2xl leading-none">
-            {{ best_time }}s
-        </span>
-    </div>
-    </div>
-
-    <div id="game-board" class="space-y-2 mb-4">
+        <div class="flex flex-col items-center border-r border-gray-700">
+            <span class="text-gray-500 uppercase text-[10px] font-bold tracking-widest mb-1">{% translate "Aktuální čas" %}</span>
+            <span id="timer" class="text-green-400 font-mono text-xl md:text-2xl leading-none">0.00s</span>
         </div>
+        
+        <div class="flex flex-col items-center">
+            <span class="text-gray-500 uppercase text-[10px] font-bold tracking-widest mb-1">{% translate "Tvůj rekord" %}</span>
+            <span id="personal-best-display" class="text-blue-400 font-mono text-xl md:text-2xl leading-none">--.--s</span>
+        </div>
+
+        <div class="flex flex-col items-center border-l border-gray-700">
+            <span class="text-gray-500 uppercase text-[10px] font-bold tracking-widest mb-1">{% translate "Světový rekord" %}</span>
+            <span id="best-time-display" class="text-yellow-400 font-mono text-xl md:text-2xl leading-none">--.--s</span>
+        </div>
+    </div>
+
+    <div id="game-board" class="space-y-2 mb-4"></div>
 
     <div class="sticky bottom-0 bg-gray-900 pt-4 border-t border-gray-700">
         <div class="flex justify-center items-center gap-3 mb-6 p-4 bg-gray-800 rounded-2xl shadow-inner border border-gray-700">
@@ -45,9 +37,7 @@
             <div id="slot-3" onclick="setSlotColor(3)" class="w-10 h-10 rounded-full border-2 border-gray-600 cursor-pointer hover:border-white transition shadow-lg"></div>
             <div id="slot-4" onclick="setSlotColor(4)" class="w-10 h-10 rounded-full border-2 border-gray-600 cursor-pointer hover:border-white transition shadow-lg"></div>
             
-            <button onclick="submitGuess()" class="ml-2 bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95 shadow-lg">
-                OK
-            </button>
+            <button onclick="submitGuess()" class="ml-2 bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95 shadow-lg">OK</button>
         </div>
 
         <div class="grid grid-cols-9 gap-2 justify-items-center bg-gray-800 p-4 rounded-xl border border-gray-700 mb-2">
@@ -61,35 +51,66 @@
             <div onclick="selectColor('gray')" class="color-opt w-8 h-8 rounded-full bg-gray-400 cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Šedá' %}"></div>
             <div onclick="selectColor('white')" class="color-opt w-8 h-8 rounded-full bg-white cursor-pointer border-2 border-transparent hover:scale-110 transition shadow-md" title="{% translate 'Bílá' %}"></div>
         </div>
+        
+        <div class="flex justify-center pb-4">
+            <button onclick="location.reload()" class="text-gray-500 hover:text-white text-xs uppercase tracking-widest transition">{% translate "Restartovat hru" %}</button>
+        </div>
     </div>
 </div>
 
-<script src="{% url 'javascript-catalog' %}"></script>
-
-
+<script>
+    // Záchranná brzda: pokud gettext neexistuje, vytvoříme ho
+    if (typeof gettext === 'undefined') {
+        window.gettext = function(msgid) { return msgid; };
+    }
+</script>
 <script>
     const COLOR_MAP = {
         'red': 'bg-red-500', 'blue': 'bg-blue-500', 'yellow': 'bg-yellow-400',
         'green': 'bg-green-500', 'purple': 'bg-purple-500', 'orange': 'bg-orange-500',
         'pink': 'bg-pink-400', 'gray': 'bg-gray-400', 'white': 'bg-white'
     };
-    
-    // Načtení osobního rekordu z prohlížeče při startu
-    window.onload = function() {
-    const pb = localStorage.getItem('logic_personal_best');
-    if (pb) {
-        document.getElementById('personal-best-display').innerText = parseFloat(pb).toFixed(2) + 's';
-    }
-    initGame();
-    };
 
     let selectedColor = 'red'; 
     let currentGuess = [null, null, null, null, null];
     let secretCode = [];
-
     let startTime;
     let timerInterval;
     let gameActive = false;
+    let difficulty = localStorage.getItem('logic_difficulty') || 'normal';
+
+    window.onload = function() {
+        // Osobní rekord dle obtížnosti
+        const pb = localStorage.getItem(`logic_pb_${difficulty}`);
+        if (pb) {
+            document.getElementById('personal-best-display').innerText = parseFloat(pb).toFixed(2) + 's';
+        }
+
+        // Světový rekord z Djanga
+        const bestNormal = "{{ best_time_normal|default:'--.--' }}";
+        const bestHard = "{{ best_time_hard|default:'--.--' }}";
+        document.getElementById('best-time-display').innerText = (difficulty === 'hard' ? bestHard : bestNormal) + 's';
+
+        updateDifficultyUI();
+        initGame();
+    };
+
+    function updateDifficultyUI() {
+        const normalBtn = document.getElementById('btn-normal');
+        const hardBtn = document.getElementById('btn-hard');
+        if (difficulty === 'hard') {
+            hardBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold transition uppercase tracking-wider bg-red-600 text-white shadow-lg';
+            normalBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold transition uppercase tracking-wider text-gray-400 hover:text-white';
+        } else {
+            normalBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold transition uppercase tracking-wider bg-green-600 text-white shadow-lg';
+            hardBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold transition uppercase tracking-wider text-gray-400 hover:text-white';
+        }
+    }
+
+    function setDifficulty(mode) {
+        localStorage.setItem('logic_difficulty', mode);
+        location.reload();
+    }
 
     function startTimer() {
         if (!gameActive) {
@@ -111,49 +132,37 @@
         return document.getElementById('timer').innerText;
     }
 
-    // Inicializace hry 
     function initGame() {
         const colors = Object.keys(COLOR_MAP);
         secretCode = Array.from({length: 5}, () => colors[Math.floor(Math.random() * colors.length)]);
-        console.log(gettext("Hra připravena. Tajný kód vygenerován."));
+        console.log("Secret Code:", secretCode);
     }
 
-    // Výběr barvy z dolní palety
     function selectColor(color) {
         selectedColor = color;
         document.querySelectorAll('.color-opt').forEach(el => el.classList.remove('border-white', 'scale-110'));
-        event.target.classList.add('border-white', 'scale-110');
+        event.currentTarget.classList.add('border-white', 'scale-110');
     }
 
-    // Obarvení kuličky v aktivním řádku 
     function setSlotColor(slotIndex) {
         if (!selectedColor) return;
-        startTimer()
+        startTimer();
         const slot = document.getElementById(`slot-${slotIndex}`);
-        
-        // Vyčištění starých barev
         Object.values(COLOR_MAP).forEach(cls => slot.classList.remove(cls));
         slot.classList.remove('border-gray-600');
-        
-        // Přidání nové barvy
         slot.classList.add(COLOR_MAP[selectedColor]);
         currentGuess[slotIndex] = selectedColor;
     }
 
-    // Vyhodnocení pozice po pozici
     function evaluateGuess(guess, secret) {
         let results = [null, null, null, null, null];
         let s_copy = [...secret];
-
-        // 1. Přesná shoda (Černá)
         for (let i = 0; i < 5; i++) {
             if (guess[i] === secret[i]) {
                 results[i] = 'black';
                 s_copy[i] = null;
             }
         }
-
-        // 2. Shoda barvy jinde (Bílá)
         for (let i = 0; i < 5; i++) {
             if (results[i] === null) {
                 let foundIndex = s_copy.indexOf(guess[i]);
@@ -166,7 +175,6 @@
         return results;
     }
 
-    // Potvrzení tahu tlačítkem OK
     function submitGuess() {
         if (currentGuess.includes(null)) {
             alert(gettext("Doplň všech 5 kuliček!"));
@@ -174,48 +182,27 @@
         }
 
         const results = evaluateGuess(currentGuess, secretCode);
+        let displayResults = [...results];
 
-
-        if (results.every(r => r === 'black')) {
-            const finalTime = stopTimer();
-            const numericFinalTime = parseFloat(finalTime);
-            alert(gettext("GRATULACE! Čas: ") + finalTime + "s");
-        
-        const oldPB = localStorage.getItem('logic_personal_best');
-        if (!oldPB || numericFinalTime < parseFloat(oldPB)) {
-            localStorage.setItem('logic_personal_best', numericFinalTime);
-            alert(gettext("NOVÝ OSOBNÍ REKORD: ") + finalTime + "s!");
-        } else {
-            alert(gettext("GRATULACE! Čas: " ) + finalTime + "s");
+        // LOGIKA TĚŽKÉ OBTÍŽNOSTI (zamíchání a skrytí prázdných)
+        if (difficulty === 'hard') {
+            displayResults = displayResults.filter(r => r !== null);
+            displayResults.sort(() => Math.random() - 0.5);
+            while (displayResults.length < 5) displayResults.push(null);
         }
 
-        // Odeslání na Django
-            fetch("{% url 'logic:save_score' %}", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": "{{ csrf_token }}",
-                    "Content-Type": "application/json"
-                }, 
-                body: JSON.stringify({ time: finalTime })
-            }).then(() => {
-                location.reload();
-            });
-        }
         const board = document.getElementById('game-board');
-
         const row = document.createElement('div');
-        row.className = "flex justify-between items-center bg-gray-800/50 p-2 rounded-lg border border-gray-700/50";
+        row.className = "flex justify-between items-center bg-gray-800/50 p-2 rounded-lg border border-gray-700/50 mb-2";
 
-        // Historie kuliček
         let pegsHtml = '<div class="flex gap-2">';
         currentGuess.forEach(color => {
             pegsHtml += `<div class="w-7 h-7 rounded-full ${COLOR_MAP[color]} shadow-sm"></div>`;
         });
         pegsHtml += '</div>';
 
-        // Historie kolíčků 
         let indicatorsHtml = '<div class="flex gap-2 ml-4 bg-gray-900 p-2 rounded-md">';
-        results.forEach(res => {
+        displayResults.forEach(res => {
             if (res === 'black') {
                 indicatorsHtml += '<div class="w-3 h-3 rounded-full bg-black border border-gray-500 shadow-[0_0_5px_rgba(0,0,0,0.8)]"></div>';
             } else if (res === 'white') {
@@ -229,17 +216,38 @@
         row.innerHTML = pegsHtml + indicatorsHtml;
         board.appendChild(row);
 
-        // Kontrola výhry
         if (results.every(r => r === 'black')) {
-            alert(gettext("GRATULACE! Uhodla jsi to přesně!"));
-            location.reload();
+            const finalTime = stopTimer();
+            const numericFinalTime = parseFloat(finalTime);
+            
+            alert(gettext("GRATULACE! Čas: ") + finalTime + "s");
+
+            const pbKey = `logic_pb_${difficulty}`;
+            const oldPB = localStorage.getItem(pbKey);
+            if (!oldPB || numericFinalTime < parseFloat(oldPB)) {
+                localStorage.setItem(pbKey, numericFinalTime);
+                alert(gettext("NOVÝ OSOBNÍ REKORD: ") + finalTime + "s!");
+            }
+
+            fetch("{% url 'logic:save_score' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json"
+                }, 
+                body: JSON.stringify({ 
+                    time: numericFinalTime,
+                    difficulty: difficulty 
+                })
+            }).then(() => {
+                location.reload();
+            });
         } else {
             resetCurrentGuess();
             window.scrollTo(0, document.body.scrollHeight);
         }
     }
 
-    // Vyčištění aktivního řádku po tahu
     function resetCurrentGuess() {
         currentGuess = [null, null, null, null, null];
         for (let i = 0; i < 5; i++) {
@@ -248,8 +256,5 @@
             slot.classList.add('border-gray-600');
         }
     }
-
-    // Spustit hru
-    initGame();
 </script>
 {% endblock %}

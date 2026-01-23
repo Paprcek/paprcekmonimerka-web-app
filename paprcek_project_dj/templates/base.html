@@ -1,12 +1,13 @@
 {% load i18n %}
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paprcekmonimerka - {% block title %}{% endblock %}</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200..900&display=swap" rel="stylesheet">
 
     <style>
@@ -23,35 +24,44 @@
         }
         h1, h2, h3, h4 { color: #4CAF50; }
     </style>
-</head>
-<body class="min-h-screen flex flex-col">
+<header class="bg-gray-900 shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16 relative">
+            
+            <div class="flex-shrink-0">
+                <a href="/" class="text-xl font-bold text-white hover:text-green-400 transition duration-150">Paprcekmonimerka</a>
+            </div>
 
-    <header class="bg-gray-900 shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                
-                <div class="flex-shrink-0">
-                    <a href="/" class="text-xl font-bold text-white hover:text-green-400 transition duration-150">Paprcekmonimerka</a>
+            <nav class="hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2">
+                <a href="{% url 'game_hub' %}" class="text-gray-300 hover:text-green-400 transition">{% translate "Herní centrum" %}</a>
+
+                <div class="relative group">
+                    <button class="text-gray-300 group-hover:text-green-400 transition flex items-center gap-1">
+                        {% translate "Hry" %}
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute left-0 hidden group-hover:block w-48 bg-gray-800 border border-gray-700 rounded-md shadow-xl py-2 z-50">
+                        <a href="{% url 'logic:logic' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400">{% translate "Logik" %}</a>
+                        <a href="{% url 'tictactoe:tictactoe' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400">{% translate "Piškvorky" %}</a>
+                    </div>
                 </div>
+                
+                <a href="https://paprcekmonimerka.cz/about" class="text-gray-300 hover:text-green-400 transition">{% translate "O Mně" %}</a>
+                <a href="https://paprcekmonimerka.cz/contacts" class="text-gray-300 hover:text-green-400 transition">{% translate "Kontakt" %}</a>
+            </nav>
 
-        <div class="flex items-center space-x-2">
-            <form action="{% url 'set_language' %}" method="post" class="flex items-center space-x-2">                {% csrf_token %}
-                <input name="next" type="hidden" value="{{ request.get_full_path }}">
-
-                <button type="submit" name="language" value="cs" 
-                        class="hover:text-green-400 {% if LANGUAGE_CODE == 'cs' %}text-green-500 font-bold{% endif %}">
-                    CZ
-                </button>
-        
-                <span class="text-gray-600">|</span>
-        
-                <button type="submit" name="language" value="en" 
-                        class="hover:text-green-400 {% if LANGUAGE_CODE == 'en' %}text-green-500 font-bold{% endif %}">
-                    EN
-                </button>
-            </form>
+            <div class="flex items-center space-x-2">
+                <form action="{% url 'set_language' %}" method="post" class="flex items-center space-x-2">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                    <button type="submit" name="language" value="cs" class="hover:text-green-400 {% if LANGUAGE_CODE == 'cs' %}text-green-500 font-bold{% endif %}">CZ</button>
+                    <span class="text-gray-600">|</span>
+                    <button type="submit" name="language" value="en" class="hover:text-green-400 {% if LANGUAGE_CODE == 'en' %}text-green-500 font-bold{% endif %}">EN</button>
+                </form>
+            </div>
         </div>
-    </header>
+    </div>
+</header>
 
     <main class="flex-grow">
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
