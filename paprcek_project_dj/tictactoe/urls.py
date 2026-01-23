@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+app_name = 'tictactoe'
+
 urlpatterns = [
     path('', views.tictactoe_game, name='tictactoe'),
     path('move/', views.ai_move, name='ai_move'),

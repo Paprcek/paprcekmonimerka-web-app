@@ -1,8 +1,9 @@
 from django.db import models
 
 class LogicScore(models.Model):
-    player_name = models.CharField(max_length=50, default="Anonym")
+    player_name = models.CharField(max_length=100, default="Anonym")
     time = models.FloatField()
+    difficulty = models.CharField(max_length=10, default='normal')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
