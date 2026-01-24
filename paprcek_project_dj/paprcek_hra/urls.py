@@ -5,7 +5,7 @@ from . import views
  
 
 urlpatterns = [
-    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    path('game/jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path('admin/', admin.site.urls),
     path('set-language/', views.set_language_custom, name='set_language'),
     path('game/', views.game_hub, name='game_hub'),

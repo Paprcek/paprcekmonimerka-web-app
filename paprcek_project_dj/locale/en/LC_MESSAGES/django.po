@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-23 16:32+0100\n"
+"POT-Creation-Date: 2026-01-24 14:29+0100\n"
 "PO-Revision-Date: 2025-12-26 23:10+0100\n"
 "Last-Translator: Monika\n"
 "Language-Team: Czech\n"
@@ -16,7 +16,15 @@ msgstr ""
 msgid "Hra Logik"
 msgstr "Logic"
 
-#: logic/templates/logic/logic_game.html:11
+#: logic/templates/logic/logic_game.html:9
+msgid "Základní"
+msgstr "Basic"
+
+#: logic/templates/logic/logic_game.html:10
+msgid "Těžká"
+msgstr "Advanced"
+
+#: logic/templates/logic/logic_game.html:15
 msgid "Aktuální čas"
 msgstr "Elapsed Time"
 
@@ -24,57 +32,50 @@ msgstr "Elapsed Time"
 msgid "Tvůj rekord"
 msgstr "Your record"
 
-#: logic/templates/logic/logic_game.html:29
+#: logic/templates/logic/logic_game.html:25
 msgid "Světový rekord"
 msgstr "World record"
 
 #: logic/templates/logic/logic_game.html:44
-msgid "Základní"
-msgstr "Basic"
-
-#: logic/templates/logic/logic_game.html:48
-msgid "Obtížná"
-msgstr "Advanced"
-
-#: logic/templates/logic/logic_game.html:57
-msgid "Nová hra"
-msgstr "New Game"
-
-#: logic/templates/logic/logic_game.html:75
 msgid "Červená"
 msgstr "Red"
 
-#: logic/templates/logic/logic_game.html:76
+#: logic/templates/logic/logic_game.html:45
 msgid "Modrá"
 msgstr "Blue"
 
-#: logic/templates/logic/logic_game.html:77
+#: logic/templates/logic/logic_game.html:46
 msgid "Žlutá"
 msgstr "Yellow"
 
-#: logic/templates/logic/logic_game.html:78
+#: logic/templates/logic/logic_game.html:47
 msgid "Zelená"
 msgstr "Green"
 
-#: logic/templates/logic/logic_game.html:79
+#: logic/templates/logic/logic_game.html:48
 msgid "Fialová"
 msgstr "Purple"
 
-#: logic/templates/logic/logic_game.html:80
+#: logic/templates/logic/logic_game.html:49
 msgid "Oranžová"
 msgstr "Orange"
 
-#: logic/templates/logic/logic_game.html:81
+#: logic/templates/logic/logic_game.html:50
 msgid "Růžová"
 msgstr "Pink"
 
-#: logic/templates/logic/logic_game.html:82
+#: logic/templates/logic/logic_game.html:51
 msgid "Šedá"
 msgstr "Grey"
 
-#: logic/templates/logic/logic_game.html:83
+#: logic/templates/logic/logic_game.html:52
 msgid "Bílá"
 msgstr "White"
+
+#: logic/templates/logic/logic_game.html:56
+#: tictactoe/templates/tictactoe/tictactoe_game.html:37
+msgid "Restartovat hru"
+msgstr "Restart Game"
 
 #: paprcek_hra/settings.py:90
 msgid "Czech"
@@ -84,35 +85,33 @@ msgstr "Czech"
 msgid "English"
 msgstr "English"
 
-#: templates/base.html:35
-#, fuzzy
+#: templates/base.html:36
 #| msgid "Herní centrum Paprcek"
 msgid "Herní centrum"
 msgstr "Paprcek Game Center"
 
-#: templates/base.html:39
+#: templates/base.html:40
 msgid "Hry"
 msgstr "Games"
 
-#: templates/base.html:43 templates/hub.html:40
+#: templates/base.html:44 templates/hub.html:40
 msgid "Logik"
 msgstr "Logic"
 
-#: templates/base.html:44
-#, fuzzy
+#: templates/base.html:45
 #| msgid "Piškvorky proti AI"
 msgid "Piškvorky"
 msgstr "Tic-Tac-Toe vs AI"
 
-#: templates/base.html:48
+#: templates/base.html:49
 msgid "O Mně"
 msgstr "About me"
 
-#: templates/base.html:49
+#: templates/base.html:50
 msgid "Kontakt"
 msgstr "Contact"
 
-#: templates/base.html:74
+#: templates/base.html:75
 msgid "Všechna práva vyhrazena"
 msgstr "All rights reserved"
 
@@ -165,10 +164,6 @@ msgstr "Your record"
 msgid "Světový rekord:"
 msgstr "World record"
 
-#: tictactoe/templates/tictactoe/tictactoe_game.html:37
-msgid "Restartovat hru"
-msgstr "Restart Game"
-
 #: tictactoe/templates/tictactoe/tictactoe_game.html:52
 msgid "VYHRÁLA JSI! 🎉"
 msgstr "YOU WIN! 🎉"
@@ -180,6 +175,12 @@ msgstr "AI WIN! 🤖"
 #: tictactoe/templates/tictactoe/tictactoe_game.html:55
 msgid "AI přemýšlí..."
 msgstr "AI is thinking..."
+
+#~ msgid "Obtížná"
+#~ msgstr "Advanced"
+
+#~ msgid "Nová hra"
+#~ msgstr "New Game"
 
 #~ msgid "Připravujeme další hru"
 #~ msgstr "New game coming soon"
