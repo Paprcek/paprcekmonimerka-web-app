@@ -58,12 +58,8 @@
     </div>
 </div>
 
-<script>
-    // Záchranná brzda: pokud gettext neexistuje, vytvoříme ho
-    if (typeof gettext === 'undefined') {
-        window.gettext = function(msgid) { return msgid; };
-    }
-</script>
+<script src="{% url 'javascript-catalog' %}"></script>
+
 <script>
     const COLOR_MAP = {
         'red': 'bg-red-500', 'blue': 'bg-blue-500', 'yellow': 'bg-yellow-400',
