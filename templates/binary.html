@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-10 p-6 bg-gray-900 rounded-lg shadow-xl text-white">
+    <h1 class="text-3xl font-bold mb-6 text-green-400">{{ g.T['binar_trans'] }}</h1>
+    
+    <form method="POST">
+        <label class="block mb-2 text-sm">{{ g.T['enter_text'] }}:</label>
+        <textarea name="text" rows="4" class="w-full p-3 bg-gray-800 border border-gray-700 rounded text-green-400 focus:outline-none focus:border-green-500">{{ input_text }}</textarea>
+        
+        <button type="submit" class="mt-4 px-6 py-2 bg-green-600 hover:bg-green-500 rounded font-bold transition">
+            {{ g.T['translate']}}
+        </button>
+    </form>
+
+    {% if result %}
+    <div class="mt-8 p-4 bg-black rounded border border-green-900">
+        <h2 class="text-xs uppercase text-gray-500 mb-2">{{ g.T['binary_code']}}        </h2>
+        <p class="font-mono break-all text-green-500">{{ result }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

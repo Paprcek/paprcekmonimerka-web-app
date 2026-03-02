@@ -1,0 +1,27 @@
+[33mafc6986[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/tic-tac-toe[m[33m, [m[1;31morigin/feature/tic-tac-toe[m[33m)[m HEAD@{0}: checkout: moving from feature-logic-game to feature/tic-tac-toe
+[33mc9a017b[m[33m ([m[1;31morigin/feature-logic-game[m[33m, [m[1;32mfeature-logic-game[m[33m)[m HEAD@{1}: checkout: moving from feature/tic-tac-toe to feature-logic-game
+[33mafc6986[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/tic-tac-toe[m[33m, [m[1;31morigin/feature/tic-tac-toe[m[33m)[m HEAD@{2}: checkout: moving from feature-logic-game to feature/tic-tac-toe
+[33mc9a017b[m[33m ([m[1;31morigin/feature-logic-game[m[33m, [m[1;32mfeature-logic-game[m[33m)[m HEAD@{3}: checkout: moving from feature/tic-tac-toe to feature-logic-game
+[33mafc6986[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/tic-tac-toe[m[33m, [m[1;31morigin/feature/tic-tac-toe[m[33m)[m HEAD@{4}: reset: moving to HEAD~1
+[33m15bc892[m[33m ([m[1;32mnova-vetev-logik[m[33m)[m HEAD@{5}: checkout: moving from feature-logic-game to feature/tic-tac-toe
+[33mc9a017b[m[33m ([m[1;31morigin/feature-logic-game[m[33m, [m[1;32mfeature-logic-game[m[33m)[m HEAD@{6}: checkout: moving from main to feature-logic-game
+[33m54696fc[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{7}: reset: moving to HEAD~1
+[33mc9a017b[m[33m ([m[1;31morigin/feature-logic-game[m[33m, [m[1;32mfeature-logic-game[m[33m)[m HEAD@{8}: checkout: moving from feature-logic-game to main
+[33mc9a017b[m[33m ([m[1;31morigin/feature-logic-game[m[33m, [m[1;32mfeature-logic-game[m[33m)[m HEAD@{9}: checkout: moving from main to feature-logic-game
+[33mc9a017b[m[33m ([m[1;31morigin/feature-logic-game[m[33m, [m[1;32mfeature-logic-game[m[33m)[m HEAD@{10}: checkout: moving from main to main
+[33mc9a017b[m[33m ([m[1;31morigin/feature-logic-game[m[33m, [m[1;32mfeature-logic-game[m[33m)[m HEAD@{11}: checkout: moving from nova-vetev-logik to main
+[33m15bc892[m[33m ([m[1;32mnova-vetev-logik[m[33m)[m HEAD@{12}: checkout: moving from feature/tic-tac-toe to nova-vetev-logik
+[33m15bc892[m[33m ([m[1;32mnova-vetev-logik[m[33m)[m HEAD@{13}: commit: Přidání routy pro novou hru Logic
+[33mafc6986[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/tic-tac-toe[m[33m, [m[1;31morigin/feature/tic-tac-toe[m[33m)[m HEAD@{14}: commit: Úprava sekce about a přidání odkazu na game hub do mobilního menu
+[33ma4f97bb[m HEAD@{15}: commit: Úprava pro responzivitu tictactoe
+[33mc8585cc[m HEAD@{16}: commit: Přidání světového rekordu k tictactoe
+[33m7e38bfb[m HEAD@{17}: commit: Přidání časomíry k tictactoe a oprava překladu ve hře
+[33mec01082[m HEAD@{18}: commit: Aktualizace popisků
+[33me0b8640[m HEAD@{19}: commit: Přidána hra TicTacToe proti AI
+[33md22d2cb[m HEAD@{20}: commit: Definitivní zprovoznění překladu do EN
+[33md8a710e[m HEAD@{21}: commit: konečně funkční přepínání jazyků a schování citlivých dat do .env
+[33mec1c096[m HEAD@{22}: commit: Oprava konfigurace URL routování
+[33m4a604cb[m HEAD@{23}: commit: FIX(config): Prepare environment for game logic (Model, Migrations, I18n setup)
+[33ma0b1ce5[m HEAD@{24}: reset: moving to HEAD
+[33ma0b1ce5[m HEAD@{25}: commit: Oprava konfigurace v Docker Compose
+[33mbcfe0b4[m[33m ([m[1;31morigin/feature/link-to-django[m[33m, [m[1;32mfeature/link-to-django[m[33m)[m HEAD@{26}: checkout: moving from feature/link-to-django to feature/tic-tac-toe

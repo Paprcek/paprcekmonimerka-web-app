@@ -62,6 +62,10 @@ TEXT_DATA = {
         'status_unknown': 'Neznámý',
 	'play_game': 'Spustit Hru',
     'nav_game_center': 'Herní centrum',
+    'binar_trans': 'Překladač binárního kódu',
+    'enter_text': 'Zadej text k "debugování" do binárky:',
+    'translate': 'Přeložit do strojové řeči',
+    'binary_code': 'Binární kód',
     },
     'en': {
         'home_title': "Monika Paprcek | IT Portfolio",
@@ -101,7 +105,11 @@ TEXT_DATA = {
         'status_hazardous': 'Hazardous',
         'status_unknown': 'Unknown',
 	'play_game': 'Play Game',
-    'nav_game_center': 'Game Hub'
+    'nav_game_center': 'Game Hub',
+    'binar_trans': 'Binary To Text Convertor',
+    'enter_text': 'Enter the text to "debug" into the binary:',
+    'translate': 'Translate into machine language',
+    'binary_code': 'Binary Code'
     }
 }
 
@@ -281,6 +289,22 @@ def air_history():
         return render_template('history.html',
                                error_title=g.T['error_title'],
                                error_message=error_message)
+
+def text_to_binary(text):
+    binary_list = [format(ord(char), '08b') for char in text]
+    return "\n".join(binary_list)
+
+# 2. Pak tvoje routa, která tu funkci použije
+@app.route('/binary-translator', methods=['GET', 'POST'])
+def binary_translator():
+    result = ""
+    input_text = ""
+    if request.method == 'POST':
+        input_text = request.form.get('text', '')
+        # Tady zavoláš svou funkci!
+        result = text_to_binary(input_text)
+        
+    return render_template('binary.html', result=result, input_text=input_text)
 
 # --- SPUŠTĚNÍ ---
 

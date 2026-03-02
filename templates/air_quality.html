@@ -27,5 +27,15 @@
         </div>
     {% endif %}
 
+    <div class="mt-8 flex justify-center">
+    <a href="{{ url_for('air_history') }}" 
+       class="inline-flex items-center px-6 py-3 border border-green-500 text-green-500 font-bold rounded-lg hover:bg-green-500 hover:text-black transition duration-300 group">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        {{ g.T['history_title'] }}
+    </a>
+    </div>
+
     <p style="text-align: center; margin-top: 30px;"><a href="{{ url_for('index') }}" style="color: #4CAF50;">{{ g.T['air_quality_back'] }}</a></p>
 {% endblock %}
