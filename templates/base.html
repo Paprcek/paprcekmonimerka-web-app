@@ -62,8 +62,25 @@
                     <a href="{{ url_for('index') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
                         {{ g.T['nav_home'] }}
                     </a>
-                    <a href="{{ url_for('binary_translator') }}" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{ g.T['binar_trans'] }}</a>
-                    <a href="{{ url_for('about') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+<div class="relative group">
+    <button id="projects-menu-button" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium focus:outline-none">
+        <span>Projekty</span>
+        <svg class="ml-1 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+        </svg>
+    </button>
+
+    <div id="projects-dropdown" class="hidden absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 z-50">
+        <div class="py-1" role="menu" aria-orientation="vertical">
+            <a href="/air_quality" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400" role="menuitem">
+                Air Quality Monitor
+            </a>
+            <a href="{{ url_for('binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400" role="menuitem">
+                {{ g.T['binar_trans'] }}
+            </a>
+        </div>
+    </div>
+</div>                    <a href="{{ url_for('about') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
                         {{ g.T['nav_about'] }}
                     </a>
                     <a href="{{ url_for('contacts') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
@@ -154,6 +171,24 @@
                 // Zkontrolujeme, zda cesta odkazu odpovídá aktuální cestě
                 if (link.getAttribute('href') === currentPath) {
                     link.classList.add('active');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const projectsBtn = document.getElementById('projects-menu-button');
+            const projectsDropdown = document.getElementById('projects-dropdown');
+
+            // Přepínání menu po kliknutí
+            projectsBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Zabraní okamžitému zavření
+                projectsDropdown.classList.toggle('hidden');
+            });
+
+            // Zavření menu, když uživatel klikne kamkoliv jinam
+            window.addEventListener('click', () => {
+                if (!projectsDropdown.classList.contains('hidden')) {
+                projectsDropdown.classList.add('hidden');
                 }
             });
         });
