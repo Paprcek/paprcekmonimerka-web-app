@@ -1,4 +1,5 @@
 import os
+import json
 import requests
 import datetime
 from flask import Flask, render_template, request, redirect, url_for, session, g
@@ -21,107 +22,16 @@ app.secret_key = SECRET_KEY if SECRET_KEY else 'default_fallback_secret_key'
 # Pouzijeme datetime.timedelta, protoze modul datetime je importovan
 app.permanent_session_lifetime = datetime.timedelta(days=30)
 
-# Databáze textů pro CS a EN
-TEXT_DATA = {
-    'cs': {
-        'home_title': 'Monika Paprcek | IT Portfolio',
-        'nav_home': 'Domů',
-        'nav_about': 'O Mně',
-        'nav_contact': 'Kontakt',
-        'nav_air_quality': 'Kvalita Vzduchu',
-        'nav_air_history': 'Historická data AQI',
-        'greeting': 'Vítejte v mém portfoliu',
-        'intro_text': 'Jmenuji se Monika a specializuji se na vývoj webových aplikací a automatizaci v Pythonu. Moje práce propojuje robustní backend (Flask, Django) s moderním nasazením v Dockeru. Zaměřuji se na tvorbu efektivních nástrojů, integraci API a inteligentní scraping dat, které klientům šetří čas a vnášejí do procesů řád.',
-        'projects_title': 'Moje Projekty',
-        'project_air_title': 'Air Quality Monitor (CZ)',
-        'project_air_desc': 'Webová aplikace demonstrující integraci externího API (OpenWeatherMap) pro vizualizaci dat o znečištění ovzduší v Praze.',
-        'project_air_link': 'Zobrazit aplikaci (Aktuální data)',
-	'future_project': 'Herní Centrum',
-	'future_placeholder': 'Zde jsou v současnosti vyvíjeny nové herní aplikace, postavené na frameworku Django.',
-        'about_title': 'O Mně',
-        'about_greeting': 'Ahoj, jsem Monika!',
-        'about_text_placeholder': 'Moje cesta do světa IT začala u hledání chyb. Jako rekvalifikovaná testerka jsem nahlédla pod kapotu softwaru a pochopila, jak klíčová je jeho kvalita. Tato zkušenost mě přivedla k vlastní tvorbě – dnes chyby nejen hledám, ale aktivně jim předcházím skrze precizní kód. Baví mě tvořit systémy, které jsou logické, efektivní a mají reálný přínos.',
-	'about_text_01': 'Specializuji se na backendový vývoj v Pythonu (Flask, Django) a automatizaci procesů. Moje technické zázemí zahrnuje kompletní správu vlastního serveru, kontejnerizaci projektů v Dockeru a bezpečné síťové propojení přes Cloudflare Tunnel. Nestavím jen webové stránky; buduji kompletní infrastrukturu od první řádky kódu až po nasazení do produkce. Mým cílem je neustálý debugging vlastních schopností a posouvání hranic toho, co se dá pomocí technologií zjednodušit.',
-        'about_motto': ' „Kód nepíšu proto, aby existoval, ale aby osvobozoval. Ladění je proces, kterým z nekonečných smyček chaosu vytvářím prostor pro to, na čem skutečně záleží.“ ',
-	'error_title': 'Chyba API',
-        'error_msg': 'Nastala chyba při volání OpenWeatherMap API. Zkuste to prosím později.',
-        'contact_title': 'Kontaktní údaje',
-        'contact_text': 'Níže naleznete nejpřímější cesty, jak mě kontaktovat a prohlédnout si moji práci. Těším se na Vaši zprávu nebo spolupráci!',
-	'air_quality_title': 'Monitor Kvality Vzduchu v Praze',
-	'air_project_desc': 'Projekt demonstruje integraci Flask backendu s externím API (OpenWeatherMap) a zpracování JSON dat.',
-	'air_quality_back': 'Zpět na Přehled Projektů',
-	'history_title': 'Historie Kvality Vzduchu (Posledních 72 hodin)',
-	'history_desc': 'Vizualizace vývoje indexu AQI (Air Quality Index) a koncentrace PM2.5 v čase.',
-	'footer': 'Všechna práva vyhrazena.',
-	'aqi_status': 'Stav AQI',
-        'status_good': 'Dobrý',
-        'status_fair': 'Uspokojivý',
-        'status_unhealthy_sensitive': 'Nezdravý pro citlivé skupiny',
-        'status_unhealthy': 'Nezdravý',
-        'status_hazardous': 'Velmi nezdravý',
-        'status_unknown': 'Neznámý',
-	'play_game': 'Spustit Hru',
-    'nav_game_center': 'Herní centrum',
-    'binar_trans': 'Překladač binárního kódu',
-    'enter_text': 'Zadej text k "debugování" do binárky:',
-    'translate': 'Přeložit do strojové řeči',
-    'binary_code': 'Binární kód',
-    'wd_popis': 'Python bot pro automatický monitoring cen a skladu velkoobchodu. Běží v Dockeru a posílá HTML zprávy.',
-    'zobrazit_specifikaci': 'Zobrazit specifikaci',
-    'tbn_popis':'Vývoj a technické nasazení webu dle specifických požadavků klientky. Od čistého kódování až po konfiguraci domény a hostingu.',
-    'go_web': 'Navštívit web',
-    },
-    'en': {
-        'home_title': "Monika Paprcek | IT Portfolio",
-        'nav_home': 'Home',
-        'nav_about': 'About Me',
-        'nav_contact': 'Contact',
-        'nav_air_quality': 'Air Quality',
-        'nav_air_history': 'AQI History Data',
-        'greeting': 'Welcome to my portfolio',
-        'intro_text': 'My name is Monika and I specialize in web application development and automation in Python. My work combines robust backend (Flask, Django) with modern Docker deployment. I focus on creating efficient tools, API integration, and intelligent data scraping that save clients time and bring order to their processes.',
-        'projects_title': 'My Projects',
-        'project_air_title': 'Air Quality Monitor (EN)',
-        'project_air_desc': 'A web application demonstrating the integration of an external API (OpenWeatherMap) to visualize air pollution data in Prague.',
-        'project_air_link': 'View Application (Current data)',
-        'future_project': 'Game Hub',
-	'future_placeholder': 'A new game applications are currently being developed here, built on the Django framework.',
-	'about_title': 'About Me',
-        'about_greeting': 'Hi, I am Monika!',
-        'about_text_placeholder': "My journey into the world of IT began with finding bugs. As a retrained tester, I looked under the hood of software and understood how crucial its quality is. This experience led me to my own creation - today I not only look for bugs, but also actively prevent them through precise code. I enjoy creating systems that are logical, efficient and have real benefits.",
-        'about_text_01': "I specialize in backend development in Python (Flask, Django) and process automation. My technical background includes complete management of my own server, containerization of projects in Docker and secure network connection via Cloudflare Tunnel. I don't just build websites; I build complete infrastructure from the first line of code to deployment in production. My goal is to constantly debug my own abilities and push the boundaries of what can be simplified with technology.",
-	'about_motto': " „I don't write code to exist, but to liberate. Debugging is the process of making space for what really matters from endless loops of chaos.“ ",
-	'error_title': 'API Error',
-        'error_msg': 'An error occurred while calling the OpenWeatherMap API. Please try again later.',
-        'contact_title': 'Contact Details',
-        'contact_text': 'Below you will find the most direct ways to contact me and view my work. I look forward to hearing from you or collaborating with you!',
-	'air_quality_title': 'Prague Air Quality Monitor',
-	'air_project_desc': 'The project demonstrates the integration of a Flask backend with an external API (OpenWeatherMap) and the processing of JSON data.',
-	'air_quality_back': 'Back to Project Overview',
-	'history_title': 'Air Quality History (Last 72 hours)',
-	'history_desc':	'Visualization of the development of the AQI (Air Quality Index) and PM2.5 concentration over time.',
-	'footer': 'All rights reserved.',
-	'aqi_status': 'AQI Status',
-        'status_good': 'Good',
-        'status_fair': 'Moderate',
-        'status_unhealthy_sensitive': 'Unhealthy for Sensitive Groups',
-        'status_unhealthy': 'Unhealthy',
-        'status_hazardous': 'Hazardous',
-        'status_unknown': 'Unknown',
-	'play_game': 'Play Game',
-    'nav_game_center': 'Game Hub',
-    'binar_trans': 'Binary To Text Convertor',
-    'enter_text': 'Enter the text to "debug" into the binary:',
-    'translate': 'Translate into machine language',
-    'binary_code': 'Binary Code',
-    'wd_popis': 'Python bot for automatic monitoring of wholesale prices and inventory. It runs in Docker and sends HTML messages.',
-    'zobrazit_specifikaci': 'View specification',
-    'tbn_popis':'Development and technical implementation of the website according to the specific requirements. From clean coding to domain and hosting configuration.',
-    'go_web': 'Visit the Website'
-    }
-}
-
 # --- MIDDLEWARE A JAZYKOVÁ LOGIKA ---
+
+# Funkce pro načtení překladů ze souboru
+def load_translations():
+    path = os.path.join(app.root_path, 'translations.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+# Načteme všechna data do jedné proměnné
+ALL_TRANSLATIONS = load_translations()
 
 # ZMĚNA: ZPŘÍSTUPNÍME CELÝ MODUL DATETIME A FUNKCI now()
 @app.context_processor
@@ -153,21 +63,22 @@ def before_request_func():
     # 1. Získání jazyka ze Session, nebo defaultně 'cs'
     lang = session.get('language', 'cs')
     
-    # 2. Kontrola, zda je jazyk podporován
-    if lang not in TEXT_DATA:
+    # 2. Kontrola, zda je jazyk v našem novém souboru
+    if lang not in ALL_TRANSLATIONS:
         lang = 'cs'
 
-    # 3. Uložení textů (T) a aktuálního jazyka (lang) do globálního kontextu Flasku
-    g.T = TEXT_DATA[lang]
+    # 3. Uložení správné jazykové větve do g.T
+    g.T = ALL_TRANSLATIONS[lang]
     g.lang = lang
 
 @app.route('/language/<lang_code>')
 def set_language(lang_code):
     """Mění jazyk a přesměruje zpět na předchozí stránku."""
-    if lang_code in TEXT_DATA:
+    # Kontrolujeme v ALL_TRANSLATIONS místo starého TEXT_DATA
+    if lang_code in ALL_TRANSLATIONS:
         session['language'] = lang_code
+        session.permanent = True # Aby si to prohlížeč pamatoval těch 30 dní
         
-    # Presmeruje uzivatele zpet na predchozi stranku, odkud prisel
     return redirect(request.referrer or url_for('index'))
 
 # --- FLASK ROUTES ---
@@ -176,6 +87,11 @@ def set_language(lang_code):
 def index():
     """Hlavní stránka portfolia s přehledem projektů."""
     return render_template('index.html')
+
+@app.route('/watchdog')
+def watchdog():
+    """Specifikace projektu Watchdog"""
+    return render_template('watchdog.html')
 
 @app.route('/about')
 def about():

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}{{ g.T['watchdog_page_title'] }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <div class="text-center mb-16">
+        <div class="flex justify-center mt-10 mb-6">
+            <img src="{{ url_for('static', filename='images/watchdog_logo.png') }}" alt="Watchdog Logo" class="w-64 h-64 rounded-full object-cover border-4 border-gray-700 shadow-xl">
+        </div>
+        
+        <h1 class="text-5xl font-extrabold text-green-500 mb-4">{{ g.T['watchdog_main_title'] }}</h1>
+        <p class="text-xl text-gray-300">{{ g.T['watchdog_subtitle'] }}</p>
+    </div>
+
+    <div class="bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-700 mb-12">
+        <h2 class="text-2xl font-bold text-white mb-4 border-b border-green-700 pb-2">{{ g.T['watchdog_about_title'] }}</h2>
+        <p class="text-gray-300 leading-relaxed mb-6">
+            {{ g.T['watchdog_about_text'] }}
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <div class="p-4 bg-gray-900 rounded-xl border border-green-900/50">
+                <h4 class="text-green-500 font-bold mb-2">Backend</h4>
+                <p class="text-sm text-gray-400">Python, BeautifulSoup4, SQLite</p>
+            </div>
+            <div class="p-4 bg-gray-900 rounded-xl border border-green-900/50">
+                <h4 class="text-green-500 font-bold mb-2">Infrastructure</h4>
+                <p class="text-sm text-gray-400">Docker, Cloudflare, Cron</p>
+            </div>
+            <div class="p-4 bg-gray-900 rounded-xl border border-green-900/50">
+                <h4 class="text-green-500 font-bold mb-2">Output</h4>
+                <p class="text-sm text-gray-400">HTML Email Reports, SMTP</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <h3 class="text-xl font-bold text-green-400 mb-3">Sea-Club.de</h3>
+            <p class="text-gray-300 text-sm mb-4">
+                {{ g.T['watchdog_seaclub_desc'] }}
+            </p>
+            <ul class="text-xs text-gray-400 space-y-1 italic">
+                <li>• {{ g.T['watchdog_feat_recursive'] }}</li>
+                <li>• {{ g.T['watchdog_feat_prices'] }}</li>
+                <li>• {{ g.T['watchdog_feat_stock'] }}</li>
+            </ul>
+        </div>
+
+        <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+            <h3 class="text-xl font-bold text-green-400 mb-3">{{ g.T['watchdog_radios_title'] }}</h3>
+            <p class="text-gray-300 text-sm mb-4">
+                {{ g.T['watchdog_radios_desc'] }}
+            </p>
+            <ul class="text-xs text-gray-400 space-y-1 italic">
+                <li>• {{ g.T['watchdog_feat_availability'] }}</li>
+                <li>• {{ g.T['watchdog_feat_action'] }}</li>
+                <li>• {{ g.T['watchdog_feat_parsing'] }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-16 text-center">
+        <a href="{{ url_for('index') }}" class="inline-flex items-center text-green-500 hover:text-green-400 transition duration-150">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            {{ g.T['back_to_portfolio'] }}
+        </a>
+    </div>
+</div>
+{% endblock %}
