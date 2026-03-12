@@ -2,3 +2,4 @@ venv/
 *.log
 secrets.env
 *.env
+__pycache__/
