@@ -42,9 +42,12 @@
     "enter_text": "Zadej text k \"debugování\" do binárky:",
     "translate": "Přeložit do strojové řeči",
     "binary_code": "Binární kód",
+    "project_binary_title": "Binární Překladač",
+    "project_binary_desc": "Jednoduchý, ale funkční nástroj pro převod textu do strojové řeči. Demonstruje práci s logikou v Pythonu a zpracování uživatelských vstupů přes formuláře.",
+    "project_binary_link": "Otevřít překladač",
     "wd_popis": "Python bot pro automatický monitoring cen a skladu velkoobchodu. Běží v Dockeru a posílá HTML zprávy.",
     "zobrazit_specifikaci": "Zobrazit specifikaci",
-    "tbn_popis": "Vývoj a technické nasazení webu dle specifických požadavků klientky. Od čistého kódování až po konfiguraci domény a hostingu.",
+    "tbn_popis": "Technické nasazení webu na platformě WordPress dle specifických požadavků klientky. Implementace vlastních PHP snippetů, HTML a CSS.",    
     "go_web": "Navštívit web",
     "watchdog_page_title": "Projekt Watchdog",
     "watchdog_main_title": "Watchdog: Inteligentní Monitoring",
@@ -60,7 +63,24 @@
     "watchdog_feat_availability": "Okamžité info o dostupnosti",
     "watchdog_feat_action": "Sledování akčních nabídek",
     "watchdog_feat_parsing": "Precizní parsing parametrů",
-    "back_to_portfolio": "Zpět na portfolio"
+    "back_to_portfolio": "Zpět na portfolio",
+    "testimonials_title": "Co o mně říkají klienti",
+    "testimonials": [
+      {
+        "name": "Petra Krejčíková",
+        "position": "Tělo bez napětí...",
+        "photo": "PKTBN.jpg",
+        "logo": "TBN-logo.png",
+        "text": "S paní Monikou jsem byla opravdu moc spokojená. Komunikace byla skvělá, vždy reagovala rychle a všechno jsme spolu bez problémů doladily. Design webu přesně odpovídá tomu, co jsem si představovala."
+      },
+      {
+        "name": "Tomáš Holec",
+        "position": "Yachtmeni z.s.",
+        "photo": "THYM.png",
+        "logo": "yachtmeni.webp",
+        "text": "S Monikou se mi spolupracovalo výborně. Potřeboval jsem vytvořit „hlídací psy“, které automaticky sledují změny dostupnosti zboží a cen. Domluva byla rychlá, řešení funkční a všechny připomínky byly rychle zapracovány."
+      }
+    ]
   },
   "en": {
     "home_title": "Monika Paprcek | IT Portfolio",
@@ -105,9 +125,12 @@
     "enter_text": "Enter the text to \"debug\" into the binary:",
     "translate": "Translate into machine language",
     "binary_code": "Binary Code",
+    "project_binary_title": "Binary Translator",
+    "project_binary_desc": "A simple yet functional tool for converting text into machine code. Demonstrates Python logic and processing user inputs via web forms.",
+    "project_binary_link": "Open Translator",
     "wd_popis": "Python bot for automatic monitoring of wholesale prices and inventory. It runs in Docker and sends HTML messages.",
     "zobrazit_specifikaci": "View specification",
-    "tbn_popis": "Development and technical implementation of the website according to the specific requirements. From clean coding to domain and hosting configuration.",
+    "tbn_popis": "Technical deployment of a WordPress-based website according to the client's specific requirements. Implementation of custom PHP snippets, HTML, and CSS.",    
     "go_web": "Visit the Website",
     "watchdog_page_title": "Project Watchdog",
     "watchdog_main_title": "Watchdog: Intelligent Monitoring",
@@ -123,6 +146,23 @@
     "watchdog_feat_availability": "Instant availability alerts",
     "watchdog_feat_action": "Promotion tracking",
     "watchdog_feat_parsing": "Precise parameter parsing",
-    "back_to_portfolio": "Back to portfolio"
+    "back_to_portfolio": "Back to portfolio",
+    "testimonials_title": "What my clients say",
+    "testimonials": [
+      {
+        "name": "Petra Krejčíková",
+        "position": "Tělo bez napětí...",
+        "photo": "PKTBN.jpg",
+        "logo": "TBN-logo.png",
+        "text": "I was truly very satisfied with Monika. Communication was excellent, she always responded quickly, and we ironed out everything together without any issues. The web design exactly matches what I envisioned."
+      },
+      {
+        "name": "Tomáš Holec",
+        "position": "Yachtmeni z.s.",
+        "photo": "THYM.png",
+        "logo": "yachtmeni.webp",
+        "text": "Working with Monika was excellent. I needed 'watchdogs' for our suppliers' websites to automatically monitor availability and price changes. Communication was fast, the solution is functional, and all feedback was incorporated quickly."
+      }
+    ]
   }
 }
