@@ -144,7 +144,7 @@ msgid "Spustit hru"
 msgstr "Play Game"
 
 #: templates/hub.html:42
-msgid "Klasická logická hra. Jak rychle dokážete najít spránou kombinaci?"
+msgid "Klasická logická hra. Jak rychle dokážete najít správnou kombinaci?"
 msgstr "A classic puzzle game. How fast can you find the right combination?"
 
 #: tictactoe/templates/tictactoe/tictactoe_game.html:10
