@@ -2,7 +2,7 @@ import os
 import json
 import requests
 import datetime
-from flask import Flask, render_template, request, redirect, url_for, session, g
+from flask import Flask, render_template, request, redirect, url_for, session, flash, g
 
 # --- NASTAVENÍ A KONFIGURACE ---
 
@@ -92,6 +92,33 @@ def index():
 def watchdog():
     """Specifikace projektu Watchdog"""
     return render_template('watchdog.html')
+
+# --- DOČASNÁ ROUTA PRO WATCHDOG MONITORING ESHOPU (pro smoketest) ---
+
+@app.route('/monitoring-eshopu')
+def watchdog_sales():
+    # Použijeme tvůj překladový systém, ale úplně jinou šablonu
+    return render_template('watchdog_landing.html')
+
+@app.route('/watchdog-order', methods=['POST'])
+def watchdog_order():
+    target_url = request.form.get('target_url')
+    tracking_type = request.form.get('tracking_type')
+    client_email = request.form.get('client_email')
+    notes = request.form.get('notes')
+    
+    # TADY PŘIJDE TVŮJ KÓD PRO ODESLÁNÍ E-MAILU SOBĚ SAMÉ
+    # (Např. pomocí smtplib nebo Flask-Mail)
+    # Zpráva pro tebe: "Nová poptávka od {client_email}. Chce hlídat {tracking_type} na {target_url}."
+    
+    print(f"Nová poptávka: {client_email} hlídá {target_url}") # Zatím jen do konzole pro test
+
+    # 1. Vytvoříme úspěšnou zprávu (vezmeme ji z JSONu)
+    flash(g.T.get('watchdog_success_msg', 'Zpráva byla úspěšně odeslána!'), 'success')
+
+    # 2. Přesměrujeme zpět na leták
+    return redirect(url_for('watchdog_sales')) # Změň na název tvé funkce pro zobrazení letáku
+
 
 @app.route('/about')
 def about():
