@@ -37,11 +37,21 @@
         /* Zajištění, že se boxy s daty (air_quality, history) správně zobrazí v dark mode */
         .data-box {
             background-color: #1f2937; /* Tmavší šedá pro odlišení od pozadí */
-            border: 1px solid #4CAF50; /* Zelený okraj */
+            border: 1px solid #4CAF50; /* Zelený okraj  /
         }
         
     </style>
 </head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CT9YCX32EE"></script>
+<script type="text/plain" id="ga-script">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CT9YCX32EE');
+</script>
+
 <body class="min-h-screen flex flex-col">
 
     <!-- Navigační lišta (Header) -->
@@ -192,6 +202,62 @@
                 }
             });
         });
+
+        // --- Cookie Logika ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const banner = document.getElementById('cookie-banner');
+            const acceptBtn = document.getElementById('accept-cookies');
+            const declineBtn = document.getElementById('decline-cookies');
+            const gaScript = document.getElementById('ga-script');
+
+            const activateGA = () => {
+                if (gaScript) {
+                    // Vytvoříme nový skript a zkopírujeme do něj obsah toho blokovaného
+                    const newScript = document.createElement('script');
+                    newScript.innerHTML = gaScript.innerHTML;
+                    document.head.appendChild(newScript);
+                }
+            };
+
+            const choice = localStorage.getItem('cookieConsent');
+
+            if (!choice) {
+                banner.classList.remove('hidden');
+            } else if (choice === 'accepted') {
+                activateGA();
+            }
+
+            acceptBtn.addEventListener('click', () => {
+                localStorage.setItem('cookieConsent', 'accepted');
+                banner.classList.add('hidden');
+                activateGA();
+            });
+
+            declineBtn.addEventListener('click', () => {
+                localStorage.setItem('cookieConsent', 'declined');
+                banner.classList.add('hidden');
+            });
+        });
     </script>
+
+    <div id="cookie-banner" class="fixed bottom-5 left-5 right-5 md:left-auto md:max-w-sm bg-gray-900 border border-green-600 p-6 rounded-2xl shadow-2xl z-[60] hidden">
+        <div class="flex flex-col">
+            <h3 class="text-white font-bold mb-2 flex items-center">
+                <span class="mr-2">🍪</span> {{ g.T['cookie_title'] | default('Cookies & Ladění') }}
+            </h3>
+            <p class="text-gray-400 text-sm mb-4">
+                {{ g.T['cookie_text'] | default('Pomůžeš mi vylepšit web povolením Google Analytics? Data využívám jen k analýze návštěvnosti.') }}
+            </p>
+            <div class="flex gap-3">
+                <button id="accept-cookies" class="flex-1 bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 rounded-full transition duration-150">
+                    {{ g.T['cookie_accept'] | default('Jasně, laď!') }}
+                </button>
+                <button id="decline-cookies" class="flex-1 border border-gray-700 text-gray-400 hover:text-white text-xs py-2 rounded-full transition duration-150">
+                    {{ g.T['cookie_decline'] | default('Raději ne') }}
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

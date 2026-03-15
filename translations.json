@@ -64,6 +64,10 @@
     "watchdog_feat_action": "Sledování akčních nabídek",
     "watchdog_feat_parsing": "Precizní parsing parametrů",
     "back_to_portfolio": "Zpět na portfolio",
+    "cookie_title": "Cookies & Ladění",
+    "cookie_text": "Ahoj! Pomůžeš mi vylepšit web tím, že povolíš Google Analytics? Data využívám jen k analýze návštěvnosti a ladění uživatelské zkušenosti.",
+    "cookie_accept": "Jasně, laď!",
+    "cookie_decline": "Raději ne",
     "testimonials_title": "Co o mně říkají klienti",
     "testimonials": [
       {
@@ -147,6 +151,10 @@
     "watchdog_feat_action": "Promotion tracking",
     "watchdog_feat_parsing": "Precise parameter parsing",
     "back_to_portfolio": "Back to portfolio",
+    "cookie_title": "Cookies & Debugging",
+    "cookie_text": "Hi there! Would you mind helping me improve my website by enabling Google Analytics? I only use the data for traffic analysis and debugging the user experience.",
+    "cookie_accept": "Sure, go ahead!",
+    "cookie_decline": "No, thanks",
     "testimonials_title": "What my clients say",
     "testimonials": [
       {
