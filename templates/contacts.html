@@ -1,122 +1,151 @@
 {% extends "base.html" %}
 
-{% block title %}{{ g.T['contact_title'] }}{% endblock %}
+{% block title %}{{ _('contact_title') }}{% endblock %}
 
 {% block content %}
-<div class="contact-container">
-    <h2 class="text-center mb-4 text-4xl font-bold text-green-400">{{ g.T['contact_title'] }}</h2>
-    <p class="text-center mb-8 text-lg text-gray-400">{{ g.T['contact_text'] }}
-    </p>
-
-    <!-- Karta s kontaktními odkazy -->
-    <div class="links-card">
-        
-        <!-- Odkaz na Gmail (mailto) -->
-        <a href="mailto:paprcekmonimerka@gmail.com?subject=Dotaz ohledně IT Portfolia" 
-           class="contact-link email-link">
-            <i class="fas fa-envelope mr-3"></i>
-            Email (Gmail)
-            <span class="url">paprcekmonimerka@gmail.com</span>
-        </a>
-
-        <!-- Odkaz na LinkedIn -->
-        <a href="https://www.linkedin.com/in/monika-krausov%C3%A1-260817b3/" target="_blank" 
-           class="contact-link linkedin-link">
-            <i class="fab fa-linkedin mr-3"></i>
-            LinkedIn Profil
-            <span class="url">/in/MonikaKrausová</span>
-        </a>
-
-        <!-- Odkaz na GitHub -->
-        <a href="https://github.com/Paprcek" target="_blank" 
-           class="contact-link github-link">
-            <i class="fab fa-github mr-3"></i>
-            GitHub Repozitáře
-            <span class="url">Paprcek</span>
-        </a>
-
-    </div>
+<div class="contact-page-container">
     
-    <p class="text-center mt-8 text-sm text-gray-500">
+    <div class="social-header">
+        <a href="https://github.com/Paprcek" target="_blank" class="big-icon github" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/monika-krausov%C3%A1-260817b3/" target="_blank" class="big-icon linkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:paprcekmonimerka@gmail.com" class="big-icon email" title="Email"><i class="fas fa-envelope"></i></a>
+    </div>
 
-    </p>
+    <div class="form-card">
+        <h2 class="form-title text-green-400">{{ _('contact_title') }}</h2>
+        <p class="form-subtitle">{{ _('contact_subtitle') }}</p>
+
+        <form action="{{ url_for('contacts') }}" method="POST" class="contact-form">
+            <div class="input-group">
+                <label for="name">{{ _('contact_label_name') }}</label>
+                <input type="text" id="name" name="name" placeholder="{{ _('contact_placeholder_name') }}" required>
+            </div>
+
+            <div class="input-group">
+                <label for="email">{{ _('contact_label_email') }}</label>
+                <input type="email" id="email" name="email" placeholder="{{ _('contact_placeholder_email') }}" required>
+            </div>
+
+            <div class="input-group">
+                <label for="message">{{ _('contact_label_message') }}</label>
+                <textarea id="message" name="message" rows="4" placeholder="{{ _('contact_placeholder_message') }}" required></textarea>
+            </div>
+            
+            <div class="input-group checkbox-group">
+                <input type="checkbox" id="gdpr" name="gdpr" required>
+                <label for="gdpr">
+                    {{ _('contact_gdpr_agree') }} <a href="{{ url_for('gdpr') }}" target="_blank">{{ _('contact_gdpr_link') }}</a>.
+                </label>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <span>{{ _('contact_btn_send') }}</span>
+                <i class="fas fa-paper-plane ml-2"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="location-info">
+        <i class="fas fa-map-marker-alt mr-2 text-red-500"></i> Praha 6 - Dejvice
+    </div>
 </div>
 
 <style>
-    /* Zjednodušené a stylové kontaktní styly */
-    .contact-container {
-        max-width: 700px;
-        margin: 50px auto;
+    /* Styling stránky */
+    .contact-page-container {
+        max-width: 600px;
+        margin: 60px auto;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .social-header {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    .big-icon {
+        font-size: 3rem;
+        color: #555;
+        transition: transform 0.3s, color 0.3s;
+    }
+
+    .big-icon:hover {
+        transform: translateY(-5px);
+    }
+    .github:hover { color: #fff; }
+    .linkedin:hover { color: #0077B5; }
+    .email:hover { color: #D93025; }
+
+    .form-card {
+        background: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 20px;
         padding: 40px;
-        background-color: #2c2c2c; /* Tmavší pozadí pro kartu */
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        text-align: left; /* Aby popisky u polí byly vlevo */
+    }
+
+    .form-title { font-size: 2.2rem; margin-bottom: 10px; text-align: center; font-weight: 800; }
+    .form-subtitle { color: #888; margin-bottom: 30px; font-size: 0.95rem; text-align: center; }
+
+    .input-group { margin-bottom: 20px; }
+    .input-group label { display: block; color: #ccc; margin-bottom: 8px; font-size: 0.9rem; }
+    .input-group input, .input-group textarea {
+        width: 100%;
+        background: #2a2a2a;
         border: 1px solid #444;
-    }
-    
-    .links-card {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-    
-    .contact-link {
-        display: flex;
-        align-items: center;
-        padding: 18px 25px;
         border-radius: 10px;
-        font-size: 1.15em;
-        font-weight: 600;
-        text-decoration: none;
+        padding: 15px;
         color: white;
-        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        position: relative;
-        overflow: hidden;
     }
 
-    .contact-link:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-    }
-    
-    .url {
-        margin-left: auto;
-        font-weight: 400;
-        font-size: 0.85em;
-        color: rgba(255, 255, 255, 0.7);
-        opacity: 0.8;
-        transition: opacity 0.3s;
-    }
-
-    .contact-link:hover .url {
-        opacity: 1;
+    .submit-btn {
+        width: 100%;
+        background: linear-gradient(90deg, #4ade80, #22c55e);
+        color: #052e16;
+        padding: 16px;
+        border-radius: 10px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.2s;
     }
 
-    /* Barevné schéma pro jednotlivé odkazy */
-    .email-link {
-        background: #D93025; /* Gmail/Google Red */
-    }
-    .email-link:hover {
-        background: #c32c21;
+    .submit-btn:hover { transform: translateY(-2px); }
+
+    .location-info { margin-top: 30px; color: #666; font-size: 1rem; }
+
+    .checkbox-group {
+        display: flex;
+        align-items: flex-start; /* Zarovná checkbox k hornímu okraji prvního řádku textu */
+        gap: 12px;               /* Mezera mezi čtverečkem a textem */
+        margin-top: 10px;        /* Snížení mezery, aby to nebylo moc odtržené od zprávy */
+        margin-bottom: 25px;     /* Mezera před tlačítkem */
+        text-align: left;        /* Jistota, že text nebude centrovaný */
+        padding: 0 5px;          /* Drobný vnitřní odstup, aby to lícovalo s okraji inputů */
     }
 
-    .linkedin-link {
-        background: #0077B5; /* LinkedIn Blue */
-    }
-    .linkedin-link:hover {
-        background: #006093;
-    }
-
-    .github-link {
-        background: #333; /* GitHub Dark */
-        border: 2px solid #5cb85c;
-    }
-    .github-link:hover {
-        background: #444;
-        border-color: #4cae4c;
+    .checkbox-group input[type="checkbox"] {
+        width: 18px;             /* Fixní velikost čtverečku */
+        height: 18px;
+        margin-top: 2px;         /* Jemné doladění výšky vůči textu */
+        cursor: pointer;
+        flex-shrink: 0;          /* Zabrání deformaci čtverečku při dlouhém textu */
     }
 
+    .checkbox-group label {
+        font-size: 0.9rem;
+        color: #aaa;
+        line-height: 1.5;
+        cursor: pointer;
+        user-select: none;       /* Zabrání nechtěnému označování textu při klikání */
+    }
+    .checkbox-group a { color: #4ade80; text-decoration: underline; }
 </style>
-
 {% endblock %}

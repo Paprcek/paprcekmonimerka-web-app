@@ -41,6 +41,8 @@
         }
         
     </style>
+    <link rel="icon" type="image/png" href="/static/images/paprcek.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <!-- Google tag (gtag.js) -->
@@ -93,7 +95,7 @@
                                 </a>
                                 <div class="border-t border-gray-700 my-1"></div>
                                 <p class="px-4 py-1 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Web Development</p>
-                                <a href="https://telobeznapeti.cz" target="_blank" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition italic">
+                                <a href="https://telo-bez-napeti.cz" target="_blank" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition italic">
                                     Tělo bez napětí (WP)
                                 </a>
                             </div>
@@ -178,6 +180,16 @@
     <main class="flex-grow">
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <!-- Blok pro specifický obsah stránky -->
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} rounded-lg p-4 mb-4 text-center">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
             {% block content %}
             {% endblock %}
         </div>

@@ -158,9 +158,39 @@ def about():
     """Stránka O mně."""
     return render_template('about.html')
 
-@app.route('/contacts') 
+@app.route('/contacts', methods=['GET', 'POST']) 
 def contacts():
-    """Stránka s kontaktními údaji (statické odkazy)."""
+    """Stránka s kontaktním formulářem a údaji."""
+    if request.method == 'POST':
+        gdpr_consent = request.form.get('gdpr')
+
+        if not gdpr_consent:
+            flash('Pro odeslání paprsku je nutné souhlasit se zpracováním údajů.', 'error')
+            return redirect(url_for('contacts'))
+
+        # Vytahujeme data z tvého nového formuláře
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message_body = request.form.get('message')
+
+        # Vytvoření e-mailu (používáme tvou Mail konfiguraci z úvodu app.py)
+        msg = Message(
+            subject=f"Paprsek z webu od: {name}",
+            recipients=['moncakbp@gmail.com'], 
+            body=f"Nová zpráva!\n\nOd: {name}\nE-mail: {email}\n\nText:\n{message_body}"
+        )
+
+        try:
+            mail.send(msg)
+            flash('Tvůj digitální paprsek dorazil do Dejvic! Ozvu se ti co nejdříve.', 'success')
+        except Exception as e:
+            # Pokud se něco pokazí (třeba špatné heslo k mailu), uvidíš to v konzoli
+            print(f"Kritická chyba odesílání: {e}")
+            flash('Chyba v přenosu. Zkus to prosím znovu nebo mi napiš přímo na e-mail.', 'error')
+
+        return redirect(url_for('contacts'))
+
+    # Pokud je to GET (normální návštěva), jen zobrazíme šablonu
     return render_template('contacts.html')
 
 @app.route('/air_quality')
