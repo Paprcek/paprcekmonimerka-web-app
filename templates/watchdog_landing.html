@@ -180,51 +180,6 @@
     </div>
 </div>
 
-<div id="cookie-bar" class="fixed bottom-0 left-0 right-0 z-[100] p-4 hidden">
-    <div class="max-w-4xl mx-auto bg-[#0a1526]/90 border border-cyan-500/30 backdrop-blur-md p-6 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="text-sm text-gray-300">
-            <p>Používám cookies k analýze návštěvnosti. Detaily najdete v sekci 
-               <a href="/gdpr" class="text-cyan-400 underline">Ochrana údajů</a>.
-            </p>
-        </div>
-        <div class="flex gap-3">
-            <button onclick="acceptCookies()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg text-sm font-bold transition-all">
-                Rozumím
-            </button>
-        </div>
-    </div>
-</div>
-
-<div id="cookie-bar" class="fixed bottom-0 left-0 right-0 z-[100] p-4 hidden">
-    <div class="max-w-4xl mx-auto bg-[#0a1526]/90 border border-cyan-500/30 backdrop-blur-md p-6 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="text-sm text-gray-300">
-            <p>Používám cookies k analýze návštěvnosti. Detaily najdete v sekci 
-               <a href="/gdpr" class="text-cyan-400 underline">Ochrana údajů</a>.
-            </p>
-        </div>
-        <div class="flex gap-3">
-            <button onclick="acceptCookies()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg text-sm font-bold transition-all">
-                Rozumím
-            </button>
-        </div>
-    </div>
-</div>
-
-<div id="cookie-bar" class="fixed bottom-0 left-0 right-0 z-[100] p-4 hidden">
-    <div class="max-w-4xl mx-auto bg-[#0a1526]/90 border border-cyan-500/30 backdrop-blur-md p-6 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="text-sm text-gray-300">
-            <p>Používám cookies k analýze návštěvnosti. Detaily najdete v sekci 
-               <a href="/gdpr" class="text-cyan-400 underline">Ochrana údajů</a>.
-            </p>
-        </div>
-        <div class="flex gap-3">
-            <button onclick="acceptCookies()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg text-sm font-bold transition-all">
-                Rozumím
-            </button>
-        </div>
-    </div>
-</div>
-
 <script>
     const cookieBar = document.getElementById('cookie-bar');
 
@@ -253,18 +208,28 @@
   {% if messages %}
     <div class="fixed top-5 left-1/2 transform -translate-x-1/2 z-[100] w-full max-w-md">
       {% for category, message in messages %}
+        
         {% if category == 'success' %}
-        <div class="bg-cyan-900/90 border-2 border-cyan-400 text-white px-6 py-4 rounded-2xl shadow-[0_0_20px_rgba(34,211,238,0.5)] flex items-center justify-between backdrop-blur-md">
+        <div class="bg-cyan-900/90 border-2 border-cyan-400 text-white px-6 py-4 rounded-2xl shadow-[0_0_20px_rgba(34,211,238,0.5)] flex items-center justify-between backdrop-blur-md mb-2">
             <div class="flex items-center">
                 <span class="mr-3 text-2xl">✅</span>
                 <p class="font-bold">{{ message }}</p>
             </div>
             <button onclick="this.parentElement.style.display='none'" class="text-cyan-400 hover:text-white font-bold ml-4 text-xl">&times;</button>
         </div>
+        
+        {% elif category == 'error' %}
+        <div class="bg-red-900/90 border-2 border-red-500 text-white px-6 py-4 rounded-2xl shadow-[0_0_20px_rgba(239,68,68,0.5)] flex items-center justify-between backdrop-blur-md mb-2">
+            <div class="flex items-center">
+                <span class="mr-3 text-2xl">❌</span>
+                <p class="font-bold text-sm">{{ message }}</p>
+            </div>
+            <button onclick="this.parentElement.style.display='none'" class="text-red-400 hover:text-white font-bold ml-4 text-xl">&times;</button>
+        </div>
         {% endif %}
+
       {% endfor %}
     </div>
-
   {% endif %}
 {% endwith %}
 </html>
