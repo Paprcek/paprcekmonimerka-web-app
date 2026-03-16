@@ -120,6 +120,11 @@ def watchdog_order():
     return redirect(url_for('watchdog_sales')) # Změň na název tvé funkce pro zobrazení letáku
 
 
+@app.route('/gdpr')
+def gdpr():
+    """Stránka s informacemi o ochraně osobních údajů."""
+    return render_template('gdpr.html')
+
 @app.route('/about')
 def about():
     """Stránka O mně."""
