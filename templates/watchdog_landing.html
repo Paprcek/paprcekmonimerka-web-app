@@ -25,7 +25,30 @@
             box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
         }
     </style>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    // Výchozí stav: vše zamítnuto
+    gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied'
+    });
+
+    // Pokud uživatel už dříve souhlasil (uloženo v localStorage)
+    if (localStorage.getItem('cookieConsent') === 'accepted') {
+        gtag('consent', 'update', {
+        'analytics_storage': 'granted'
+        });
+        gtag('config', 'G-XXXXXXXXXX');
+    }
+    </script>
+
 </head>
+
 <body class="min-h-screen flex flex-col items-center justify-center p-6">
 
     <div class="max-w-5xl w-full">
@@ -75,8 +98,12 @@
             <p class="mt-12 text-gray-600 text-[10px] uppercase tracking-widest max-w-xl mx-auto">
                 {{ g.T['watchdog_seo_text'] }}
             </p>
+            <div class="mt-4">
+                <a href="/gdpr" class="text-gray-600 text-[10px] uppercase tracking-widest hover:text-cyan-400 transition-colors">{{ g.T['watchdog_cta_title'] }}</a>
+            </div>
         </footer>
     </div>
+
 <div id="watchdog-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity">
     <div class="bg-[#0a1526] border-2 border-cyan-500 rounded-3xl p-8 max-w-lg w-full relative shadow-[0_0_30px_rgba(34,211,238,0.2)]">
         
@@ -118,6 +145,10 @@
                           class="w-full bg-gray-900 border border-gray-700 focus:border-cyan-500 rounded-lg py-3 px-4 text-white outline-none transition-colors"></textarea>
             </div>
 
+            <p class="text-[11px] text-gray-500 mb-4">
+            {{ g.T['watchdog_form_gdpr'] }} <a href="/gdpr" target="_blank" class="underline hover:text-cyan-400">{{ g.T['watchdog_form_gdpr1'] }}</a>.
+            </p>
+
             <button type="submit" class="w-full bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white font-bold py-4 rounded-xl shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-all transform hover:scale-[1.02]">
                 {{ g.T['watchdog_form_submit'] }}
             </button>
@@ -133,6 +164,90 @@
         document.getElementById('watchdog-modal').classList.add('hidden');
     }
 </script>
+
+<div id="cookie-bar" class="fixed bottom-0 left-0 right-0 z-[100] p-4 hidden">
+    <div class="max-w-4xl mx-auto bg-[#0a1526]/90 border border-cyan-500/30 backdrop-blur-md p-6 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-sm text-gray-300">
+            <p>Používám cookies k analýze návštěvnosti. Detaily najdete v sekci 
+               <a href="/gdpr" class="text-cyan-400 underline">Ochrana údajů</a>.
+            </p>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="acceptCookies()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg text-sm font-bold transition-all">
+                Rozumím
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="cookie-bar" class="fixed bottom-0 left-0 right-0 z-[100] p-4 hidden">
+    <div class="max-w-4xl mx-auto bg-[#0a1526]/90 border border-cyan-500/30 backdrop-blur-md p-6 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-sm text-gray-300">
+            <p>Používám cookies k analýze návštěvnosti. Detaily najdete v sekci 
+               <a href="/gdpr" class="text-cyan-400 underline">Ochrana údajů</a>.
+            </p>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="acceptCookies()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg text-sm font-bold transition-all">
+                Rozumím
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="cookie-bar" class="fixed bottom-0 left-0 right-0 z-[100] p-4 hidden">
+    <div class="max-w-4xl mx-auto bg-[#0a1526]/90 border border-cyan-500/30 backdrop-blur-md p-6 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-sm text-gray-300">
+            <p>Používám cookies k analýze návštěvnosti. Detaily najdete v sekci 
+               <a href="/gdpr" class="text-cyan-400 underline">Ochrana údajů</a>.
+            </p>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="acceptCookies()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg text-sm font-bold transition-all">
+                Rozumím
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="cookie-bar" class="fixed bottom-0 left-0 right-0 z-[100] p-4 hidden">
+    <div class="max-w-4xl mx-auto bg-[#0a1526]/90 border border-cyan-500/30 backdrop-blur-md p-6 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-sm text-gray-300">
+            <p>Používám cookies k analýze návštěvnosti. Detaily najdete v sekci 
+               <a href="/gdpr" class="text-cyan-400 underline">Ochrana údajů</a>.
+            </p>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="acceptCookies()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg text-sm font-bold transition-all">
+                Rozumím
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const cookieBar = document.getElementById('cookie-bar');
+
+    // Zobrazení lišty, pokud nebyl udělen souhlas
+    if (!localStorage.getItem('cookieConsent')) {
+        cookieBar.classList.remove('hidden');
+    }
+
+    function acceptCookies() {
+        // Uložení souhlasu do prohlížeče
+        localStorage.setItem('cookieConsent', 'accepted');
+        
+        // Aktualizace souhlasu pro Google Analytics
+        gtag('consent', 'update', {
+            'analytics_storage': 'granted'
+        });
+        gtag('config', 'G-XXXXXXXXXX'); // Znovu nahraď svým ID
+
+        // Skrytí lišty
+        cookieBar.classList.add('hidden');
+    }
+</script>
+
 </body>
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -149,6 +264,8 @@
         {% endif %}
       {% endfor %}
     </div>
+
   {% endif %}
 {% endwith %}
 </html>
+
