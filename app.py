@@ -3,8 +3,22 @@ import json
 import requests
 import datetime
 from flask import Flask, render_template, request, redirect, url_for, session, flash, g
+from flask_mail import Mail, Message
+
+app = Flask(__name__)
 
 # --- NASTAVENÍ A KONFIGURACE ---
+
+# Mail konfigurace pro odesílání e-mailů (použij své údaje)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'paprcekmonimerka@gmail.com'
+app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
+app.config['MAIL_DEFAULT_SENDER'] = 'paprcekmonimerka@gmail.com'
+
+mail = Mail(app)
+
 
 # Precteni API klice z promenne prostredi (Gunicorn)
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
@@ -14,7 +28,6 @@ SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
 LATITUDE = 50.0755
 LONGITUDE = 14.4378
 
-app = Flask(__name__)
 # Nastaveni SECRET_KEY pro session (důležité pro zapamatování jazyka)
 app.secret_key = SECRET_KEY if SECRET_KEY else 'default_fallback_secret_key'
 
@@ -107,17 +120,32 @@ def watchdog_order():
     client_email = request.form.get('client_email')
     notes = request.form.get('notes')
     
-    # TADY PŘIJDE TVŮJ KÓD PRO ODESLÁNÍ E-MAILU SOBĚ SAMÉ
-    # (Např. pomocí smtplib nebo Flask-Mail)
-    # Zpráva pro tebe: "Nová poptávka od {client_email}. Chce hlídat {tracking_type} na {target_url}."
-    
-    print(f"Nová poptávka: {client_email} hlídá {target_url}") # Zatím jen do konzole pro test
+    # --- KÓD PRO ODESLÁNÍ E-MAILU ---
+    try:
+        msg = Message(
+            subject=f"Nová poptávka: Watchdog - {target_url}",
+            recipients=['moncakbp@gmail.com'], 
+            body=f"""
+                Nová poptávka od: {client_email}
 
-    # 1. Vytvoříme úspěšnou zprávu (vezmeme ji z JSONu)
-    flash(g.T.get('watchdog_success_msg', 'Zpráva byla úspěšně odeslána!'), 'success')
+                Co chce hlídat: {tracking_type}
+                Cílový web: {target_url}
+
+                Specifika/Poznámka:
+                {notes}
+            """
+        )
+        mail.send(msg)
+        flash(g.T.get('watchdog_success_msg', 'Zpráva byla úspěšně odeslána!'), 'success')
+        print(f"Úspěch: Poptávka od {client_email} odeslána na e-mail.")
+    except Exception as e:
+        print(f"Kritická chyba: {e}", flush=True)
+        # Teď posíláme text chyby přímo na obrazovku!
+        flash(f"Chyba odesílání: {str(e)}", 'error') 
+    # --------------------------------
 
     # 2. Přesměrujeme zpět na leták
-    return redirect(url_for('watchdog_sales')) # Změň na název tvé funkce pro zobrazení letáku
+    return redirect(url_for('watchdog_sales'))
 
 
 @app.route('/gdpr')
@@ -176,8 +204,8 @@ def air_quality():
             		data={'aqi': 'N/A', 'pm25': 'N/A'},
             		status_key='status_unknown',  # Nyní posíláme klíč pro "Neznámý"
             		status_css='unknown',
-            		error_title=_('error_api_title'),
-            		error_message=_('error_api_message')
+            		error_title=g.T.get('error_api_title', 'Chyba API'),
+                    error_message=g.T.get('error_api_message', 'Klíč API může být neplatný nebo neaktivní.')
             		)
 
     except Exception as e:
