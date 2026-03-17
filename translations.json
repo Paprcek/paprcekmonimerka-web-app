@@ -15,7 +15,7 @@
     "watchdog_seo_text": "Specializuji se na vývoj softwaru pro automatizaci e-shopů, scraping velkoobchodních dat a inteligentní monitoring cen konkurence.",
     "watchdog_compare_title": "Nepotřebujete složité korporátní nástroje.",
     "watchdog_compare_text": "Zapomeňte na drahé dashboardy pro obří firmy. Potřebujete vědět, kdy zlevnit a kdy naskladnit. Nic víc, nic míň.",
-    "watchdog_support_name": "Monica Paprcek",
+    "watchdog_support_name": "Monika Paprcek",
     "watchdog_support_text": "Vaše osobní spojka pro automatizaci. Žádné tickety, prostě mi napište.",
     "watchdog_form_title": "Zadání pro Watchdoga",
     "watchdog_form_desc": "Řekněte mi, co potřebujete hlídat. Ozvu se vám s návrhem řešení.",
@@ -111,6 +111,9 @@
     "contact_gdpr_agree": "Souhlasím se",
     "contact_gdpr_link": "zpracováním údajů",
     "contact_btn_send": "Odeslat digitální paprsek",
+    "wd_cta_title": "Zaujal vás tento analytický přístup?",
+    "wd_cta_text": "Přestaňte trávit čas ručním přepisováním dat. Objevte, jak mohou automatizované ETL procesy šetřit váš čas a peníze.",
+    "wd_cta_btn": "Mám zájem o Watchdoga",
     "testimonials": [
       {
         "name": "Petra Krejčíková",
@@ -124,7 +127,7 @@
         "position": "Yachtmeni z.s.",
         "photo": "THYM.png",
         "logo": "yachtmeni.webp",
-        "text": "S Monikou se mi spolupracovalo výborně. Potřeboval jsem vytvořit „hlídací psy“, které automaticky sledují změny dostupnosti zboží a cen. Domluva byla rychlá, řešení funkční a všechny připomínky byly rychle zapracovány."
+        "text": "S Monikou se mi spolupracovalo výborně. Potřeboval jsem vytvořit „hlídací psy“, kteří automaticky sledují změny dostupnosti zboží a cen. Domluva byla rychlá, řešení funkční a všechny připomínky byly rychle zapracovány."
       }
     ]
   },
@@ -219,6 +222,9 @@
     "contact_gdpr_agree": "I agree to the",
     "contact_gdpr_link": "data processing",
     "contact_btn_send": "Send digital ray",
+    "wd_cta_title": "Interested in this analytical approach?",
+    "wd_cta_text": "Stop spending time manually retyping data. Discover how automated ETL processes can save your time and money.",
+    "wd_cta_btn": "I am interested in Watchdog",
     "testimonials": [
       {
         "name": "Petra Krejčíková",

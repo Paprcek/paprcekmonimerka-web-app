@@ -114,29 +114,29 @@
                         {{ g.T['nav_contact'] }}
                     </a>
                 </nav>
-
-                <!-- Přepínání jazyka a mobilní menu ikona -->
+                
+                 <!-- Přepínání jazyka a mobilní menu ikona -->
                 <div class="flex items-center space-x-3">
-                    <!-- Přepínání jazyka -->
-                    <!-- ZMĚNA 7: Text pro jazyk - Bílý, aktivní zelený -->
+                <!-- Přepínání jazyka -->
+                    <!-- 7: Text pro jazyk - Bílý, aktivní zelený -->
                     <a href="{{ url_for('set_language', lang_code='cs') }}" class="text-sm font-medium p-1 rounded-md transition duration-150 {% if g.lang == 'cs' %}text-green-400 font-bold{% else %}text-gray-400 hover:text-gray-200{% endif %}">CZ</a>
                     <span class="text-gray-600">|</span>
                     <a href="{{ url_for('set_language', lang_code='en') }}" class="text-sm font-medium p-1 rounded-md transition duration-150 {% if g.lang == 'en' %}text-green-400 font-bold{% else %}text-gray-400 hover:text-gray-200{% endif %}">EN</a>
 
-                    <!-- Mobilní menu (skryté na desktopu) -->
-                    <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition duration-150">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
+                <div class="md:hidden flex items-center">
+                        <button id="mobile-menu-button" type="button" class="p-2 rounded-md text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition duration-150">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Mobilní menu (skryté, JS ho ukáže) -->
         <div id="mobile-menu" class="hidden md:hidden bg-gray-800 border-b border-gray-700">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="{{ url_for('index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400">
+                <a href="{{ url_for('index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
                     {{ g.T['nav_home'] }}
                 </a>
 
@@ -147,30 +147,33 @@
                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
                     </button>
-            
+                
                     <div id="mobile-projects-dropdown" class="hidden bg-gray-900 rounded-md mt-1 ml-2 space-y-1">
-                        <a href="{{ url_for('air_quality') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400">
-                            Air Quality Monitor
+                        <a href="{{ url_for('watchdog') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
+                               Watchdog
                         </a>
-                        <a href="{{ url_for('air_history') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400">
-                            Historie AQI
+                        <a href="{{ url_for('air_quality') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
+                              Air Quality Monitor
                         </a>
-                        <a href="{{ url_for('binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400">
+                        <a href="{{ url_for('air_history') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
+                              Historie AQI
+                        </a>
+                        <a href="{{ url_for('binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
                             {{ g.T['binar_trans'] }}
                         </a>
                     </div>
                 </div>
 
-                <a href="/game/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400">
+                <a href="/game/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
                     {{ g.T['nav_game_center'] }}
                 </a>
 
-                <a href="{{ url_for('about') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400">
+                <a href="{{ url_for('about') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
                     {{ g.T['nav_about'] }}
                 </a>
 
-                <a href="{{ url_for('contacts') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400">
-                    {{ g.T['nav_contact'] }}
+                <a href="{{ url_for('contacts') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
+                        {{ g.T['nav_contact'] }}
                 </a>
             </div>
         </div>
@@ -207,57 +210,68 @@
     </footer>
 
     <script>
-        // Aktivace mobilního menu
-        const menuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Logika pro rozbalování projektů v mobilním menu
-        const mobileProjectsBtn = document.getElementById('mobile-projects-button');
-        const mobileProjectsDropdown = document.getElementById('mobile-projects-dropdown');
-        const mobileProjectsArrow = document.getElementById('mobile-projects-arrow');
-
-        if (mobileProjectsBtn) {
-            mobileProjectsBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                mobileProjectsDropdown.classList.toggle('hidden');
-                // Otočení šipky při rozbalení
-                mobileProjectsArrow.classList.toggle('rotate-180');
-            });
-        }
-
-        // Nastavení aktivního odkazu v navigaci
         document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. HLAVNÍ MOBILNÍ MENU
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Zabrání tomu, aby se kliknutí hned propadlo do window
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // 2. ROZBALOVÁNÍ PROJEKTŮ V MOBILU
+            const mobileProjectsBtn = document.getElementById('mobile-projects-button');
+            const mobileProjectsDropdown = document.getElementById('mobile-projects-dropdown');
+            const mobileProjectsArrow = document.getElementById('mobile-projects-arrow');
+
+            if (mobileProjectsBtn && mobileProjectsDropdown) {
+                mobileProjectsBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation(); // Zabrání bublání
+                    mobileProjectsDropdown.classList.toggle('hidden');
+                    if (mobileProjectsArrow) {
+                        mobileProjectsArrow.classList.toggle('rotate-180');
+                    }
+                });
+            }
+
+            // 3. DESKTOPOVÉ PROJEKTY
+            const projectsBtn = document.getElementById('projects-menu-button');
+            const projectsDropdown = document.getElementById('projects-dropdown');
+
+            if (projectsBtn && projectsDropdown) {
+                projectsBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    projectsDropdown.classList.toggle('hidden');
+                });
+            }
+
+            // 4. TOHLE JE TA OPRAVA ZAVÍRÁNÍ (kliknutí kamkoliv jinam)
+            window.addEventListener('click', (e) => {
+                // Zavře mobilní menu, pokud klikneš mimo
+                if (mobileMenu && !mobileMenu.contains(e.target) && !menuButton.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+                // Zavře desktopové menu projektů, pokud klikneš mimo
+                if (projectsDropdown && !projectsDropdown.contains(e.target) && !projectsBtn.contains(e.target)) {
+                    projectsDropdown.classList.add('hidden');
+                }
+            });
+
+            // 5. AKTIVNÍ ODKAZY (tvůj původní funkční kód)
             const currentPath = window.location.pathname;
             const navLinks = document.querySelectorAll('.nav-link');
 
             navLinks.forEach(link => {
-                // Zkontrolujeme, zda cesta odkazu odpovídá aktuální cestě
                 if (link.getAttribute('href') === currentPath) {
                     link.classList.add('active');
                 }
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const projectsBtn = document.getElementById('projects-menu-button');
-            const projectsDropdown = document.getElementById('projects-dropdown');
-
-            // Přepínání menu po kliknutí
-            projectsBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Zabraní okamžitému zavření
-                projectsDropdown.classList.toggle('hidden');
-            });
-
-            // Zavření menu, když uživatel klikne kamkoliv jinam
-            window.addEventListener('click', () => {
-                if (!projectsDropdown.classList.contains('hidden')) {
-                projectsDropdown.classList.add('hidden');
-                }
-            });
         });
 
         // --- Cookie Logika ---
