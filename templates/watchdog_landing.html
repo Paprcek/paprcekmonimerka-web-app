@@ -95,12 +95,109 @@
                 {{ g.T['watchdog_cta_button'] }}
             </button>
             
-            <p class="mt-12 text-gray-600 text-[10px] uppercase tracking-widest max-w-xl mx-auto">
-                {{ g.T['watchdog_seo_text'] }}
-            </p>
-            <div class="mt-4">
-                <a href="/gdpr" class="text-gray-600 text-[10px] uppercase tracking-widest hover:text-cyan-400 transition-colors">{{ g.T['watchdog_cta_title'] }}</a>
+
+            <div class="max-w-5xl mx-auto mt-24 px-4">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-black text-white">Jak to funguje v praxi?</h3>
+                    <p class="text-lg text-cyan-100/60 mt-2">Ukázka reálného nasazení pro sledování konkurence a dostupnosti.</p>
+                </div>
+
+                <div class="card-border rounded-3xl p-8 border-cyan-500/20 shadow-[0_0_30px_rgba(34,211,238,0.05)] mb-20">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h4 class="text-2xl font-bold text-cyan-400 mb-6 flex flex-col items-center">
+                                <span class="mb-2 text-4xl">📊</span> 
+                                <div>Sledování dostupnosti a cen</div>
+                            </h4>
+                            <div class="space-y-4 text-gray-300">
+                                <p><strong class="text-white">Situace:</strong> E-shopy (např. Seaclub) buď funkci hlídacího psa vůbec neměly, nebo fungovaly jen jako základní upozornění na naskladnění, bez sledování dynamiky cen.</p>
+                                <p><strong class="text-white">Řešení:</strong> Nasazení chytrých „hlídacích psů“ na míru. Skripty v pravidelných intervalech a automaticky scrapují data a upozorňují nejen na dostupnost zboží, ale zachycují i skryté změny cen v čase.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-black/30 p-8 rounded-3xl border-l-4 border-cyan-500 relative flex flex-col justify-between h-full backdrop-blur-sm">
+                            <i class="fas fa-quote-left text-4xl text-cyan-500/20 absolute top-4 left-4"></i>
+                            <div class="relative z-10 pl-4 mb-6 mt-2">
+                                <p class="text-gray-300 italic leading-relaxed">
+                                    "S Monikou se mi spolupracovalo výborně. Potřeboval jsem vytvořit „hlídací psy“, kteří automaticky sledují změny dostupnosti zboží a cen. Domluva byla rychlá, řešení funkční a všechny připomínky byly rychle zapracovány."
+                                </p>
+                            </div>
+                            
+                            <div class="pl-4 border-t border-white/10 pt-4 mt-auto">
+                                <div class="text-cyan-400 font-bold flex items-center mb-4">
+                                    <img src="/static/images/THYM.png" alt="Tomáš, eShop Yachtmeni" class="w-10 h-10 rounded-full mr-3 object-cover border-2 border-cyan-500/50"> Tomáš, eShop Yachtmeni
+                                </div>
+                                
+                                <div class="flex flex-wrap items-center gap-3 text-xs bg-black/40 px-5 py-4 rounded-2xl border border-cyan-500/20 w-full shadow-inner">
+                                    <div class="text-cyan-300 font-bold flex items-center bg-cyan-900/30 px-3 py-1.5 rounded-lg border border-cyan-500/30">
+                                        🛒 Běží na Shoptetu
+                                    </div>
+                                    <div class="text-yellow-400 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm text-center">                                        <span class="whitespace-nowrap">★ ★ ★ ★ ★</span>
+                                        <span class="text-white font-bold tracking-wide">98 %</span>
+                                        <span class="text-gray-400">doporučuje (2500+ recenzí)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>      
+                        
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-black text-white">Transparentní ceník</h3>
+                    <p class="text-lg text-cyan-100/60 mt-2">Platíte za spolehlivé řešení a výkon serveru. Bez skrytých poplatků.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+                    <div class="card-border rounded-3xl p-8 border-white/10 hover:border-cyan-500/40 transition-all duration-300">
+                        <div class="text-cyan-500 text-xs font-bold uppercase tracking-widest mb-3">Vývoj & Nasazení</div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Naprogramování psa</h4>
+                        <p class="text-gray-400 mb-16 h-16 leading-relaxed">Analýza cílového webu, napsání scrapovacího skriptu v Pythonu, ošetření chyb a napojení na výstup.</p>
+                        <div class="text-4xl font-black text-cyan-400 mb-2 drop-shadow-md">od 4 500 Kč</div>
+                        <p class="text-sm text-cyan-100/40 mb-8 uppercase tracking-wider font-bold">Jednorázový poplatek</p>
+                        <ul class="text-gray-300 space-y-3 text-sm">
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-3 text-lg leading-none pt-0.5">✓</span> 
+                                <span>Kódování na míru</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-3 text-lg leading-none pt-0.5">✓</span>
+                                <span>Řešení nestandardních e-shopů</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-3 text-lg leading-none pt-0.5">✓</span>
+                                <span>Ladění do 100% funkčnosti</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card-border rounded-3xl p-8 border-cyan-500/50 shadow-[0_0_25px_rgba(34,211,238,0.15)] relative transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="absolute top-0 right-8 bg-cyan-500 text-black text-[10px] uppercase tracking-widest font-black px-4 py-1.5 rounded-b-xl shadow-lg">Nutné k provozu</div>
+                        <div class="text-cyan-500 text-xs font-bold uppercase tracking-widest mb-3">Provoz & Správa</div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Hosting a Databáze</h4>
+                        <p class="text-gray-400 mb-16 h-16 leading-relaxed">Běh skriptu na mém serveru (VPS), ukládání dat do databáze a údržba při změnách zdrojového webu.</p>
+                        <div class="text-4xl font-black text-cyan-400 mb-2 drop-shadow-md">od 50 Kč <span class="text-xl text-cyan-100/40 font-normal">/ měs.</span></div>
+                        <p class="text-sm text-cyan-100/40 mb-8 uppercase tracking-wider font-bold">Dle objemu dat</p>
+                        <ul class="text-gray-300 space-y-3 text-sm">
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 text-lg">✓</span> Pronájem serverového výkonu</li>
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 text-lg">✓</span> Kapacita pro databázi</li>
+                            <li class="flex items-center"><span class="text-cyan-500 mr-3 text-lg">✓</span> Dohled nad běžícím skriptem</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+
+            <h3 class="text-2xl font-bold text-white mb-8">{{ g.T['watchdog_cta_title'] }}</h3>
+            <button onclick="openModal()" class="inline-block glow-button bg-cyan-600 hover:bg-cyan-700 text-white px-12 py-5 rounded-full text-2xl font-bold transition-all transform shadow-2xl shadow-cyan-500/20">
+                {{ g.T['watchdog_cta_button'] }}
+            </button>
+
+            <p class="mt-12 text-center text-gray-600 text-[10px] uppercase tracking-widest max-w-xl mx-auto">
+                <a href="{{ url_for('watchdog') }}" class="hover:text-cyan-400 transition-colors block p-2">
+                    {{ g.T['watchdog_seo_text'] }}
+                </a>
+            </p>
+            <div class="mt-2">
+                <a href="{{ url_for('index') }}" class="text-gray-600 text-[10px] uppercase tracking-widest hover:text-cyan-400 transition-colors">{{ g.T['nav_home'] }}</a>
         </footer>
     </div>
 
