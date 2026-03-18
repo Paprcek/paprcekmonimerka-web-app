@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ g.T['home_title'] }} - {% block title %}{% endblock %}</title>
-    
+
+    <title>{% block title %}{{ g.T['default_title'] }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ g.T['default_desc'] }}{% endblock %}">
+
     <!-- Tailwind CSS CDN pro moderní a responzivní styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
