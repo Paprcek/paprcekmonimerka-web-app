@@ -7,9 +7,6 @@ from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
-# --- NASTAVENÍ A KONFIGURACE ---
-
-# Mail konfigurace pro odesílání e-mailů (použij své údaje)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -19,34 +16,23 @@ app.config['MAIL_DEFAULT_SENDER'] = 'paprcekmonimerka@gmail.com'
 
 mail = Mail(app)
 
-
-# Precteni API klice z promenne prostredi (Gunicorn)
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
 
-# Konstanta pro Prahu
 LATITUDE = 50.0755
 LONGITUDE = 14.4378
 
-# Nastaveni SECRET_KEY pro session (důležité pro zapamatování jazyka)
 app.secret_key = SECRET_KEY if SECRET_KEY else 'default_fallback_secret_key'
 
-# Nastaveni trvani session na 30 dni (pro zapamatovani jazyka)
-# Pouzijeme datetime.timedelta, protoze modul datetime je importovan
 app.permanent_session_lifetime = datetime.timedelta(days=30)
 
-# --- MIDDLEWARE A JAZYKOVÁ LOGIKA ---
-
-# Funkce pro načtení překladů ze souboru
 def load_translations():
     path = os.path.join(app.root_path, 'translations.json')
     with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
-# Načteme všechna data do jedné proměnné
 ALL_TRANSLATIONS = load_translations()
 
-# ZMĚNA: ZPŘÍSTUPNÍME CELÝ MODUL DATETIME A FUNKCI now()
 @app.context_processor
 def inject_global_vars():
     """
@@ -55,46 +41,37 @@ def inject_global_vars():
     """
     return {
         'dt': datetime,
-        'now': datetime.datetime.now # Přidáno pro použití v šabloně jako {{ now().year }}
+        'now': datetime.datetime.now
     }
 
 @app.context_processor
 def inject_translation():
     """Vloží překladovou funkci _ do kontextu všech šablon."""
     def _(key):
-        # Vezme aktuálně vybraný jazyk (g.lang) a vrátí překlad pro daný klíč (key)
-        # Zajišťuje, že se neobjeví chyba, když překlad chybí
         return g.T.get(key, key)
     
-    # Do šablony se vloží funkce, kterou lze volat jako _('klíč')
     return dict(_=_)
 
 
 @app.before_request
 def before_request_func():
     """Nastaví jazyk a uloží texty do globálního kontextu 'g' pro šablony."""
-    # 1. Získání jazyka ze Session, nebo defaultně 'cs'
     lang = session.get('language', 'cs')
     
-    # 2. Kontrola, zda je jazyk v našem novém souboru
     if lang not in ALL_TRANSLATIONS:
         lang = 'cs'
 
-    # 3. Uložení správné jazykové větve do g.T
     g.T = ALL_TRANSLATIONS[lang]
     g.lang = lang
 
 @app.route('/language/<lang_code>')
 def set_language(lang_code):
     """Mění jazyk a přesměruje zpět na předchozí stránku."""
-    # Kontrolujeme v ALL_TRANSLATIONS místo starého TEXT_DATA
     if lang_code in ALL_TRANSLATIONS:
         session['language'] = lang_code
-        session.permanent = True # Aby si to prohlížeč pamatoval těch 30 dní
+        session.permanent = True
         
     return redirect(request.referrer or url_for('index'))
-
-# --- FLASK ROUTES ---
 
 @app.route('/')
 def index():
@@ -106,11 +83,8 @@ def watchdog():
     """Specifikace projektu Watchdog"""
     return render_template('watchdog.html')
 
-# --- DOČASNÁ ROUTA PRO WATCHDOG MONITORING ESHOPU (pro smoketest) ---
-
 @app.route('/monitoring-eshopu')
 def watchdog_sales():
-    # Použijeme tvůj překladový systém, ale úplně jinou šablonu
     return render_template('watchdog_landing.html')
 
 @app.route('/watchdog-order', methods=['POST'])
@@ -120,7 +94,6 @@ def watchdog_order():
     client_email = request.form.get('client_email')
     notes = request.form.get('notes')
     
-    # --- KÓD PRO ODESLÁNÍ E-MAILU ---
     try:
         msg = Message(
             subject=f"Nová poptávka: Watchdog - {target_url}",
@@ -140,11 +113,8 @@ def watchdog_order():
         print(f"Úspěch: Poptávka od {client_email} odeslána na e-mail.")
     except Exception as e:
         print(f"Kritická chyba: {e}", flush=True)
-        # Teď posíláme text chyby přímo na obrazovku!
         flash(f"Chyba odesílání: {str(e)}", 'error') 
-    # --------------------------------
 
-    # 2. Přesměrujeme zpět na leták
     return redirect(url_for('watchdog_sales'))
 
 
@@ -168,12 +138,10 @@ def contacts():
             flash('Pro odeslání paprsku je nutné souhlasit se zpracováním údajů.', 'error')
             return redirect(url_for('contacts'))
 
-        # Vytahujeme data z tvého nového formuláře
         name = request.form.get('name')
         email = request.form.get('email')
         message_body = request.form.get('message')
 
-        # Vytvoření e-mailu (používáme tvou Mail konfiguraci z úvodu app.py)
         msg = Message(
             subject=f"Paprsek z webu od: {name}",
             recipients=['moncakbp@gmail.com'], 
@@ -184,13 +152,11 @@ def contacts():
             mail.send(msg)
             flash('Tvůj digitální paprsek dorazil do Dejvic! Ozvu se ti co nejdříve.', 'success')
         except Exception as e:
-            # Pokud se něco pokazí (třeba špatné heslo k mailu), uvidíš to v konzoli
             print(f"Kritická chyba odesílání: {e}")
             flash('Chyba v přenosu. Zkus to prosím znovu nebo mi napiš přímo na e-mail.', 'error')
 
         return redirect(url_for('contacts'))
 
-    # Pokud je to GET (normální návštěva), jen zobrazíme šablonu
     return render_template('contacts.html')
 
 @app.route('/air_quality')
@@ -201,7 +167,6 @@ def air_quality():
                                error_title=g.T['error_title'],
                                error_message=g.T['error_msg'])
     
-    # URL pro aktuální data
     url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={LATITUDE}&lon={LONGITUDE}&appid={API_KEY}"
     
     try:
@@ -209,7 +174,6 @@ def air_quality():
         response.raise_for_status()  # Vyhodí chybu pro 4xx/5xx kódy
         data = response.json()
 
-        # Zpracování dat
         aqi = data['list'][0]['main']['aqi']
         pm25 = data['list'][0]['components']['pm2_5']
 
@@ -253,11 +217,9 @@ def air_history():
                                error_title=g.T['error_title'], 
                                error_message=g.T['error_msg'])
 
-    # Výpočet časových razítek pro 72 hodin zpět
     end_timestamp = int(datetime.datetime.now().timestamp())
     start_timestamp = int((datetime.datetime.now() - datetime.timedelta(hours=72)).timestamp())
 
-    # URL pro historická data (vyžaduje parametry start/end)
     url = f"http://api.openweathermap.org/data/2.5/air_pollution/history"
     
     params = {
@@ -265,7 +227,7 @@ def air_history():
         'lon': LONGITUDE,
         'start': start_timestamp,
         'end': end_timestamp,
-        'appid': API_KEY # Musí být jen samotný API_KEY
+        'appid': API_KEY
     }
 
     try:
@@ -278,7 +240,6 @@ def air_history():
         pm25_values = []
 
         for entry in data['list']:
-            # Prevod UNIX timestamp na citelny format (HH:MM dd.mm.)
             dt_object = datetime.datetime.fromtimestamp(entry['dt'])
             formatted_time = dt_object.strftime("%H:%M %d.%m.")
 
@@ -286,7 +247,6 @@ def air_history():
             aqi_values.append(entry['main']['aqi'])
             pm25_values.append(entry['components']['pm2_5'])
 
-        # Renderovani sablony s daty pro Chart.js
         return render_template('history.html',
                                labels=labels,
                                aqi_values=aqi_values,
@@ -308,19 +268,15 @@ def text_to_binary(text):
     binary_list = [format(ord(char), '08b') for char in text]
     return "\n".join(binary_list)
 
-# 2. Pak tvoje routa, která tu funkci použije
 @app.route('/binary-translator', methods=['GET', 'POST'])
 def binary_translator():
     result = ""
     input_text = ""
     if request.method == 'POST':
         input_text = request.form.get('text', '')
-        # Tady zavoláš svou funkci!
         result = text_to_binary(input_text)
         
     return render_template('binary.html', result=result, input_text=input_text)
-
-# --- SPUŠTĚNÍ ---
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=False)

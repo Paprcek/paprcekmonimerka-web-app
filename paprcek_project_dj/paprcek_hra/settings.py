@@ -56,7 +56,7 @@ ROOT_URLCONF = 'paprcek_hra.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'], # Zde budeme hledat šablonu rozcestníku
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,7 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'paprcek_hra.wsgi.application'
 
-# Databáze - SQLite pro začátek
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -80,7 +79,6 @@ DATABASES = {
     }
 }
 
-# Jazykové nastavení
 LANGUAGE_CODE = 'cs'
 TIME_ZONE = 'Europe/Prague'
 USE_I18N = True

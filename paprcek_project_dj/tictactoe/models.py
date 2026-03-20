@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class GameScore(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    time_spent = models.IntegerField() # Čas v sekundách
+    time_spent = models.IntegerField()
     date_achieved = models.DateTimeField(auto_now_add=True)
 
     class Meta:

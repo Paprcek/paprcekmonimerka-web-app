@@ -11,10 +11,7 @@ def update_tictactoe_record(request):
             new_time = data.get('time')
             
             if new_time is not None:
-                # Uložíme nový čas do databáze
                 TicTacToeRecord.objects.create(time_seconds=int(new_time))
-                
-                # Získáme ten úplně nejlepší čas (první v pořadí)
                 best_record = TicTacToeRecord.objects.order_by('time_seconds').first()
                 
                 return JsonResponse({
@@ -42,22 +39,19 @@ def get_score(board, x, y, symbol, opponent_symbol):
     
     for dx, dy in directions:
         count = 1
-        # Směr vpřed
         for i in range(1, 5):
             nx, ny = x + i*dx, y + i*dy
             if 0 <= nx < 15 and 0 <= ny < 15 and board[ny][nx] == symbol:
                 count += 1
             else: break
-        # Směr vzad
         for i in range(1, 5):
             nx, ny = x - i*dx, y - i*dy
             if 0 <= nx < 15 and 0 <= ny < 15 and board[ny][nx] == symbol:
                 count += 1
             else: break
             
-        # Bodování: čím delší řada vzniká, tím více bodů
         if count >= 5: score += 100000 
-        elif count == 4: score += 5000   # Zvýšena váha pro čtyřku
+        elif count == 4: score += 5000
         elif count == 3: score += 500
         elif count == 2: score += 50
     return score
@@ -69,15 +63,14 @@ def ai_move(request):
         last_x = data.get('x')
         last_y = data.get('y')
 
-        # 1. Nejdříve zkontrolujeme, zda posledním tahem nevyhrál HRÁČ
         if check_winner(board, last_x, last_y, 'X'):
             return JsonResponse({'status': 'win', 'winner': 'player'})
 
-        # 2. Najdeme nejlepší tah pro AI pomocí bodovacího systému
         best_score = -1
         best_move = None
         
-        # Optimalizace: AI bude uvažovat jen o políčkách, která mají souseda 
+        # Optimization: only consider moves adjacent to existing pieces
+        # (reduces computation and avoids evaluating empty board areas) 
         # (aby nezkoumala prázdné rohy mapy a byla rychlejší)
         for y in range(15):
             for x in range(15):
@@ -95,21 +88,19 @@ def ai_move(request):
                         attack_score = get_score(board, x, y, "O", "X")
                         defense_score = get_score(board, x, y, "X", "O")
                         
-                        # Obrana je klíčová – blokujeme hráče agresivněji
+                        # Defense is prioritized by weighting it 1.2x
                         total_score = attack_score + (defense_score * 1.2)
-                        total_score += random.random() # Prvek náhody pro nepředvídatelnost
+                        total_score += random.random()
 
                         if total_score > best_score:
                             best_score = total_score
                             best_move = (x, y)
 
-        # Pokud je deska prázdná nebo nebyl nalezen soused, táhni na střed
         if best_move is None:
             ai_x, ai_y = 7, 7
         else:
             ai_x, ai_y = best_move
 
-        # 3. Zaneseme tah AI do kopie desky a zkontrolujeme, zda AI vyhrála
         board[ai_y][ai_x] = 'O'
         if check_winner(board, ai_x, ai_y, 'O'):
             return JsonResponse({
@@ -119,7 +110,6 @@ def ai_move(request):
                 'ai_y': ai_y
             })
 
-        # 4. Pokud nikdo nevyhrál, vrátíme souřadnice tahu AI
         return JsonResponse({
             'status': 'success',
             'ai_x': ai_x,
@@ -129,26 +119,22 @@ def ai_move(request):
 def check_winner(board, x, y, symbol):
     """Zkontroluje, zda po tahu na [x, y] nevznikla řada 5 symbolů."""
     directions = [
-        (1, 0),  # Vodorovně
-        (0, 1),  # Svisle
-        (1, 1),  # Diagonála \
-        (1, -1)  # Diagonála /
+        (1, 0),
+        (0, 1),
+        (1, 1),
+        (1, -1)
     ]
     
     board_size = 15
 
     for dx, dy in directions:
-        count = 1  # Symbol, který právě položil
-        
-        # Jdeme jedním směrem
+        count = 1
         for i in range(1, 5):
             nx, ny = x + i*dx, y + i*dy
             if 0 <= nx < board_size and 0 <= ny < board_size and board[ny][nx] == symbol:
                 count += 1
             else:
                 break
-        
-        # Jdeme opačným směrem
         for i in range(1, 5):
             nx, ny = x - i*dx, y - i*dy
             if 0 <= nx < board_size and 0 <= ny < board_size and board[ny][nx] == symbol:

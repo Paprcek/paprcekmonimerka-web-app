@@ -15,7 +15,6 @@ def set_language_custom(request):
         translation.activate(lang_code)
         response = redirect(next_url)
         
-        # Nastavení cookie s parametry pro moderní prohlížeče
         response.set_cookie(
             settings.LANGUAGE_COOKIE_NAME, 
             lang_code,
