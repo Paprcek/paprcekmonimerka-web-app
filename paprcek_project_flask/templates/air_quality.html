@@ -3,26 +3,20 @@
 {% block title %}Kvalita Vzduchu{% endblock %}
 
 {% block content %}
-    <!-- Stránka má tmavý styl a kompletní layout díky dědičnosti z base.html -->
     <h1>{{ g.T['air_quality_title'] }}</h1>
 
     {% if data %}
-        <!-- ZOBRAZENÍ DAT  -->
-        <!-- Celá karta s daty je obalena div-em pro centrování a styl (data-box) -->
         <div class="data-box {{ status_css }}">
             <h2>{{ g.T['aqi_status'] }}: {{ _(status_key) }}</h2>
             <p><strong>AQI Index:</strong> {{ data.aqi }} / 5</p>
-            <!-- Zde zobrazujeme realna data s diakritikou µg/m³ a zaokrouhlenim -->
             <p><strong>PM2.5 Koncentrace:</strong> {{ data.pm25 | round(2) }} µg/m³</p>
 	</div>
 	<div class="text-gray-300 mb-6">{{ g.T['air_project_desc'] }}
         </div>
     {% elif error_message %}
-        <!-- CHYBOVÉ HLÁŠENÍ (pokud klíč nefunguje) -->
         <div class="data-box status-unknown">
             <h2>{{ error_title }}</h2>
             <p>{{ error_message }}</p>
-            <!-- Konkretni navod, jak opravit nejcastejsi chybu (klíč) -->
             <p>Prosím, zkontrolujte, zda je ve Vašem `.env` souboru správně nastaven klíč `OPENWEATHER_API_KEY`.</p>
         </div>
     {% endif %}

@@ -43,13 +43,11 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    // Výchozí stav: vše zamítnuto
     gtag('consent', 'default', {
         'ad_storage': 'denied',
         'analytics_storage': 'denied'
     });
 
-    // Pokud uživatel už dříve souhlasil (uloženo v localStorage)
     if (localStorage.getItem('cookieConsent') === 'accepted') {
         gtag('consent', 'update', {
         'analytics_storage': 'granted'

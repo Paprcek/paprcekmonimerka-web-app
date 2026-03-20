@@ -7,39 +7,31 @@
     <title>{% block title %}{{ g.T['default_title'] }}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{{ g.T['default_desc'] }}{% endblock %}">
 
-    <!-- Tailwind CSS CDN pro moderní a responzivní styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Font: Inter (čistý a moderní) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
     <style>
-        /* Nastavení fontu pro celou stránku */
         body {
             font-family: 'Source Code Pro', monospace;
-            background-color: rgb(24, 24, 24); /* Téměř černá */
-            color: #f3f4f6; /* Světlý text */
+            background-color: rgb(24, 24, 24);
+            color: #f3f4f6;
         }
-        /* Styling pro aktivní navigační prvek */
         .nav-link.active {
-	    font-weight: 600; /* Semi-bold */
-            color: #4CAF50; /* Jasně zelená */
+	    font-weight: 600;
+            color: #4CAF50;
             border-bottom: 2px solid #4CAF50;
         }
-        /* Základní styly pro linky (bez podtržení) */
         a {
             text-decoration: none;
         }
         
-	/* Globální styl pro nadpisy (zelený akcent) */
         h1, h2, h3, h4 {
-            color: #4CAF50; /* Jasně zelená barva */
+            color: #4CAF50;
         }
 
-        /* Zajištění, že se boxy s daty (air_quality, history) správně zobrazí v dark mode */
         .data-box {
-            background-color: #1f2937; /* Tmavší šedá pro odlišení od pozadí */
-            border: 1px solid #4CAF50; /* Zelený okraj */
+            background-color: #1f2937;
+            border: 1px solid #4CAF50;
         }
         
     </style>
@@ -47,7 +39,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CT9YCX32EE"></script>
 <script type="text/plain" id="ga-script">
   window.dataLayer = window.dataLayer || [];
@@ -58,19 +49,14 @@
 
 <body class="min-h-screen flex flex-col">
 
-    <!-- Navigační lišta (Header) -->
-    <!-- ZMĚNA 4: Hlavička - Tmavé pozadí a menší stín -->
     <header class="bg-gray-900 shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 
-                <!-- Logo/Název Portfolia -->
                 <div class="flex-shrink-0">
-                    <!-- ZMĚNA 5: Bílý text pro logo -->
                     <a href="{{ url_for('index') }}" class="text-xl font-bold text-white hover:text-green-400 transition duration-150">Paprcekmonimerka</a>
                 </div>
 
-                <!-- Navigační odkazy -->
                 <nav class="hidden md:flex space-x-4 items-center">
                     <a href="{{ url_for('index') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
                         {{ g.T['nav_home'] }}
@@ -117,10 +103,7 @@
                     </a>
                 </nav>
                 
-                 <!-- Přepínání jazyka a mobilní menu ikona -->
                 <div class="flex items-center space-x-3">
-                <!-- Přepínání jazyka -->
-                    <!-- 7: Text pro jazyk - Bílý, aktivní zelený -->
                     <a href="{{ url_for('set_language', lang_code='cs') }}" class="text-sm font-medium p-1 rounded-md transition duration-150 {% if g.lang == 'cs' %}text-green-400 font-bold{% else %}text-gray-400 hover:text-gray-200{% endif %}">CZ</a>
                     <span class="text-gray-600">|</span>
                     <a href="{{ url_for('set_language', lang_code='en') }}" class="text-sm font-medium p-1 rounded-md transition duration-150 {% if g.lang == 'en' %}text-green-400 font-bold{% else %}text-gray-400 hover:text-gray-200{% endif %}">EN</a>
@@ -181,10 +164,8 @@
         </div>
     </header>
 
-    <!-- Hlavní obsah - Responzivní kontejner s odsazením -->
     <main class="flex-grow">
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            <!-- Blok pro specifický obsah stránky -->
 
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
@@ -200,8 +181,6 @@
         </div>
     </main>
 
-    <!-- Patička -->
-    <!-- ZMĚNA 9: Patička - Tmavé pozadí -->
     <footer class="bg-gray-900 text-gray-400 mt-8">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm">
             &copy; {{ now().year }} Monika Paprcek. {{ g.T['footer'] }} | 
@@ -213,19 +192,15 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // 1. HLAVNÍ MOBILNÍ MENU
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
             if (menuButton && mobileMenu) {
                 menuButton.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Zabrání tomu, aby se kliknutí hned propadlo do window
+                    e.stopPropagation();
                     mobileMenu.classList.toggle('hidden');
                 });
             }
-
-            // 2. ROZBALOVÁNÍ PROJEKTŮ V MOBILU
             const mobileProjectsBtn = document.getElementById('mobile-projects-button');
             const mobileProjectsDropdown = document.getElementById('mobile-projects-dropdown');
             const mobileProjectsArrow = document.getElementById('mobile-projects-arrow');
@@ -233,15 +208,13 @@
             if (mobileProjectsBtn && mobileProjectsDropdown) {
                 mobileProjectsBtn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    e.stopPropagation(); // Zabrání bublání
+                    e.stopPropagation();
                     mobileProjectsDropdown.classList.toggle('hidden');
                     if (mobileProjectsArrow) {
                         mobileProjectsArrow.classList.toggle('rotate-180');
                     }
                 });
             }
-
-            // 3. DESKTOPOVÉ PROJEKTY
             const projectsBtn = document.getElementById('projects-menu-button');
             const projectsDropdown = document.getElementById('projects-dropdown');
 
@@ -252,19 +225,15 @@
                 });
             }
 
-            // 4. TOHLE JE TA OPRAVA ZAVÍRÁNÍ (kliknutí kamkoliv jinam)
             window.addEventListener('click', (e) => {
-                // Zavře mobilní menu, pokud klikneš mimo
                 if (mobileMenu && !mobileMenu.contains(e.target) && !menuButton.contains(e.target)) {
                     mobileMenu.classList.add('hidden');
                 }
-                // Zavře desktopové menu projektů, pokud klikneš mimo
                 if (projectsDropdown && !projectsDropdown.contains(e.target) && !projectsBtn.contains(e.target)) {
                     projectsDropdown.classList.add('hidden');
                 }
             });
 
-            // 5. AKTIVNÍ ODKAZY (tvůj původní funkční kód)
             const currentPath = window.location.pathname;
             const navLinks = document.querySelectorAll('.nav-link');
 
@@ -276,7 +245,6 @@
 
         });
 
-        // --- Cookie Logika ---
         document.addEventListener("DOMContentLoaded", function() {
             const banner = document.getElementById('cookie-banner');
             const acceptBtn = document.getElementById('accept-cookies');
@@ -285,7 +253,6 @@
 
             const activateGA = () => {
                 if (gaScript) {
-                    // Vytvoříme nový skript a zkopírujeme do něj obsah toho blokovaného
                     const newScript = document.createElement('script');
                     newScript.innerHTML = gaScript.innerHTML;
                     document.head.appendChild(newScript);

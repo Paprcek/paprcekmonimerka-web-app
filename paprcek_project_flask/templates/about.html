@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- Hlavní karta - Tmavé pozadí, světlý text -->
 <div class="bg-gray-800 p-8 rounded-xl shadow-2xl transition duration-300 hover:shadow-3xl max-w-3xl mx-auto border border-gray-700">
     
-    <!-- Titulek - Zelený -->
     <h1 class="text-4xl font-bold text-green-500 mb-8 border-b-4 border-green-700 pb-3 text-center">{{ g.T['about_title'] }}</h1>
     
     <div class="text-center mb-10">
@@ -15,7 +13,6 @@
         <p class="text-2xl font-semibold text-green-400">{{ g.T['about_greeting'] }}</p>
     </div>
 
-    <!-- Tělo textu -->
     <div class="space-y-6 text-gray-300 leading-relaxed">
         <p class="text-lg">
             {{ g.T['about_text_placeholder'] }}

@@ -7,59 +7,52 @@
     <p>{{ g.T['history_desc'] }}</p>
 
     {% if error_message %}
-        <!-- CHYBOVÉ HLÁŠENÍ -->
         <div class="data-box status-unknown" style="max-width: 800px;">
             <h2>{{ error_title }}</h2>
             <p>{{ error_message }}</p>
             <p>Historická data jsou náročnější na API, prosím zkontrolujte klíč a zkuste to znovu.</p>
         </div>
     {% else %}
-        <!-- CONTAINER PRO GRAF -->
         <div class="data-box" style="max-width: 100%; min-height: 500px; margin-top: 30px;">
-            <!-- Canvas, do ktereho Chart.js vykresli graf -->
             <canvas id="airQualityChart"></canvas>
         </div>
 
-        <!-- SCRIPT PRO CHART.JS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
         <script>
-            // Data zaslana z Flask backendu (Jinja2)
-            const labels = {{ labels | tojson }};
-            const aqiValues = {{ aqi_values | tojson }};
-            const pm25Values = {{ pm25_values | tojson }};
+            const labels = JSON.parse('{{ labels | tojson | safe }}');
+            const aqiValues = JSON.parse('{{ aqi_values | tojson | safe }}');
+            const pm25Values = JSON.parse('{{ pm25_values | tojson | safe }}');
 
-            // Kontext pro vykresleni grafu
             const ctx = document.getElementById('airQualityChart').getContext('2d');
             
-            // Konfigurace a vykresleni grafu
             new Chart(ctx, {
-                type: 'line', // Typ grafu - cara
+                type: 'line',
                 data: {
-                    labels: labels, // Casove razitka (HH:MM dd.mm.)
+                    labels: labels,
                     datasets: [
                         {
                             label: 'AQI Index (1-5)',
                             data: aqiValues,
-                            borderColor: 'rgb(75, 192, 192)', // Modrozelena
+                            borderColor: 'rgb(75, 192, 192)',
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             borderWidth: 2,
                             fill: false,
-                            yAxisID: 'y' // Pouziva levy Y-osa
+                            yAxisID: 'y'
                         },
                         {
                             label: 'PM2.5 (µg/m³)',
                             data: pm25Values,
-                            borderColor: 'rgb(255, 99, 132)', // Cervena
+                            borderColor: 'rgb(255, 99, 132)',
                             backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             borderWidth: 2,
                             fill: false,
-                            yAxisID: 'y1' // Pouziva pravy Y-osa
+                            yAxisID: 'y1'
                         }
                     ]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false, // Dovoluje sirku 100%
+                    maintainAspectRatio: false,
                     scales: {
                         x: {
                             title: {
@@ -69,7 +62,7 @@
                             },
                             ticks: {
                                 color: '#f0f0f0',
-                                maxTicksLimit: 12 // Omezime pocet stitku pro prehlednost
+                                maxTicksLimit: 12
                             }
                         },
                         y: {
@@ -82,7 +75,7 @@
                                 color: 'rgb(75, 192, 192)'
                             },
                             min: 0,
-                            max: 5, // AQI je 1-5
+                            max: 5,
                             ticks: {
                                 stepSize: 1,
                                 color: 'rgb(75, 192, 192)'
@@ -101,7 +94,7 @@
                                 color: 'rgb(255, 99, 132)'
                             },
                             grid: {
-                                drawOnChartArea: false, // Nechceme, aby se mrizka PM2.5 kreslila pres graf
+                                drawOnChartArea: false,
                                 color: 'rgba(255, 255, 255, 0.1)'
                             },
                             ticks: {
@@ -112,11 +105,11 @@
                     plugins: {
                         legend: {
                             labels: {
-                                color: '#f0f0f0' // Barva popisku legendy
+                                color: '#f0f0f0'
                             }
                         },
                         tooltip: {
-                            backgroundColor: 'rgba(44, 44, 44, 0.9)' // Tmavé pozadí tooltipu
+                            backgroundColor: 'rgba(44, 44, 44, 0.9)'
                         }
                     }
                 }
