@@ -183,10 +183,20 @@
 
     <footer class="bg-gray-900 text-gray-400 mt-8">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm">
-            &copy; {{ now().year }} Monika Paprcek. {{ g.T['footer'] }} | 
-            <a href="https://github.com/Paprcek/paprcekmonimerka-web-app" target="_blank" class="hover:text-green-400 transition duration-150">GitHub</a> |
-            <a href="{{ url_for('set_language', lang_code='cs') }}" class="hover:text-green-400">Čeština</a> / 
-            <a href="{{ url_for('set_language', lang_code='en') }}" class="hover:text-green-400">English</a>
+            <div class="mb-2">
+                &copy; {{ now().year }} Monika Paprcek. {{ g.T['footer'] }} | 
+                <a href="https://github.com/Paprcek/paprcekmonimerka-web-app" target="_blank" class="hover:text-green-400 transition duration-150">GitHub</a> |
+                <a href="{{ url_for('set_language', lang_code='cs') }}" class="hover:text-green-400">Čeština</a> / 
+                <a href="{{ url_for('set_language', lang_code='en') }}" class="hover:text-green-400">English</a>
+            </div>
+            
+            <div class="text-xs text-gray-500 flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-2">
+                <span>Provozovatel: Monika Krausová</span>
+                <span class="hidden sm:inline">|</span>
+                <span>Jug. partyzánů 1426/7, 160 00 Praha</span> <span class="hidden sm:inline">|</span>
+                <span>IČO: 75215110</span> <span class="hidden sm:inline">|</span>
+                <span>Zapsána v živnostenském rejstříku</span>
+            </div>
         </div>
     </footer>
 
