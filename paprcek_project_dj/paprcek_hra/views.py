@@ -28,11 +28,3 @@ def set_language_custom(request):
     
     print("DEBUG: Jazyk nebyl rozpoznán nebo není v settings.LANGUAGES")
     return redirect(next_url)
-
-def tictactoe_view(request):
-    from django.http import HttpResponse
-    return HttpResponse("Tady se připravují piškvorky!")
-
-def logic_view(request):
-    from django.http import HttpResponse
-    return HttpResponse("Tady se připravuje logic!")

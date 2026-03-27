@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.i18n import JavaScriptCatalog
 from . import views
- 
 
 urlpatterns = [
     path('game/jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),

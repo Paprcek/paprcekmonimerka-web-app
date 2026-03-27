@@ -1,6 +1,17 @@
 from pathlib import Path
 import os
 from django.utils.translation import gettext_lazy as _
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+
+sentry_sdk.init(
+    dsn=os.getenv('SENTRY_DSN'),
+    integrations=[DjangoIntegration()], 
+    
+    send_default_pii=True,
+    traces_sample_rate=1.0,
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -17,7 +28,7 @@ CSRF_TRUSTED_ORIGINS = [
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-DEBUG = True  
+DEBUG = False
 
 ALLOWED_HOSTS = ['*'] 
 
