@@ -4,6 +4,17 @@ import requests
 import datetime
 from flask import Flask, render_template, request, redirect, url_for, session, flash, g
 from flask_mail import Mail, Message
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+
+sentry_sdk.init(
+    dsn=os.getenv('SENTRY_DSNF'),
+    integrations=[FlaskIntegration()],
+    # Nastavení pro rok 2026 – zachytí 100 % transakcí pro začátek
+    traces_sample_rate=1.0,
+    # Pokud chceš vidět i těla požadavků (pozor na citlivá data)
+    send_default_pii=True
+)
 
 app = Flask(__name__)
 
