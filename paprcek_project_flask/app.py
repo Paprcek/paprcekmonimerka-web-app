@@ -2,7 +2,7 @@ import os
 import json
 import requests
 import datetime
-from flask import Flask, render_template, request, redirect, url_for, session, flash, g
+from flask import Flask, render_template, request, redirect, url_for, session, flash, g, send_from_directory
 from flask_mail import Mail, Message
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -288,6 +288,11 @@ def binary_translator():
         result = text_to_binary(input_text)
         
     return render_template('binary.html', result=result, input_text=input_text)
+
+@app.route('/vysilacky-shoptet-feed.xml') 
+def serve_shoptet_feed():
+    directory = "/app/feeds"
+    return send_from_directory(directory, "shoptet_feed.xml", mimetype='application/xml')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=False)
