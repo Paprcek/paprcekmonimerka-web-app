@@ -54,11 +54,11 @@
             <div class="flex justify-between items-center h-16">
                 
                 <div class="flex-shrink-0">
-                    <a href="{{ url_for('index') }}" class="text-xl font-bold text-white hover:text-green-400 transition duration-150">Paprcekmonimerka</a>
+                    <a href="{{ url_for('core.index') }}" class="text-xl font-bold text-white hover:text-green-400 transition duration-150">Paprcekmonimerka</a>
                 </div>
 
                 <nav class="hidden md:flex space-x-4 items-center">
-                    <a href="{{ url_for('index') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                    <a href="{{ url_for('core.index') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
                         {{ g.T['nav_home'] }}
                     </a>
 
@@ -72,13 +72,13 @@
 
                         <div id="projects-dropdown" class="hidden absolute left-0 mt-2 w-64 rounded-xl shadow-2xl bg-gray-800 ring-1 ring-black ring-opacity-5 z-50 border border-gray-700">
                             <div class="py-2" role="menu">
-                                <a href="{{ url_for('air_quality') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">
+                                <a href="{{ url_for('projects.air_quality') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">
                                     Air Quality Monitor
                                 </a>
-                                <a href="{{ url_for('watchdog') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">
+                                <a href="{{ url_for('projects.watchdog') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">
                                     Watchdog (Monitoring)
                                 </a>
-                                <a href="{{ url_for('binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">
+                                <a href="{{ url_for('projects.binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">
                                     {{ g.T['binar_trans'] }}
                                 </a>
                                 <div class="border-t border-gray-700 my-1"></div>
@@ -94,19 +94,19 @@
                         {{ g.T['nav_game_center'] }}
                     </a>
 
-                    <a href="{{ url_for('about') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                    <a href="{{ url_for('core.about') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
                         {{ g.T['nav_about'] }}
                     </a>
 
-                    <a href="{{ url_for('contacts') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                    <a href="{{ url_for('core.contacts') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
                         {{ g.T['nav_contact'] }}
                     </a>
                 </nav>
                 
                 <div class="flex items-center space-x-3">
-                    <a href="{{ url_for('set_language', lang_code='cs') }}" class="text-sm font-medium p-1 rounded-md transition duration-150 {% if g.lang == 'cs' %}text-green-400 font-bold{% else %}text-gray-400 hover:text-gray-200{% endif %}">CZ</a>
+                    <a href="{{ url_for('core.set_language', language='cs') }}" class="text-sm font-medium p-1 rounded-md transition duration-150 {% if g.lang == 'cs' %}text-green-400 font-bold{% else %}text-gray-400 hover:text-gray-200{% endif %}">CZ</a>
                     <span class="text-gray-600">|</span>
-                    <a href="{{ url_for('set_language', lang_code='en') }}" class="text-sm font-medium p-1 rounded-md transition duration-150 {% if g.lang == 'en' %}text-green-400 font-bold{% else %}text-gray-400 hover:text-gray-200{% endif %}">EN</a>
+                    <a href="{{ url_for('core.set_language', language='en') }}" class="text-sm font-medium p-1 rounded-md transition duration-150 {% if g.lang == 'en' %}text-green-400 font-bold{% else %}text-gray-400 hover:text-gray-200{% endif %}">EN</a>
 
                 <div class="md:hidden flex items-center">
                         <button id="mobile-menu-button" type="button" class="p-2 rounded-md text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition duration-150">
@@ -121,7 +121,7 @@
 
         <div id="mobile-menu" class="hidden md:hidden bg-gray-800 border-b border-gray-700">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="{{ url_for('index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
+                <a href="{{ url_for('core.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
                     {{ g.T['nav_home'] }}
                 </a>
 
@@ -134,16 +134,16 @@
                     </button>
                 
                     <div id="mobile-projects-dropdown" class="hidden bg-gray-900 rounded-md mt-1 ml-2 space-y-1">
-                        <a href="{{ url_for('watchdog') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
+                        <a href="{{ url_for('projects.watchdog') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
                                Watchdog
                         </a>
-                        <a href="{{ url_for('air_quality') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
+                        <a href="{{ url_for('projects.air_quality') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
                               Air Quality Monitor
                         </a>
-                        <a href="{{ url_for('air_history') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
+                        <a href="{{ url_for('projects.air_history') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
                               Historie AQI
                         </a>
-                        <a href="{{ url_for('binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
+                        <a href="{{ url_for('projects.binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
                             {{ g.T['binar_trans'] }}
                         </a>
                     </div>
@@ -153,11 +153,11 @@
                     {{ g.T['nav_game_center'] }}
                 </a>
 
-                <a href="{{ url_for('about') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
+                <a href="{{ url_for('core.about') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
                     {{ g.T['nav_about'] }}
                 </a>
 
-                <a href="{{ url_for('contacts') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
+                <a href="{{ url_for('core.contacts') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
                         {{ g.T['nav_contact'] }}
                 </a>
             </div>
@@ -186,8 +186,8 @@
             <div class="mb-2">
                 &copy; {{ now().year }} Monika Paprcek. {{ g.T['footer'] }} | 
                 <a href="https://github.com/Paprcek/paprcekmonimerka-web-app" target="_blank" class="hover:text-green-400 transition duration-150">GitHub</a> |
-                <a href="{{ url_for('set_language', lang_code='cs') }}" class="hover:text-green-400">Čeština</a> / 
-                <a href="{{ url_for('set_language', lang_code='en') }}" class="hover:text-green-400">English</a>
+                <a href="{{ url_for('core.set_language', language='cs') }}" class="hover:text-green-400">Čeština</a> / 
+                <a href="{{ url_for('core.set_language', language='en') }}" class="hover:text-green-400">English</a>
             </div>
             
             <div class="text-xs text-gray-500 flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-2">
@@ -307,6 +307,18 @@
                 </button>
             </div>
         </div>
+    </div>
+
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="{{ url_for('core.set_language', language='cs') }}" 
+           class="{% if current_language == 'cs' %}active{% endif %}">
+            🇨🇿 Čeština
+        </a>
+        <a href="{{ url_for('core.set_language', language='en') }}" 
+           class="{% if current_language == 'en' %}active{% endif %}">
+            🇬🇧 English
+        </a>
     </div>
 
 </body>
