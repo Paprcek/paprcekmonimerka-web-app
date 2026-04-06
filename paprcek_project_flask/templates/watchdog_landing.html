@@ -201,12 +201,12 @@
             </button>
 
             <p class="mt-12 text-center text-gray-600 text-[10px] uppercase tracking-widest max-w-xl mx-auto">
-                <a href="{{ url_for('watchdog') }}" class="hover:text-cyan-400 transition-colors block p-2">
+                <a href="{{ url_for('projects.watchdog') }}" class="hover:text-cyan-400 transition-colors block p-2">
                     {{ g.T['watchdog_seo_text'] }}
                 </a>
             </p>
             <div class="mt-2">
-                <a href="{{ url_for('index') }}" class="text-gray-600 text-[10px] uppercase tracking-widest hover:text-cyan-400 transition-colors">{{ g.T['nav_home'] }}</a>
+                <a href="{{ url_for('core.index') }}" class="text-gray-600 text-[10px] uppercase tracking-widest hover:text-cyan-400 transition-colors">{{ g.T['nav_home'] }}</a>
         </footer>
     </div>
 
@@ -220,7 +220,7 @@
         <h3 class="text-2xl font-bold text-white mb-2">{{ g.T['watchdog_form_title'] }}</h3>
         <p class="text-sm text-gray-400 mb-6">{{ g.T['watchdog_form_desc'] }}</p>
 
-        <form action="{{ url_for('watchdog_order') }}" method="POST" class="space-y-5 text-left">
+        <form action="{{ url_for('projects.watchdog_order') }}" method="POST" class="space-y-5 text-left">
             
             <div>
                 <label class="block text-cyan-400 text-sm font-bold mb-1" for="target_url">Web dodavatele (URL) *</label>

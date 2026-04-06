@@ -15,7 +15,7 @@
         <h2 class="form-title text-green-400">{{ _('contact_title') }}</h2>
         <p class="form-subtitle">{{ _('contact_subtitle') }}</p>
 
-        <form action="{{ url_for('contacts') }}" method="POST" class="contact-form">
+        <form action="{{ url_for('core.contacts') }}" method="POST" class="contact-form">
             <div class="input-group">
                 <label for="name">{{ _('contact_label_name') }}</label>
                 <input type="text" id="name" name="name" placeholder="{{ _('contact_placeholder_name') }}" required>
@@ -34,7 +34,7 @@
             <div class="input-group checkbox-group">
                 <input type="checkbox" id="gdpr" name="gdpr" required>
                 <label for="gdpr">
-                    {{ _('contact_gdpr_agree') }} <a href="{{ url_for('gdpr') }}" target="_blank">{{ _('contact_gdpr_link') }}</a>.
+                    {{ _('contact_gdpr_agree') }} <a href="{{ url_for('core.gdpr') }}" target="_blank">{{ _('contact_gdpr_link') }}</a>.
                 </label>
             </div>
 
