@@ -12,7 +12,8 @@ jobs:
       - name: Pull latest code
         run: |
           cd ~/docker_projects/paprcek_project
-          git pull origin main
+          git fetch origin main
+          git reset --hard origin/main
 
       - name: Rebuild and restart containers
         run: |
