@@ -1,0 +1,20 @@
+name: Deploy to Buzz
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull latest code
+        run: |
+          cd ~/docker_projects/paprcek_project
+          git pull origin main
+
+      - name: Rebuild and restart containers
+        run: |
+          cd ~/docker_projects
+          docker compose up --build -d flask_web django_game
