@@ -115,10 +115,10 @@
     "wd_cta_title": "Zaujal vás tento analytický přístup?",
     "wd_cta_text": "Přestaňte trávit čas ručním přepisováním dat. Objevte, jak mohou automatizované ETL procesy šetřit váš čas a peníze.",
     "wd_cta_btn": "Mám zájem o Watchdoga",
-    "default_title": "Paprcekmonimerka | Vývoj & Analytika",
-    "default_desc": "Stavím datové mosty a automatizuji digitální procesy pomocí Pythonu.",
-    "home_seo_title": "Paprcekmonimerka | Python vývojářka & Analytička",
-    "home_seo_desc": "Stavím datové mosty, automatizuji e-shopy a ladím digitální procesy. Specializace na Python, ETL a efektivní řešení na míru.",
+    "default_title": "Monika Paprcek | Vývoj na zakázku – Python, AI, automatizace",
+    "default_desc": "Webový scraping, automatizace procesů a AI aplikace na míru. Praha a celá ČR, práce na dálku.",
+    "home_seo_title": "Monika Paprcek | Python, AI & automatizace na zakázku",
+    "home_seo_desc": "Vyvíjím na zakázku: webový scraping, automatizace procesů a AI aplikace na Zoho Catalyst. Praha a celá ČR, práce na dálku.",
     "testimonials": [
       {
         "name": "Petra Krejčíková",
@@ -231,10 +231,10 @@
     "wd_cta_title": "Interested in this analytical approach?",
     "wd_cta_text": "Stop spending time manually retyping data. Discover how automated ETL processes can save your time and money.",
     "wd_cta_btn": "I am interested in Watchdog",
-    "default_title": "Paprcekmonimerka | Development & Analytics",
-    "default_desc": "Building data bridges and automating digital processes using Python.",
-    "home_seo_title": "Paprcekmonimerka | Python Developer & Analyst",
-    "home_seo_desc": "Building data bridges, automating e-shops, and fine-tuning digital processes. Specializing in Python, ETL, and custom efficient solutions.",
+    "default_title": "Monika Paprcek | Custom Development – Python, AI, Automation",
+    "default_desc": "Custom web scraping, process automation and AI applications. Prague-based, available remotely across the EU.",
+    "home_seo_title": "Monika Paprcek | Python, AI & Automation Developer for Hire",
+    "home_seo_desc": "Custom web scraping, process automation and AI applications on Zoho Catalyst. Prague-based, available remotely across the EU.",
     "testimonials": [
       {
         "name": "Petra Krejčíková",
