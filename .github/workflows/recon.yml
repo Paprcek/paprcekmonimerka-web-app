@@ -4,22 +4,19 @@ jobs:
   recon:
     runs-on: self-hosted
     steps:
-      - name: System & Docker
+      - name: Jak bezi cloudflared
         run: |
-          echo "## OS"; uname -a; whoami; echo
-          echo "## docker ps"; docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'; echo
-          echo "## docker compose soubor"; ls -la ~/docker_projects/docker-compose.yml
-          echo "## compose obsah (hesla maskovaná)"
-          sed -E 's/(PASSWORD|SECRET|TOKEN|KEY|PASS)[=: ].*/\1=***REDACTED***/I' ~/docker_projects/docker-compose.yml
-      - name: Cloudflared tunnel
+          echo "## ps aux cloudflared (token maskovan)"
+          ps aux | grep -E '[c]loudflared' | sed -E 's/(--token|token=)[^ ]*/\1 ***REDACTED***/g'
+          echo
+          echo "## systemctl cat cloudflared (token maskovan)"
+          systemctl cat cloudflared 2>&1 | sed -E 's/(--token|token=)[^ ]*/\1 ***REDACTED***/g'
+      - name: Hledam ingress config
         run: |
-          echo "## cloudflared sluzba"; systemctl is-active cloudflared 2>/dev/null || echo "neni systemd"
-          echo "## hledam config"; ls -la ~/.cloudflared/ /etc/cloudflared/ 2>/dev/null
-          echo "## config.yml (token maskovan)"
-          for f in ~/.cloudflared/config.yml /etc/cloudflared/config.yml; do [ -f "$f" ] && { echo "== $f =="; sed -E 's/(token|secret)[=: ].*/\1: ***REDACTED***/I' "$f"; }; done
-          echo "## tunely"; cloudflared tunnel list 2>&1 | head
-      - name: SSH stav & porty
-        run: |
-          echo "## sshd"; systemctl is-active ssh sshd 2>/dev/null
-          echo "## naslouchajici porty"; ss -tlnp 2>/dev/null | grep -E ':(22|5678|5001|5002) ' || ss -tlnp | head
-          echo "## authorized_keys (jen pocet)"; wc -l ~/.ssh/authorized_keys 2>/dev/null || echo "zadne"
+          echo "## hledam cloudflared config soubory"
+          find /etc /home/monika /root /usr/local/etc -maxdepth 4 \( -name 'config.yml' -o -name 'config.yaml' \) 2>/dev/null | grep -i cloud || echo "nic v find"
+          echo
+          echo "## zkousim precist standardni configy"
+          for f in /etc/cloudflared/config.yml /etc/cloudflared/config.yaml /home/monika/.cloudflared/config.yml /home/monika/.cloudflared/config.yaml; do
+            if [ -r "$f" ]; then echo "== $f (citelny) =="; sed -E 's/(token|secret)[=: ].*/\1: ***REDACTED***/I' "$f"; else [ -f "$f" ] && echo "== $f existuje ale necitelny (root) =="; fi
+          done
