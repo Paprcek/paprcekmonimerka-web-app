@@ -1,0 +1,25 @@
+name: Recon Buzz
+on: workflow_dispatch        # spouští se jen ručně, ne při push
+jobs:
+  recon:
+    runs-on: self-hosted
+    steps:
+      - name: System & Docker
+        run: |
+          echo "## OS"; uname -a; whoami; echo
+          echo "## docker ps"; docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'; echo
+          echo "## docker compose soubor"; ls -la ~/docker_projects/docker-compose.yml
+          echo "## compose obsah (hesla maskovaná)"
+          sed -E 's/(PASSWORD|SECRET|TOKEN|KEY|PASS)[=: ].*/\1=***REDACTED***/I' ~/docker_projects/docker-compose.yml
+      - name: Cloudflared tunnel
+        run: |
+          echo "## cloudflared sluzba"; systemctl is-active cloudflared 2>/dev/null || echo "neni systemd"
+          echo "## hledam config"; ls -la ~/.cloudflared/ /etc/cloudflared/ 2>/dev/null
+          echo "## config.yml (token maskovan)"
+          for f in ~/.cloudflared/config.yml /etc/cloudflared/config.yml; do [ -f "$f" ] && { echo "== $f =="; sed -E 's/(token|secret)[=: ].*/\1: ***REDACTED***/I' "$f"; }; done
+          echo "## tunely"; cloudflared tunnel list 2>&1 | head
+      - name: SSH stav & porty
+        run: |
+          echo "## sshd"; systemctl is-active ssh sshd 2>/dev/null
+          echo "## naslouchajici porty"; ss -tlnp 2>/dev/null | grep -E ':(22|5678|5001|5002) ' || ss -tlnp | head
+          echo "## authorized_keys (jen pocet)"; wc -l ~/.ssh/authorized_keys 2>/dev/null || echo "zadne"
