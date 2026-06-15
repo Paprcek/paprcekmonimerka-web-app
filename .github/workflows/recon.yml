@@ -1,22 +1,27 @@
 name: Recon Buzz
-on: workflow_dispatch        # spouští se jen ručně, ne při push
+on: workflow_dispatch
 jobs:
   recon:
     runs-on: self-hosted
     steps:
-      - name: Jak bezi cloudflared
+      - name: Najdi config.yml poradne
         run: |
-          echo "## ps aux cloudflared (token maskovan)"
-          ps aux | grep -E '[c]loudflared' | sed -E 's/(--token|token=)[^ ]*/\1 ***REDACTED***/g'
+          echo "## find config.y*ml na celem root FS (bez filtru, bez prechodu na jine FS)"
+          find / -xdev \( -name 'config.yml' -o -name 'config.yaml' \) 2>/dev/null || true
           echo
-          echo "## systemctl cat cloudflared (token maskovan)"
-          systemctl cat cloudflared 2>&1 | sed -E 's/(--token|token=)[^ ]*/\1 ***REDACTED***/g'
-      - name: Hledam ingress config
+          echo "## soubory obsahujici ingress/hostname pravidla (podle obsahu)"
+          grep -rlsI -e 'ingress' -e 'service: http' -e 'hostname:' /home/monika /etc /opt /srv 2>/dev/null | head -30 || true
+          echo
+          echo "## locate (pokud existuje)"
+          if command -v locate >/dev/null 2>&1; then locate -i config.yml 2>/dev/null | head -20; else echo "(locate neni)"; fi
+          echo
+          echo "## .yml/.yaml v docker_projects a home (do hloubky 3)"
+          find /home/monika/docker_projects /home/monika -maxdepth 3 \( -name '*.yml' -o -name '*.yaml' \) 2>/dev/null | grep -viE 'node_modules|/\.git/' | head -40 || true
+      - name: Vypis nalezeny ingress config (secrety maskovane)
         run: |
-          echo "## hledam cloudflared config soubory"
-          find /etc /home/monika /root /usr/local/etc -maxdepth 4 \( -name 'config.yml' -o -name 'config.yaml' \) 2>/dev/null | grep -i cloud || echo "nic v find"
-          echo
-          echo "## zkousim precist standardni configy"
-          for f in /etc/cloudflared/config.yml /etc/cloudflared/config.yaml /home/monika/.cloudflared/config.yml /home/monika/.cloudflared/config.yaml; do
-            if [ -r "$f" ]; then echo "== $f (citelny) =="; sed -E 's/(token|secret)[=: ].*/\1: ***REDACTED***/I' "$f"; else [ -f "$f" ] && echo "== $f existuje ale necitelny (root) =="; fi
+          echo "## obsah souboru s ingress (token/secret/credentials maskovane)"
+          for f in $(grep -rlsI -e 'ingress' -e 'hostname:' /home/monika /etc /opt /srv 2>/dev/null | head -10); do
+            echo "===== $f ====="
+            sed -E 's/(token|secret|credentials|password|key)[=: ].*/\1: ***REDACTED***/I' "$f" 2>/dev/null | head -60
+            echo
           done
