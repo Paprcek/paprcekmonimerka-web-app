@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4 font-sans text-slate-900">
+    <div class="w-full max-w-4xl bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden h-[750px] border border-gray-100">
+        
+        <div class="bg-slate-900 px-8 py-6 flex justify-between items-center shadow-md">
+            <div>
+                <h2 class="text-white text-xl font-light tracking-widest uppercase text-left">BIBLEbot</h2>
+                <p class="text-slate-400 text-xs mt-1 italic">Hledání odpovědí v souvislostech Biblických textů</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-slate-400 text-[10px] uppercase tracking-tighter">Systém aktivní</span>
+                <div class="h-3 w-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]"></div>
+            </div>
+        </div>
+
+        <div id="chat-window" class="flex-1 overflow-y-auto p-6 bg-slate-50 space-y-6 scroll-smooth">
+            <div id="messages" class="space-y-6">
+                <div class="flex justify-start animate-fade-in">
+                    <div class="max-w-[85%] bg-white border border-slate-200 text-slate-800 p-5 rounded-2xl rounded-tl-none shadow-sm leading-relaxed text-lg">
+                        Vítej. Jsem tvůj průvodce Biblí a duchovními tématy. Můžeš se mě zeptat na cokoli, co tě trápí, nebo co tě zajímá z biblických textů.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6 bg-white border-t border-slate-100">
+            <div class="flex gap-4 items-center">
+                <input type="text" id="user-input" 
+                       class="flex-1 bg-slate-100 border-none focus:ring-2 focus:ring-indigo-500 rounded-full px-6 py-4 text-slate-700 placeholder-slate-400 transition-all outline-none text-lg" 
+                       placeholder="Zeptejte se na cokoli..."
+                       onkeypress="handleKeyPress(event)">
+                
+                <button onclick="sendMessage()" 
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-full transition-all transform hover:scale-105 shadow-lg flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                </button>
+            </div>
+            <p class="text-center text-[10px] text-slate-400 mt-3 uppercase tracking-tighter italic">Všechny odpovědi jsou validovány skrze RAG Bible Index</p>
+        </div>
+    </div>
+
+    <p class="max-w-4xl mx-auto mt-4 text-[10px] text-gray-400 text-center px-4 mb-10">
+        Tento chatbot je experimentální nástroj. I když čerpá z biblických textů, jeho odpovědi jsou generovány umělou inteligencí a neměly by nahrazovat osobní studium textů nebo odbornou pomoc.
+    </p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+    // 1. Zcela základní konfigurace
+    mermaid.initialize({ 
+        startOnLoad: false, 
+        theme: 'neutral',
+        securityLevel: 'loose',
+        suppressErrorIndicators: false // Necháme ji zapnutou, ať vidíme, co se děje v konzoli
+    });
+
+    async function sendMessage() {
+        const input = document.getElementById('user-input');
+        const messagesDiv = document.getElementById('messages');
+        const query = input.value.trim();
+        
+        if (!query) return;
+
+        messagesDiv.innerHTML += `
+            <div class="flex justify-end animate-fade-in">
+                <div class="max-w-[80%] bg-indigo-600 text-white p-4 px-6 rounded-2xl rounded-tr-none shadow-md text-lg text-left">
+                    ${query}
+                </div>
+            </div>
+        `;
+        
+        input.value = '';
+        scrollToBottom();
+
+        const loadingId = 'loading-' + Date.now();
+        messagesDiv.innerHTML += `
+            <div id="${loadingId}" class="flex justify-start items-center gap-2 text-slate-400 text-sm italic ml-4 py-2">
+                <span class="flex h-2 w-2 rounded-full bg-indigo-500 animate-bounce"></span>
+                <span>Hledám v moudrosti textů...</span>
+            </div>
+        `;
+        scrollToBottom();
+
+        try {
+            const response = await fetch('/chatbot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: query })
+            });
+
+            const loadingElement = document.getElementById(loadingId);
+            if (loadingElement) loadingElement.remove();
+
+            const data = await response.json();
+
+            if (data.reply) {
+                // VLOŽENÍ ODPOVĚDI
+                messagesDiv.innerHTML += `
+                    <div class="flex justify-start animate-fade-in">
+                        <div class="max-w-[90%] bg-white border border-slate-200 p-6 rounded-2xl rounded-tl-none shadow-sm space-y-4">
+                            <div class="text-slate-800 text-lg leading-relaxed text-left">
+                                ${formatResponse(data.reply)}
+                            </div>
+                            <div class="pt-4 border-t border-slate-100">
+                                <details class="cursor-pointer group">
+                                    <summary class="text-xs font-bold text-slate-500 uppercase tracking-widest list-none flex items-center gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                        Zdrojové biblické texty
+                                    </summary>
+                                    <div class="mt-3 text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border-l-4 border-indigo-400 italic">
+                                        ${data.sources ? data.sources.replace(/\n/g, '<br>') : 'Zdroje nejsou k dispozici.'}
+                                    </div>
+                                </details>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // VYVÁNÍ MERMAIDU (s mírným zpožděním)
+                setTimeout(() => {
+                    mermaid.run({
+                        nodes: document.querySelectorAll('.mermaid'),
+                    }).catch(err => console.error("Mermaid selhal:", err));
+                }, 200);
+            }
+        } catch (error) {
+            if (document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+            messagesDiv.innerHTML += `<div class="text-red-500 text-sm ml-4">Ups, spojení s mozkem bota se přerušilo.</div>`;
+        }
+        scrollToBottom();
+    }
+
+    function formatResponse(text) {
+        if (!text) return '';
+        
+        // AGRESIVNÍ ČIŠTĚNÍ DIAGRAMŮ
+        // Nejdřív nahradíme mermaid bloky speciálním markerem
+        let blocks = [];
+        let cleanText = text.replace(/```mermaid([\s\S]*?)```/g, function(match, code) {
+            // Tady je ten trik: Odstraníme z kódu diagramu úplně všechno HTML (hlavně tagy <br>)
+            let rawCode = code.replace(/<\/?[^>]+(>|$)/g, "").trim();
+            blocks.push(rawCode);
+            return `###MERMAID_BLOCK###`;
+        });
+
+        // Pak naformátujeme text (odstavce)
+        let html = cleanText.split('\n\n').map(p => {
+            return `<p class="mb-4">${p.replace(/\n/g, '<br>')}</p>`;
+        }).join('');
+
+        // A nakonec tam vrátíme čisté diagramy (bez <p> tagů kolem)
+        blocks.forEach(code => {
+            html = html.replace('###MERMAID_BLOCK###', `
+                <div class="my-6 flex justify-center bg-gray-50 p-4 rounded-xl shadow-inner">
+                    <pre class="mermaid bg-transparent text-center">${code}</pre>
+                </div>
+            `);
+        });
+
+        return html;
+    }
+
+    function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
+    function scrollToBottom() {
+        const win = document.getElementById('chat-window');
+        if (win) win.scrollTo({ top: win.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+{% endblock %}

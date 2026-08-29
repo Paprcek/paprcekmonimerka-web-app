@@ -1,6 +1,6 @@
 import requests
 import datetime
-from flask import Blueprint, render_template, request, flash, redirect, url_for, g, current_app, send_from_directory
+from flask import Blueprint, render_template, request, flash, redirect, url_for, g, current_app, send_from_directory, jsonify
 from flask_mail import Message
 from extensions import mail
 
@@ -171,3 +171,41 @@ def binary_translator():
 def serve_shoptet_feed():
     directory = "/app/feeds"
     return send_from_directory(directory, "shoptet_feed.xml", mimetype='application/xml')
+
+@projects_bp.route('/chatbot-page') # Můžeš nechat i jiný název
+def chatbot_page():
+    return render_template('chatbot.html')
+
+@projects_bp.route('/chatbot', methods=['POST'])
+def chatbot():
+    # 1. Získáme data od uživatele z frontendu
+    user_data = request.json
+    user_query = user_data.get('message') or user_data.get('query')
+
+    if not user_query:
+        return jsonify({"error": "Žádná zpráva"}), 400
+
+    try:
+        # 2. Voláme most (brain_v2g na portu 5005)
+        # Posíláme to jako 'query', protože tvůj bot to tak teď v logu vidí
+        response = requests.post(
+            'http://172.17.0.1:5005/ask', 
+            json={"query": user_query}, # Sjednoceno na 'query'
+            timeout=60
+        )
+        
+        # 3. Kontrola, co se vrátilo z mostu
+        if response.status_code != 200:
+            return jsonify({"error": f"Bot vrátil status {response.status_code}"}), 500
+            
+        data = response.json()
+        
+        # 4. Vrátíme data frontendu (ujistíme se, že klíče sedí)
+        return jsonify({
+            "reply": data.get('answer', 'Omlouvám se, ale nepodařilo se vygenerovat odpověď.'),
+            "sources": data.get('sources', 'Žádné zdroje nebyly nalezeny.')
+        })
+
+    except Exception as e:
+        # Tady zachytíme tu chybu 500, co vidíš v konzoli
+        return jsonify({"error": f"Interní chyba Flasku: {str(e)}"}), 500
