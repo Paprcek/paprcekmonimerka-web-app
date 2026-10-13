@@ -1,5 +1,5 @@
 # modules/core.py
-from flask import Blueprint, render_template, g, session, redirect, url_for, request, current_app, flash
+from flask import Blueprint, render_template, g, session, redirect, url_for, request, current_app, flash, send_from_directory, Response
 from flask_mail import Message
 from extensions import mail
 
@@ -63,3 +63,12 @@ def set_language(language):
     session['language'] = language
     session.modified = True
     return redirect(request.referrer or url_for('core.index'))
+
+@core_bp.route('/robots.txt')
+def robots_txt():
+    body = "User-agent: *\nAllow: /\n\nSitemap: https://paprcekmonimerka.cz/sitemap.xml\n"
+    return Response(body, mimetype='text/plain')
+
+@core_bp.route('/sitemap.xml')
+def sitemap_xml():
+    return send_from_directory(current_app.static_folder, 'sitemap.xml', mimetype='application/xml')
