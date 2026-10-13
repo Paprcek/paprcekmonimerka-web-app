@@ -15,6 +15,14 @@ def index():
 def about():
     return render_template('about.html')
 
+@core_bp.route('/pro-klienty')
+def for_clients():
+    return render_template('for_clients.html')
+
+@core_bp.route('/pro-vyvojare')
+def for_devs():
+    return render_template('for_devs.html')
+
 @core_bp.route('/gdpr')
 def gdpr():
     return render_template('gdpr.html')

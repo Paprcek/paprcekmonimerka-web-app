@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}{{ g.T['fd_seo_title'] }}{% endblock %}
+
+{% block meta_description %}{{ g.T['fd_seo_desc'] }}{% endblock %}
+
+{% block content %}
+
+<!-- Úvod -->
+<section class="relative text-center pt-12 pb-16 px-4 overflow-hidden">
+    <div class="hero-glow ai-glow" aria-hidden="true"></div>
+    <span class="relative inline-flex items-center text-xs uppercase tracking-widest font-bold text-green-300 border border-green-700 rounded-full px-4 py-1 mb-6" data-aos="fade-up">
+        <span class="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span> {{ g.T['fd_open'] }}
+    </span>
+    <h1 class="relative text-4xl sm:text-5xl font-extrabold mb-6 !text-cyan-300" data-aos="fade-up" data-aos-delay="80">{{ g.T['fd_title'] }}</h1>
+    <p class="relative text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="160">
+        {{ g.T['fd_intro'] }}
+    </p>
+</section>
+
+<!-- Specializace: agentní AI a RAG -->
+<section class="px-4 sm:px-0 max-w-6xl mx-auto">
+    <div class="relative overflow-hidden rounded-3xl border border-cyan-700/60 bg-gradient-to-br from-cyan-950/50 via-gray-900 to-gray-900 px-6 sm:px-10 py-12">
+        <div class="relative text-center mb-10">
+            <span class="inline-block text-xs uppercase tracking-widest font-bold text-cyan-300 border border-cyan-700 rounded-full px-4 py-1 mb-4" data-aos="fade-up">
+                <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> {{ g.T['fd_ai_badge'] }}
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4 !text-cyan-300" data-aos="fade-up">{{ g.T['fd_ai_title'] }}</h2>
+            <p class="text-gray-300 max-w-3xl mx-auto" data-aos="fade-up">{{ g.T['fd_ai_intro'] }}</p>
+        </div>
+
+        <!-- Pipeline -->
+        <ol class="relative flex flex-col lg:flex-row items-stretch justify-center gap-3 mb-12">
+            {% for step in g.T['fd_flow'] %}
+            <li class="flex flex-col lg:flex-row items-center" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <div class="project-card w-full lg:w-44 text-center bg-gray-900/80 border border-cyan-800 rounded-2xl px-4 py-5">
+                    <i class="fa-solid {{ step.icon }} text-2xl text-cyan-300 mb-2"></i>
+                    <p class="font-bold text-white">{{ step.label }}</p>
+                    <p class="text-xs text-gray-400 mt-1">{{ step.sub }}</p>
+                </div>
+                {% if not loop.last %}
+                <i class="fa-solid fa-arrow-right hidden lg:block text-cyan-600 mx-2"></i>
+                <i class="fa-solid fa-arrow-down lg:hidden text-cyan-600 my-2"></i>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+
+        <ul class="relative grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for point in g.T['fd_ai_points'] %}
+            <li class="flex items-start text-gray-300" data-aos="fade-up" data-aos-delay="{{ (loop.index0 % 2) * 80 }}">
+                <i class="fa-solid fa-check text-cyan-400 mt-1 mr-3 shrink-0"></i>
+                <span>{{ point }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+<!-- Stack podle vrstev -->
+<section class="mt-24 px-4 sm:px-0 max-w-6xl mx-auto">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12" data-aos="fade-up">{{ g.T['fd_stack_title'] }}</h2>
+    <div class="space-y-4">
+        {% for layer in g.T['fd_stack'] %}
+        <div class="project-card flex flex-col md:flex-row md:items-center bg-gray-800 border border-gray-700 hover:border-green-600 rounded-2xl px-6 py-5"
+             data-aos="fade-up" data-aos-delay="{{ loop.index0 * 60 }}">
+            <div class="flex items-center md:w-64 shrink-0 mb-3 md:mb-0">
+                <i class="fa-solid {{ layer.icon }} text-xl text-green-500 w-8"></i>
+                <h3 class="text-lg font-semibold">{{ layer.layer }}</h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                {% for item in layer['items'] %}
+                <span class="text-sm text-green-200 bg-green-900/30 border border-green-800 rounded-full px-3 py-1">{{ item }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Jak pracuju -->
+<section class="mt-24 px-4 sm:px-0 max-w-6xl mx-auto">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12" data-aos="fade-up">{{ g.T['fd_how_title'] }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for h in g.T['fd_how'] %}
+        <article class="project-card bg-gray-800 border border-gray-700 rounded-2xl p-6"
+                 data-aos="fade-up" data-aos-delay="{{ (loop.index0 % 3) * 100 }}">
+            <i class="fa-solid {{ h.icon }} text-2xl text-green-500 mb-4"></i>
+            <h3 class="text-lg font-semibold text-white mb-2">{{ h.title }}</h3>
+            <p class="text-sm text-gray-400">{{ h.text }}</p>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Homelab -->
+<section class="mt-24 px-4 sm:px-0 max-w-4xl mx-auto">
+    <div class="bg-black border border-gray-800 rounded-3xl px-6 sm:px-10 py-10 font-mono" data-aos="fade-up">
+        <p class="text-green-500 text-sm mb-3">monika@buzz:~$ <span class="text-gray-300">docker compose ps</span></p>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3">{{ g.T['fd_lab_title'] }}</h2>
+        <p class="text-gray-400 mb-6">{{ g.T['fd_lab_text'] }}</p>
+        <ul class="space-y-3 mb-8">
+            {% for point in g.T['fd_lab_points'] %}
+            <li class="flex items-start text-gray-300">
+                <span class="text-green-500 mr-3">▸</span><span>{{ point }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="https://github.com/Paprcek/paprcekmonimerka-web-app" target="_blank" rel="noopener"
+           class="inline-flex items-center text-green-400 border border-green-600 hover:bg-green-600 hover:text-white rounded-full px-5 py-2.5 transition">
+            <i class="fa-brands fa-github mr-2"></i> {{ g.T['fd_lab_btn'] }}
+        </a>
+    </div>
+</section>
+
+<!-- Výzva k akci -->
+<section class="mt-24 px-4 sm:px-0 max-w-4xl mx-auto">
+    <div class="text-center bg-gradient-to-br from-cyan-950/60 to-gray-900 border border-cyan-700 rounded-3xl px-6 py-14" data-aos="zoom-in">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4 !text-cyan-300">{{ g.T['fd_cta_title'] }}</h2>
+        <p class="text-gray-200 max-w-2xl mx-auto mb-8">{{ g.T['fd_cta_text'] }}</p>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <a href="{{ url_for('core.contacts') }}"
+               class="inline-flex items-center font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-full px-7 py-3 transition">
+                <i class="fa-solid fa-envelope mr-2"></i> {{ g.T['fd_cta_btn'] }}
+            </a>
+            <a href="https://www.linkedin.com/in/monika-krausov%C3%A1-paprcekmonimerka/" target="_blank" rel="noopener" class="text-cyan-300 hover:text-white transition">
+                <i class="fa-brands fa-linkedin mr-1"></i> LinkedIn
+            </a>
+            <a href="https://github.com/Paprcek" target="_blank" rel="noopener" class="text-cyan-300 hover:text-white transition">
+                <i class="fa-brands fa-github mr-1"></i> GitHub
+            </a>
+        </div>
+    </div>
+    <p class="text-center text-gray-400 mt-8 text-sm">
+        {{ g.T['fd_clients_note'] }}
+        <a href="{{ url_for('core.for_clients') }}" class="text-green-400 hover:text-green-300">{{ g.T['fd_clients_link'] }} →</a>
+    </p>
+</section>
+
+{% endblock %}

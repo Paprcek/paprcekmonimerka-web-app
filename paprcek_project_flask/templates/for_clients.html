@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}{{ g.T['fc_seo_title'] }}{% endblock %}
+
+{% block meta_description %}{{ g.T['fc_seo_desc'] }}{% endblock %}
+
+{% block content %}
+
+<!-- Úvod -->
+<section class="relative text-center pt-12 pb-16 px-4 overflow-hidden">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <h1 class="relative text-4xl sm:text-5xl font-extrabold mb-6" data-aos="fade-up">{{ g.T['fc_title'] }}</h1>
+    <p class="relative text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="100">
+        {{ g.T['fc_intro'] }}
+    </p>
+</section>
+
+<!-- Situace: problém → řešení → ukázka -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4 sm:px-0 max-w-6xl mx-auto">
+    {% for item in g.T['fc_items'] %}
+    <article class="project-card bg-gray-800 p-7 rounded-2xl border border-green-700/50 flex flex-col{% if loop.last and loop.length is odd %} lg:col-span-2{% endif %}"
+             data-aos="fade-up" data-aos-delay="{{ (loop.index0 % 2) * 120 }}">
+        <div class="flex items-center mb-5">
+            <span class="flex items-center justify-center w-12 h-12 rounded-xl bg-green-900/40 border border-green-800 mr-4 shrink-0">
+                <i class="fa-solid {{ item.icon }} text-xl text-green-400"></i>
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold leading-snug">{{ item.title }}</h2>
+        </div>
+
+        <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-1">{{ g.T['fc_problem'] }}</p>
+        <p class="text-gray-300 mb-4">{{ item.problem }}</p>
+
+        <p class="text-xs uppercase tracking-widest text-green-500 font-bold mb-1">{{ g.T['fc_solution'] }}</p>
+        <p class="text-gray-200 mb-5 flex-grow">{{ item.solution }}</p>
+
+        <div class="border-l-2 border-cyan-500 bg-gray-900/60 rounded-r-lg px-4 py-3">
+            <p class="text-xs uppercase tracking-widest text-cyan-400 font-bold mb-1">{{ g.T['fc_example'] }}</p>
+            <p class="text-sm text-gray-300">{{ item.example }}</p>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+
+<!-- AI asistenti (specializace) -->
+<section class="mt-24 px-4 sm:px-0 max-w-6xl mx-auto">
+    <div class="relative overflow-hidden rounded-3xl border border-cyan-700/60 bg-gradient-to-br from-cyan-950/50 via-gray-900 to-gray-900 px-6 sm:px-10 py-12">
+        <div class="hero-glow ai-glow" aria-hidden="true"></div>
+        <div class="relative text-center mb-10">
+            <span class="inline-block text-xs uppercase tracking-widest font-bold text-cyan-300 border border-cyan-700 rounded-full px-4 py-1 mb-4" data-aos="fade-up">
+                <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> {{ g.T['fc_ai_badge'] }}
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4 !text-cyan-300" data-aos="fade-up" data-aos-delay="80">{{ g.T['fc_ai_title'] }}</h2>
+            <p class="text-gray-300 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="160">{{ g.T['fc_ai_intro'] }}</p>
+        </div>
+        <div class="relative grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {% for item in g.T['fc_ai_items'] %}
+            <article class="project-card bg-gray-900/80 p-7 rounded-2xl border border-cyan-800 flex flex-col"
+                     data-aos="fade-up" data-aos-delay="{{ loop.index0 * 120 }}">
+                <div class="flex items-center mb-5">
+                    <span class="flex items-center justify-center w-12 h-12 rounded-xl bg-cyan-900/40 border border-cyan-800 mr-4 shrink-0">
+                        <i class="fa-solid {{ item.icon }} text-xl text-cyan-300"></i>
+                    </span>
+                    <h3 class="text-xl sm:text-2xl font-bold leading-snug !text-cyan-300">{{ item.title }}</h3>
+                </div>
+                <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-1">{{ g.T['fc_problem'] }}</p>
+                <p class="text-gray-300 mb-4">{{ item.problem }}</p>
+                <p class="text-xs uppercase tracking-widest text-cyan-400 font-bold mb-1">{{ g.T['fc_solution'] }}</p>
+                <p class="text-gray-200 mb-5 flex-grow">{{ item.solution }}</p>
+                <div class="border-l-2 border-green-500 bg-gray-800/60 rounded-r-lg px-4 py-3">
+                    <p class="text-xs uppercase tracking-widest text-green-400 font-bold mb-1">{{ g.T['fc_example'] }}</p>
+                    <p class="text-sm text-gray-300">{{ item.example }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Jak spolupráce probíhá -->
+<section class="mt-24 px-4 sm:px-0 max-w-6xl mx-auto">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12" data-aos="fade-up">{{ g.T['fc_process_title'] }}</h2>
+    <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for step in g.T['fc_process'] %}
+        <li class="relative bg-gray-800/70 p-6 rounded-2xl border border-gray-700"
+            data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-green-600 text-white font-bold mb-4">{{ loop.index }}</span>
+            <h3 class="text-lg font-semibold text-white mb-2">{{ step.title }}</h3>
+            <p class="text-sm text-gray-400">{{ step.text }}</p>
+        </li>
+        {% endfor %}
+    </ol>
+</section>
+
+<!-- Časté otázky -->
+<section class="mt-24 px-4 sm:px-0 max-w-3xl mx-auto">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10" data-aos="fade-up">{{ g.T['fc_faq_title'] }}</h2>
+    <div class="space-y-4">
+        {% for f in g.T['fc_faq'] %}
+        <details class="faq group bg-gray-800 rounded-xl border border-gray-700 open:border-green-700" data-aos="fade-up">
+            <summary class="flex justify-between items-center cursor-pointer list-none px-6 py-4 font-semibold text-white">
+                {{ f.q }}
+                <i class="fa-solid fa-chevron-down text-green-500 transition-transform group-open:rotate-180 ml-4"></i>
+            </summary>
+            <p class="px-6 pb-5 text-gray-300">{{ f.a }}</p>
+        </details>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Výzva k akci -->
+<section class="mt-24 px-4 sm:px-0 max-w-4xl mx-auto">
+    <div class="relative overflow-hidden text-center bg-gradient-to-br from-green-900/60 to-gray-900 border border-green-700 rounded-3xl px-6 py-14" data-aos="zoom-in">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4">{{ g.T['fc_cta_title'] }}</h2>
+        <p class="text-gray-200 max-w-2xl mx-auto mb-8">{{ g.T['fc_cta_text'] }}</p>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <a href="https://it.cafe/#contact" target="_blank" rel="noopener"
+               class="inline-flex items-center font-semibold text-white bg-green-600 hover:bg-green-500 rounded-full px-7 py-3 transition">
+                {{ g.T['fc_cta_btn'] }} <i class="fa-solid fa-arrow-up-right-from-square ml-2 text-sm"></i>
+            </a>
+            <a href="mailto:hello@it.cafe" class="text-green-300 hover:text-white transition">
+                <i class="fa-solid fa-envelope mr-1"></i> hello@it.cafe
+            </a>
+        </div>
+    </div>
+    <p class="text-center text-gray-400 mt-8 text-sm">
+        {{ g.T['fc_devs_note'] }}
+        <a href="{{ url_for('core.for_devs') }}" class="text-cyan-400 hover:text-cyan-300">{{ g.T['fc_devs_link'] }} →</a>
+    </p>
+</section>
+
+{% endblock %}

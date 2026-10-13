@@ -33,10 +33,49 @@
             background-color: #1f2937;
             border: 1px solid #4CAF50;
         }
+
+        /* Plynulé přechody mezi stránkami (View Transitions API, prohlížeče bez podpory to ignorují) */
+        @view-transition { navigation: auto; }
+        ::view-transition-old(root),
+        ::view-transition-new(root) { animation-duration: 0.35s; }
+
+        /* Hover efekty karet */
+        .path-card, .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .path-card:hover, .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px -12px rgba(76, 175, 80, 0.35);
+        }
+
+        /* Jemná záře za hero sekcí */
+        .hero-glow {
+            position: absolute;
+            inset: -20% 10% auto 10%;
+            height: 420px;
+            background: radial-gradient(closest-side, rgba(76, 175, 80, 0.22), transparent);
+            filter: blur(40px);
+            animation: glow-pulse 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .ai-glow {
+            background: radial-gradient(closest-side, rgba(34, 211, 238, 0.18), transparent);
+        }
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.08); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            @view-transition { navigation: none; }
+            .hero-glow { animation: none; }
+            .path-card:hover, .project-card:hover { transform: none; }
+        }
         
     </style>
     <link rel="icon" type="image/png" href="/static/images/paprcek.jpg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CT9YCX32EE"></script>
@@ -54,13 +93,13 @@
             <div class="flex justify-between items-center h-16">
                 
                 <div class="flex-shrink-0">
-                    <a href="{{ url_for('core.index') }}" class="text-xl font-bold text-white hover:text-green-400 transition duration-150">Paprcekmonimerka</a>
+                    <a href="{{ url_for('core.index') }}" class="text-xl font-bold text-white hover:text-green-400 transition duration-150">Monika Krausová</a>
                 </div>
 
-                <nav class="hidden md:flex space-x-4 items-center">
-                    <a href="{{ url_for('core.index') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
-                        {{ g.T['nav_home'] }}
-                    </a>
+                <nav class="hidden md:flex space-x-2 lg:space-x-4 items-center">
+                    <a href="{{ url_for('core.index') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">{{ g.T['nav_home'] }}</a>
+                    <a href="{{ url_for('core.for_clients') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">{{ g.T['nav_for_clients'] }}</a>
+                    <a href="{{ url_for('core.for_devs') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">{{ g.T['nav_for_devs'] }}</a>
 
                     <div class="relative group">
                         <button id="projects-menu-button" class="flex items-center text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium focus:outline-none transition duration-150">
@@ -72,35 +111,20 @@
 
                         <div id="projects-dropdown" class="hidden absolute left-0 mt-2 w-64 rounded-xl shadow-2xl bg-gray-800 ring-1 ring-black ring-opacity-5 z-50 border border-gray-700">
                             <div class="py-2" role="menu">
-                                <a href="{{ url_for('projects.air_quality') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">
-                                    Air Quality Monitor
-                                </a>
-                                <a href="{{ url_for('projects.watchdog') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">
-                                    Watchdog (Monitoring)
-                                </a>
-                                <a href="{{ url_for('projects.binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">
-                                    {{ g.T['binar_trans'] }}
-                                </a>
+                                <p class="px-4 py-1 text-[10px] uppercase tracking-widest text-gray-500 font-bold">{{ g.T['nav_case_studies'] }}</p>
+                                <a href="{{ url_for('projects.watchdog') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">Watchdog</a>
                                 <div class="border-t border-gray-700 my-1"></div>
-                                <p class="px-4 py-1 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Web Development</p>
-                                <a href="https://telo-bez-napeti.cz" target="_blank" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition italic">
-                                    Tělo bez napětí (WP)
-                                </a>
+                                <p class="px-4 py-1 text-[10px] uppercase tracking-widest text-gray-500 font-bold">{{ g.T['nav_experiments'] }}</p>
+                                <a href="{{ url_for('projects.air_quality') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">Air Quality Monitor</a>
+                                <a href="{{ url_for('projects.air_history') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">{{ g.T['nav_air_history'] }}</a>
+                                <a href="{{ url_for('projects.binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">{{ g.T['binar_trans'] }}</a>
+                                <a href="/game/" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-green-400 transition">{{ g.T['nav_game_center'] }}</a>
                             </div>
                         </div>
                     </div>
 
-                    <a href="/game/" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
-                        {{ g.T['nav_game_center'] }}
-                    </a>
-
-                    <a href="{{ url_for('core.about') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
-                        {{ g.T['nav_about'] }}
-                    </a>
-
-                    <a href="{{ url_for('core.contacts') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
-                        {{ g.T['nav_contact'] }}
-                    </a>
+                    <a href="{{ url_for('core.about') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">{{ g.T['nav_about'] }}</a>
+                    <a href="{{ url_for('core.contacts') }}" class="nav-link text-gray-300 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">{{ g.T['nav_contact'] }}</a>
                 </nav>
                 
                 <div class="flex items-center space-x-3">
@@ -121,45 +145,31 @@
 
         <div id="mobile-menu" class="hidden md:hidden bg-gray-800 border-b border-gray-700">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="{{ url_for('core.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
-                    {{ g.T['nav_home'] }}
-                </a>
+                <a href="{{ url_for('core.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">{{ g.T['nav_home'] }}</a>
+                <a href="{{ url_for('core.for_clients') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">{{ g.T['nav_for_clients'] }}</a>
+                <a href="{{ url_for('core.for_devs') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">{{ g.T['nav_for_devs'] }}</a>
 
                 <div>
                     <button id="mobile-projects-button" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 focus:outline-none">
-                        <span>Projekty</span>
+                        <span>{{ g.T['projects_title'] }}</span>
                         <svg id="mobile-projects-arrow" class="h-5 w-5 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
                     </button>
-                
-                    <div id="mobile-projects-dropdown" class="hidden bg-gray-900 rounded-md mt-1 ml-2 space-y-1">
-                        <a href="{{ url_for('projects.watchdog') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
-                               Watchdog
-                        </a>
-                        <a href="{{ url_for('projects.air_quality') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
-                              Air Quality Monitor
-                        </a>
-                        <a href="{{ url_for('projects.air_history') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
-                              Historie AQI
-                        </a>
-                        <a href="{{ url_for('projects.binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">
-                            {{ g.T['binar_trans'] }}
-                        </a>
+
+                    <div id="mobile-projects-dropdown" class="hidden bg-gray-900 rounded-md mt-1 ml-2 space-y-1 py-1">
+                        <p class="px-4 pt-1 text-[10px] uppercase tracking-widest text-gray-500 font-bold">{{ g.T['nav_case_studies'] }}</p>
+                        <a href="{{ url_for('projects.watchdog') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">Watchdog</a>
+                        <p class="px-4 pt-2 text-[10px] uppercase tracking-widest text-gray-500 font-bold">{{ g.T['nav_experiments'] }}</p>
+                        <a href="{{ url_for('projects.air_quality') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">Air Quality Monitor</a>
+                        <a href="{{ url_for('projects.air_history') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">{{ g.T['nav_air_history'] }}</a>
+                        <a href="{{ url_for('projects.binary_translator') }}" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">{{ g.T['binar_trans'] }}</a>
+                        <a href="/game/" class="block px-4 py-2 text-sm text-gray-300 hover:text-green-400 nav-link">{{ g.T['nav_game_center'] }}</a>
                     </div>
                 </div>
 
-                <a href="/game/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
-                    {{ g.T['nav_game_center'] }}
-                </a>
-
-                <a href="{{ url_for('core.about') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
-                    {{ g.T['nav_about'] }}
-                </a>
-
-                <a href="{{ url_for('core.contacts') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">
-                        {{ g.T['nav_contact'] }}
-                </a>
+                <a href="{{ url_for('core.about') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">{{ g.T['nav_about'] }}</a>
+                <a href="{{ url_for('core.contacts') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-green-400 nav-link">{{ g.T['nav_contact'] }}</a>
             </div>
         </div>
     </header>
@@ -184,23 +194,28 @@
     <footer class="bg-gray-900 text-gray-400 mt-8">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm">
             <div class="mb-2">
-                &copy; {{ now().year }} Monika Paprcek. {{ g.T['footer'] }} | 
-                <a href="https://github.com/Paprcek/paprcekmonimerka-web-app" target="_blank" class="hover:text-green-400 transition duration-150">GitHub</a> |
+                &copy; {{ now().year }} Monika Krausová. {{ g.T['footer'] }} |
+                <a href="https://github.com/Paprcek" target="_blank" rel="noopener" class="hover:text-green-400 transition duration-150">GitHub</a> |
+                <a href="https://www.linkedin.com/in/monika-krausov%C3%A1-paprcekmonimerka/" target="_blank" rel="noopener" class="hover:text-green-400 transition duration-150">LinkedIn</a> |
                 <a href="{{ url_for('core.set_language', language='cs') }}" class="hover:text-green-400">Čeština</a> / 
                 <a href="{{ url_for('core.set_language', language='en') }}" class="hover:text-green-400">English</a>
-            </div>
-            
-            <div class="text-xs text-gray-500 flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-2">
-                <span>Provozovatel: Monika Krausová</span>
-                <span class="hidden sm:inline">|</span>
-                <span>Jug. partyzánů 1426/7, 160 00 Praha</span> <span class="hidden sm:inline">|</span>
-                <span>IČO: 75215110</span> <span class="hidden sm:inline">|</span>
-                <span>Zapsána v živnostenském rejstříku</span>
             </div>
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
+        // Animace při scrollu; při "omezit pohyb" v systému se vypnou
+        if (window.AOS) {
+            AOS.init({
+                duration: 700,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 60,
+                disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -290,12 +305,12 @@
         });
     </script>
 
-    <div id="cookie-banner" class="fixed bottom-5 left-5 right-5 md:left-auto md:max-w-sm bg-gray-900 border border-green-600 p-6 rounded-2xl shadow-2xl z-[60] hidden">
+    <div id="cookie-banner" class="fixed bottom-3 left-3 right-3 md:bottom-5 md:left-auto md:right-5 md:max-w-sm bg-gray-900 border border-green-600 p-4 md:p-6 rounded-2xl shadow-2xl z-[60] hidden">
         <div class="flex flex-col">
             <h3 class="text-white font-bold mb-2 flex items-center">
                 <span class="mr-2">🍪</span> {{ g.T['cookie_title'] | default('Cookies & Ladění') }}
             </h3>
-            <p class="text-gray-400 text-sm mb-4">
+            <p class="text-gray-400 text-xs md:text-sm mb-3 md:mb-4">
                 {{ g.T['cookie_text'] | default('Pomůžeš mi vylepšit web povolením Google Analytics? Data využívám jen k analýze návštěvnosti.') }}
             </p>
             <div class="flex gap-3">
@@ -307,18 +322,6 @@
                 </button>
             </div>
         </div>
-    </div>
-
-    <!-- Language Switcher -->
-    <div class="language-switcher">
-        <a href="{{ url_for('core.set_language', language='cs') }}" 
-           class="{% if current_language == 'cs' %}active{% endif %}">
-            🇨🇿 Čeština
-        </a>
-        <a href="{{ url_for('core.set_language', language='en') }}" 
-           class="{% if current_language == 'en' %}active{% endif %}">
-            🇬🇧 English
-        </a>
     </div>
 
 </body>

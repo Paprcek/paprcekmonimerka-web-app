@@ -1,27 +1,95 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ g.T['ab_seo_title'] }}{% endblock %}
+
+{% block meta_description %}{{ g.T['ab_seo_desc'] }}{% endblock %}
+
 {% block content %}
-<div class="bg-gray-800 p-8 rounded-xl shadow-2xl transition duration-300 hover:shadow-3xl max-w-3xl mx-auto border border-gray-700">
-    
-    <h1 class="text-4xl font-bold text-green-500 mb-8 border-b-4 border-green-700 pb-3 text-center">{{ g.T['about_title'] }}</h1>
-    
-    <div class="text-center mb-10">
-        <img src="{{ url_for('static', filename='images/my_photo.jpg') }}" 
-             alt="{{ g.T['about_my_photo_alt'] }}" 
-             class="w-32 h-32 mx-auto rounded-full object-cover mb-4 border-4 border-green-600 shadow-xl"
-        >
-        <p class="text-2xl font-semibold text-green-400">{{ g.T['about_greeting'] }}</p>
+
+<!-- Úvod + Paprček -->
+<section class="relative text-center pt-12 pb-12 px-4 overflow-hidden">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <img src="{{ url_for('static', filename='images/my_photo.jpg') }}" alt="Monika Krausová"
+         class="relative w-36 h-36 mx-auto rounded-full object-cover mb-6 ring-4 ring-green-600/60 shadow-2xl"
+         data-aos="zoom-in">
+    <h1 class="relative text-4xl sm:text-5xl font-extrabold mb-8" data-aos="fade-up">{{ g.T['ab_hello'] }}</h1>
+
+    <div class="relative max-w-3xl mx-auto bg-gray-800/80 border border-green-700/50 rounded-2xl px-6 sm:px-8 py-6 text-left" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="text-xl font-bold mb-2"><i class="fa-solid fa-sun text-yellow-300 mr-2"></i>{{ g.T['ab_nick_title'] }}</h2>
+        <p class="text-gray-300 leading-relaxed">{{ g.T['ab_nick'] }}</p>
+    </div>
+</section>
+
+<!-- Příběh -->
+<section class="px-4 sm:px-0 max-w-3xl mx-auto">
+    <h2 class="text-3xl font-bold mb-6" data-aos="fade-up">{{ g.T['ab_story_title'] }}</h2>
+    <div class="space-y-5 text-gray-300 text-lg leading-relaxed">
+        {% for para in g.T['ab_story'] %}
+        <p data-aos="fade-up">{{ para }}</p>
+        {% endfor %}
     </div>
 
-    <div class="space-y-6 text-gray-300 leading-relaxed">
-        <p class="text-lg">
-            {{ g.T['about_text_placeholder'] }}
-        </p>
-        <p>{{ g.T['about_text_01'] }}
-        </p>
-        <p class="italic text-gray-500 border-l-2 border-gray-600 pl-4">{{ g.T['about_motto'] }}
-        </p>
+    <blockquote class="mt-10 border-l-4 border-green-500 bg-gray-800/60 rounded-r-xl px-6 py-5 text-xl italic text-gray-200" data-aos="fade-up">
+        {% if g.lang == 'en' %}“{{ g.T['ab_quote'] }}”{% else %}„{{ g.T['ab_quote'] }}“{% endif %}
+    </blockquote>
+</section>
+
+<!-- Časová osa -->
+<section class="mt-24 px-4 sm:px-0 max-w-3xl mx-auto">
+    <h2 class="text-3xl font-bold mb-10" data-aos="fade-up">{{ g.T['ab_timeline_title'] }}</h2>
+    <ol class="relative border-l-2 border-gray-700 ml-3">
+        {% for t in g.T['ab_timeline'] %}
+        <li class="mb-10 ml-8" data-aos="fade-up">
+            <span class="absolute -left-[9px] mt-1.5 w-4 h-4 rounded-full border-2 {% if t.current %}bg-green-500 border-green-300 animate-pulse{% else %}bg-gray-900 border-green-700{% endif %}"></span>
+            <p class="text-sm font-mono text-green-400 mb-1">{{ t.when }}</p>
+            <h3 class="text-xl font-semibold text-white">{{ t.what }}</h3>
+            <p class="text-gray-400 mb-2">{{ t.where }}</p>
+            {% if t.note %}<p class="text-sm text-gray-300">{{ t.note }}</p>{% endif %}
+        </li>
+        {% endfor %}
+    </ol>
+    <p class="text-gray-400 ml-3" data-aos="fade-up"><i class="fa-solid fa-language text-green-500 mr-2"></i><span class="font-semibold text-gray-300">{{ g.T['ab_lang_title'] }}:</span> {{ g.T['ab_lang'] }}</p>
+</section>
+
+<!-- Co si z cesty nesu -->
+<section class="mt-24 px-4 sm:px-0 max-w-6xl mx-auto">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12" data-aos="fade-up">{{ g.T['ab_bring_title'] }}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for b in g.T['ab_bring'] %}
+        <article class="project-card bg-gray-800 border border-green-700/50 rounded-2xl p-6"
+                 data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+            <i class="fa-solid {{ b.icon }} text-2xl text-green-500 mb-4"></i>
+            <h3 class="text-lg font-semibold text-white mb-2">{{ b.title }}</h3>
+            <p class="text-sm text-gray-400">{{ b.text }}</p>
+        </article>
+        {% endfor %}
     </div>
-    
-</div>
+</section>
+
+<!-- Mimo kód -->
+<section class="mt-24 px-4 sm:px-0 max-w-6xl mx-auto">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-4" data-aos="fade-up">{{ g.T['ab_life_title'] }}</h2>
+    <p class="text-center text-gray-300 max-w-3xl mx-auto mb-12" data-aos="fade-up">{{ g.T['ab_life_intro'] }}</p>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        {% for l in g.T['ab_life'] %}
+        <article class="project-card bg-gray-800/70 border border-gray-700 hover:border-green-600 rounded-2xl p-5 text-center"
+                 data-aos="zoom-in" data-aos-delay="{{ (loop.index0 % 4) * 80 }}">
+            <i class="fa-solid {{ l.icon }} text-3xl text-green-400 mb-3"></i>
+            <h3 class="font-semibold text-white mb-1">{{ l.title }}</h3>
+            <p class="text-xs sm:text-sm text-gray-400">{{ l.text }}</p>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Kam dál -->
+<section class="mt-24 px-4 sm:px-0 max-w-4xl mx-auto text-center">
+    <h2 class="text-2xl font-bold mb-6" data-aos="fade-up">{{ g.T['ab_next_title'] }}</h2>
+    <div class="flex flex-col sm:flex-row justify-center gap-4" data-aos="fade-up">
+        <a href="{{ url_for('core.for_clients') }}" class="font-semibold text-white bg-green-600 hover:bg-green-500 rounded-full px-6 py-3 transition">{{ g.T['ab_next_clients'] }} →</a>
+        <a href="{{ url_for('core.for_devs') }}" class="font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-full px-6 py-3 transition">{{ g.T['ab_next_devs'] }} →</a>
+        <a href="{{ url_for('core.contacts') }}" class="font-semibold text-green-400 border border-green-600 hover:bg-green-600 hover:text-white rounded-full px-6 py-3 transition">{{ g.T['ab_next_contact'] }}</a>
+    </div>
+</section>
+
 {% endblock %}

@@ -15,37 +15,8 @@ def watchdog():
 
 @projects_bp.route('/monitoring-eshopu')
 def watchdog_sales():
-    return render_template('watchdog_landing.html')
-
-@projects_bp.route('/watchdog-order', methods=['POST'])
-def watchdog_order():
-    target_url = request.form.get('target_url')
-    tracking_type = request.form.get('tracking_type')
-    client_email = request.form.get('client_email')
-    notes = request.form.get('notes')
-
-    try:
-        msg = Message(
-            subject=f"Nová poptávka: Watchdog - {target_url}",
-            recipients=['moncakbp@gmail.com'],
-            body=f"""
-                Nová poptávka od: {client_email}
-
-                Co chce hlídat: {tracking_type}
-                Cílový web: {target_url}
-
-                Specifika/Poznámka:
-                {notes}
-            """
-        )
-        mail.send(msg)
-        flash(g.T.get('watchdog_success_msg', 'Zpráva byla úspěšně odeslána!'), 'success')
-        print(f"Úspěch: Poptávka od {client_email} odeslána na e-mail.")
-    except Exception as e:
-        print(f"Kritická chyba: {e}", flush=True)
-        flash(f"Chyba odesílání: {str(e)}", 'error')
-
-    return redirect(url_for('projects.watchdog_sales'))
+    # Prodejní landing Watchdoga zrušen – staré odkazy přesměrujeme na nabídku pro klienty
+    return redirect(url_for('core.for_clients'), code=301)
 
 @projects_bp.route('/air_quality')
 def air_quality():

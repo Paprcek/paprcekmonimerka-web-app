@@ -68,7 +68,7 @@
     "wd_popis": "Python bot pro automatický monitoring cen a skladu velkoobchodu. Běží v Dockeru a posílá HTML zprávy.",
     "vytvorit_poptavku": "Vytvořit poptávku (Watchdog)",
     "zobrazit_specifikaci": "Technická specifikace",
-    "tbn_popis": "Technické nasazení webu na platformě WordPress dle specifických požadavků klientky. Implementace vlastních PHP snippetů, HTML a CSS.",    
+    "tbn_popis": "Technické nasazení webu na platformě WordPress dle specifických požadavků klientky. Implementace vlastních PHP snippetů, HTML a CSS.",
     "go_web": "Navštívit web",
     "watchdog_page_title": "Projekt Watchdog",
     "watchdog_main_title": "Watchdog: Inteligentní Monitoring",
@@ -87,7 +87,7 @@
     "watchdog_seaclub": "Velkoobchod s námořními dekoracemi (Německo)",
     "back_to_portfolio": "Zpět na portfolio",
     "cookie_title": "Cookies & Ladění",
-    "cookie_text": "Ahoj! Pomůžeš mi vylepšit web tím, že povolíš Google Analytics? Data využívám jen k analýze návštěvnosti a ladění uživatelské zkušenosti.",
+    "cookie_text": "Pomůžeš mi vylepšit web? Využívám pouze základní analytiku k měření návštěvnosti.",
     "cookie_accept": "Jasně, laď!",
     "cookie_decline": "Raději ne",
     "gdpr_title": "Informace o zpracování osobních údajů",
@@ -112,9 +112,9 @@
     "contact_gdpr_agree": "Souhlasím se",
     "contact_gdpr_link": "zpracováním údajů",
     "contact_btn_send": "Odeslat digitální paprsek",
-    "wd_cta_title": "Zaujal vás tento analytický přístup?",
-    "wd_cta_text": "Přestaňte trávit čas ručním přepisováním dat. Objevte, jak mohou automatizované ETL procesy šetřit váš čas a peníze.",
-    "wd_cta_btn": "Mám zájem o Watchdoga",
+    "wd_cta_title": "Máte podobný problém?",
+    "wd_cta_text": "Hlídání cen, skladů nebo jiných dat bez API se dá postavit na míru. Podívejte se, co dalšího umíme, a ozvěte se.",
+    "wd_cta_btn": "Co umíme postavit",
     "default_title": "Monika Paprcek | Vývoj na zakázku – Python, AI, automatizace",
     "default_desc": "Webový scraping, automatizace procesů a AI aplikace na míru. Praha a celá ČR, práce na dálku.",
     "home_seo_title": "Monika Paprcek | Python, AI & automatizace na zakázku",
@@ -134,7 +134,493 @@
         "logo": "yachtmeni.webp",
         "text": "S Monikou se mi spolupracovalo výborně. Potřeboval jsem vytvořit „hlídací psy“, kteří automaticky sledují změny dostupnosti zboží a cen. Domluva byla rychlá, řešení funkční a všechny připomínky byly rychle zapracovány."
       }
-    ]
+    ],
+    "hp_seo_title": "Monika Krausová | Automatizace, integrace a aplikace na míru",
+    "hp_seo_desc": "Automatizuju a propojuju firemní systémy a stavím aplikace na míru, se kterými práce běží sama: párování plateb, rezervace a objednávky napojené na web, AI nad firemními daty.",
+    "hp_hero_title": "Aplikace a automatizace, se kterými vám práce poběží sama.",
+    "hp_hero_sub": "Monika Krausová · vývojářka · automatizace, integrace, aplikace na míru a AI · studentka informatiky PEF ČZU",
+    "hp_hero_intro": "Propojuju systémy, které firma už používá, aby si data předávaly samy: platby z banky se spárují s fakturami, objednávky z webu doputují rovnou do interního systému a nikdo nic nepřepisuje. A když potřebná aplikace chybí, postavím ji na míru, od rezervací a voucherů s online platbou po správu akcí a členů. Spolupracuju se studiem delame.it / it.cafe a na vlastním serveru provozuju i tenhle web.",
+    "hp_card_clients_title": "Potřebujete aplikaci nebo automatizaci?",
+    "hp_card_clients_text": "Rezervační systémy, objednávky, fakturace, hlídání cen nebo AI nad vašimi daty. Podívejte se, co umíme postavit, a ozvěte se.",
+    "hp_card_clients_btn": "Co umíme postavit",
+    "hp_card_devs_title": "Hledáte parťáka do projektu?",
+    "hp_card_devs_text": "Backend a integrace v Pythonu a Node.js, Zoho ekosystém, RAG pipelines, Docker a self-hosting. Pracuju AI-first, a přitom se záměrem: architekturu a bezpečnost mám pod kontrolou já.",
+    "hp_card_devs_btn": "Stack a jak pracuju",
+    "hp_projects_title": "Vybrané projekty",
+    "hp_projects": [
+      {
+        "title": "Správa akcí, plateb a členů pro networkingovou organizaci",
+        "desc": "Systém pro regionální skupiny podnikatelské networkingové organizace: registrace na akce, platby kartou, faktury, které se v noci samy spárují s platbami z banky, automatické pozvánky a tisk jmenovek. Běží v ostrém provozu u několika skupin.",
+        "tags": [
+          "Zoho Creator",
+          "Deluge",
+          "Bankovní API (PSD2, OAuth)",
+          "Platební brána"
+        ],
+        "icon": "fa-people-group",
+        "link": ""
+      },
+      {
+        "title": "Vouchery a rezervace s online platbou pro únikovou hru",
+        "desc": "Zákazník si na webu koupí dárkový voucher, nebo rovnou zaplatí hru. Po platbě kartou mu automaticky přijde e-mail s unikátním kódem a rezervační web se o zaplacení dozví sám, bez ručního přepisování. Majitel má přehled všech prodejů a vouchery může vystavovat i ručně. Běží v ostrém provozu.",
+        "tags": [
+          "Zoho Creator",
+          "Deluge",
+          "Platební brána",
+          "Webhooky",
+          "Lovable"
+        ],
+        "icon": "fa-key",
+        "link": ""
+      },
+      {
+        "title": "Objednávkový web pro cateringovou firmu",
+        "desc": "Zákazník si na webu poskládá objednávku jako v e-shopu. Menu, ceny a fotky spravuje firma v jednom interním systému a na web se propíšou samy. Z každé poptávky se automaticky připraví nabídka podle firemní šablony, kterou tým před odesláním zkontroluje. Zákazník dostane potvrzení, firma notifikaci a zákaznická databáze se plní sama.",
+        "tags": [
+          "Zoho Creator",
+          "Deluge",
+          "Next.js",
+          "Vercel",
+          "REST API",
+          "Zoho Writer",
+          "Cloudinary"
+        ],
+        "icon": "fa-utensils",
+        "link": ""
+      },
+      {
+        "title": "Watchdog – hlídač cen a skladu",
+        "desc": "Automatický hlídač u dodavatelů, kteří nemají API ani XML feed. Každé ráno projde tisíce položek, porovná ceny a dostupnost a pošle jen to, co se změnilo. Když selže, sám se ozve.",
+        "tags": [
+          "Python",
+          "Docker",
+          "Cron",
+          "Alerting (e-mail + Discord)"
+        ],
+        "icon": "fa-shield-dog",
+        "link": "/watchdog"
+      }
+    ],
+    "hp_case_study": "Case study",
+    "hp_case_soon": "Case study se připravuje",
+    "hp_experiments_title": "Experimenty",
+    "hp_experiments_sub": "Menší projekty, na kterých jsem se učila a zkoušela nové věci.",
+    "hp_partners_title": "Spolupracuju s",
+    "hp_partners_text": "Na klientských zakázkách spolupracuji s týmem delame.it. Poptávky aplikací a automatizací posílejte přes it.cafe.",
+    "hp_partners": [
+      {
+        "name": "delame.it",
+        "url": "https://delame.it",
+        "desc": "IT studio s 20+ lety praxe: vývoj, outsourcing, audit"
+      },
+      {
+        "name": "it.cafe",
+        "url": "https://it.cafe",
+        "desc": "IT a AI konzultace pro malé a střední firmy v Praze"
+      },
+      {
+        "name": "delame.ai",
+        "url": "https://delame.ai",
+        "desc": "AI řešení pro firmy a průmysl"
+      },
+      {
+        "name": "bohumilvideo.cz",
+        "url": "https://bohumilvideo.cz/",
+        "desc": "AI videa, reels a celé reklamní kampaně: když k aplikaci potřebujete i video nebo kampaň, která ji zviditelní"
+      }
+    ],
+    "soon_title": "Stránka se připravuje",
+    "soon_text": "Na téhle stránce právě pracuju. Mezitím se můžete podívat na vybrané projekty nebo mi napsat.",
+    "soon_back": "Zpět na úvod",
+    "fc_seo_title": "Co umíme postavit | Automatizace a aplikace na míru – Monika Krausová",
+    "fc_seo_desc": "Automatizace, propojení systémů a aplikace na míru pro malé a střední firmy: párování plateb, rezervace a vouchery s online platbou, objednávkové weby, hlídání cen i AI nad firemními daty.",
+    "fc_title": "Co umíme postavit",
+    "fc_intro": "Nemusíte vědět, jakou technologii potřebujete. Stačí popsat, co vás zdržuje. Tady je pár typických situací a to, jak jsme je vyřešili jinde.",
+    "fc_problem": "Co vás trápí",
+    "fc_solution": "Co s tím uděláme",
+    "fc_example": "Ukázka z praxe",
+    "fc_items": [
+      {
+        "icon": "fa-arrows-rotate",
+        "title": "Automatizace a propojení systémů",
+        "problem": "Data přepisujete ručně z jednoho systému do druhého. Kontrolujete, kdo zaplatil, kopírujete objednávky do tabulek a chyby se hledají až pozdě.",
+        "solution": "Propojíme nástroje, které už používáte (web, banku, účetnictví, CRM, tabulky), aby si data předávaly samy. Vy dostanete jen výsledek nebo upozornění, když je potřeba něco řešit.",
+        "example": "Platby z banky se každou noc samy spárují s fakturami a zaplacenému účastníkovi automaticky odejde pozvánka."
+      },
+      {
+        "icon": "fa-ticket",
+        "title": "Rezervace, vouchery a online platby",
+        "problem": "Prodáváte termíny, vstupenky nebo dárkové poukazy a hlídáte platby a kódy ručně, nebo platíte za drahý systém, který vám úplně nesedí.",
+        "solution": "Postavíme aplikaci napojenou na váš web a platební bránu. Zákazník zaplatí kartou a hned dostane potvrzení nebo voucher, vy máte přehled všech prodejů na jednom místě.",
+        "example": "Úniková hra prodává vouchery i přímé platby za hru. Kód přijde zákazníkovi e-mailem a rezervační web se o platbě dozví sám."
+      },
+      {
+        "icon": "fa-cart-shopping",
+        "title": "Objednávky a nabídky z webu",
+        "problem": "Poptávky chodí e-mailem nebo telefonem, nabídky skládáte ručně a ceník na webu je pořád trochu zastaralý.",
+        "solution": "Zákazník si objednávku poskládá na webu jako v e-shopu. Menu nebo ceník spravujete na jednom místě a z poptávky se automaticky připraví nabídka, kterou jen zkontrolujete a odešlete.",
+        "example": "Cateringová firma mění menu a fotky v interním systému, web se aktualizuje sám a nabídky vznikají podle firemní šablony."
+      },
+      {
+        "icon": "fa-calendar-check",
+        "title": "Akce, registrace a členové",
+        "problem": "Pořádáte pravidelné akce a evidence registrací, plateb, faktur a jmenovek se rozpadá do e-mailů a tabulek.",
+        "solution": "Jedna aplikace pro celý tok: registrace, platba, faktura, pozvánka, připomínka i tisk jmenovek. Hotový systém se dá zkopírovat pro další pobočky nebo skupiny.",
+        "example": "Networkingová organizace takhle řídí akce v několika regionálních skupinách."
+      },
+      {
+        "icon": "fa-magnifying-glass-chart",
+        "title": "Hlídání cen a dostupnosti",
+        "problem": "Dodavatel nebo konkurence nemá API ani XML feed, a tak změny cen a skladu sledujete ručně, nebo vůbec.",
+        "solution": "Automatický hlídač každý den projde jejich web, porovná data a pošle vám jen to, co se změnilo. Když něco selže, sám se ozve.",
+        "example": "E-shop dostává každé ráno přehled změn cen a skladu u dvou dodavatelů, místo hodin ručního procházení."
+      }
+    ],
+    "fc_process_title": "Jak spolupráce probíhá",
+    "fc_process": [
+      {
+        "title": "Ozvete se",
+        "text": "Popíšete, co vás zdržuje nebo co by mělo běžet samo. Technické detaily nejsou potřeba."
+      },
+      {
+        "title": "Probereme a navrhneme",
+        "text": "Zjistíme, co už používáte, a navrhneme řešení. Pokud to jde, napojíme stávající nástroje místo stavění nových."
+      },
+      {
+        "title": "Stavíme po částech",
+        "text": "Funkční kousky ukazujeme průběžně, takže výsledek můžete ovlivnit, ne jen převzít na konci."
+      },
+      {
+        "title": "Spustíme a hlídáme",
+        "text": "Po spuštění řešení monitorujeme a upravujeme podle toho, jak se používá."
+      }
+    ],
+    "fc_faq_title": "Časté otázky",
+    "fc_faq": [
+      {
+        "q": "Musím kvůli tomu měnit systémy, které používám?",
+        "a": "Většinou ne. Nejdřív se snažíme propojit to, co už máte. Novou aplikaci stavíme, až když chybí nebo je ta stávající slepá ulička."
+      },
+      {
+        "q": "Na čem to stavíte?",
+        "a": "Podle situace. Často na platformě Zoho, která je rychlá a dostupná pro menší firmy, jindy vlastní kód v Pythonu nebo Next.js. Vybíráme to, co se vám bude dobře spravovat, ne to, co je zrovna v módě."
+      },
+      {
+        "q": "Hodí se to i pro malou firmu?",
+        "a": "Ano. Většina projektů výše je pro malé a střední firmy. Malá automatizace, která ušetří hodinu denně, se často vyplatí víc než velký systém."
+      }
+    ],
+    "fc_cta_title": "Řešíte něco podobného?",
+    "fc_cta_text": "Zakázky realizujeme s týmem delame.it. Napište přes it.cafe, krátce popište, co vás trápí, a ozveme se.",
+    "fc_cta_btn": "Napsat přes it.cafe",
+    "fc_devs_note": "Jste vývojář a hledáte parťáka do projektu?",
+    "fc_devs_link": "Pokračujte sem",
+    "fc_ai_badge": "Moje specializace",
+    "fc_ai_title": "AI asistenti, kteří znají vaše data",
+    "fc_ai_intro": "Tohle je oblast, které se věnuju nejvíc. Nejde o chatbota, který si vymýšlí. Asistent hledá odpovědi ve vašich vlastních datech (katalog, dokumenty, normy) a umí sám udělat další krok: sestavit košík, zkontrolovat zakázku nebo připravit podklad.",
+    "fc_ai_items": [
+      {
+        "icon": "fa-basket-shopping",
+        "title": "AI nákupní asistent",
+        "problem": "Zákazníci na webu bloudí v katalogu, nevědí, co vybrat, a s jednoduchými dotazy volají nebo píšou.",
+        "solution": "Asistent na webu rozumí běžné větě, zná váš aktuální katalog, ceny a pravidla a sestaví zákazníkovi návrh objednávky. Odpovídá jen z vašich dat a poslední slovo má vždycky zákazník.",
+        "example": "V pilotu pro cateringovou firmu asistent z věty „rauty pro 40 lidí, dva vegetariáni“ sestavil košík z aktuálního menu."
+      },
+      {
+        "icon": "fa-robot",
+        "title": "AI asistent nad firemním know-how",
+        "problem": "Know-how je schované v dokumentech, normách a hlavách zkušených kolegů a noví lidé se v tom ztrácejí.",
+        "solution": "Asistent odpovídá a kontroluje podle vašich vlastních podkladů, ne podle obecného internetu. Data zůstávají pod kontrolou a každá odpověď je dohledatelná ke zdroji.",
+        "example": "V pilotním projektu pro výrobní firmu AI kontroluje zakázky podle interních norem a upozorní, na co se nesmí zapomenout."
+      }
+    ],
+    "fd_seo_title": "Stack a jak pracuju | Monika Krausová – AI agenti, RAG, integrace",
+    "fd_seo_desc": "Vývojářka se specializací na agentní AI a RAG. Python, Node.js, Zoho Creator a Catalyst, Gemini API, Qdrant, Docker, self-hosted CI/CD. Otevřená spolupráci na projektech.",
+    "fd_title": "Stack a jak pracuju",
+    "fd_intro": "Jsem vývojářka a systémová integrátorka se zaměřením na agentní AI, RAG, integrace a automatizace. Stavím backend, datové pipelines a aplikace na míru, od low-code v Zoho po vlastní kód v Pythonu a Node.js. Ráda se přidám do projektu jako parťačka na AI, backend nebo integrace.",
+    "fd_open": "Otevřená spolupráci",
+    "fd_ai_badge": "Specializace",
+    "fd_ai_title": "Agentní AI a RAG",
+    "fd_ai_intro": "AI, která nevymýšlí, ale pracuje s daty klienta a umí volat nástroje. Takhle typicky skládám pipeline:",
+    "fd_flow": [
+      {
+        "icon": "fa-comment-dots",
+        "label": "Dotaz",
+        "sub": "uživatel / systém"
+      },
+      {
+        "icon": "fa-diagram-project",
+        "label": "Agent",
+        "sub": "orchestrace, skill soubory"
+      },
+      {
+        "icon": "fa-database",
+        "label": "RAG",
+        "sub": "embeddings → Qdrant"
+      },
+      {
+        "icon": "fa-screwdriver-wrench",
+        "label": "Tools",
+        "sub": "function calling přes API"
+      },
+      {
+        "icon": "fa-code",
+        "label": "Structured JSON",
+        "sub": "validace, audit log"
+      }
+    ],
+    "fd_ai_points": [
+      "RAG místo velkých JSON dumpů v promptu: embeddings, vektorová DB Qdrant, payload filtry pro oddělení dat více klientů",
+      "Function calling místo přímého přístupu k DB, s middleware vrstvou jako bezpečnostní hranicí",
+      "Structured JSON outputs, které jdou rovnou zpracovat v navazujícím systému",
+      "Instrukce pro AI jako verzované .md skill soubory v Gitu, načítané dynamicky",
+      "Audit log a feedback loop: každý request je dohledatelný a odpovědi se dají zpětně zkontrolovat",
+      "Nasazení serverless na Zoho Catalyst nebo kdekoli jinde: vlastní server, Vercel, cloud"
+    ],
+    "fd_stack_title": "Stack podle vrstev",
+    "fd_stack": [
+      {
+        "icon": "fa-brain",
+        "layer": "AI a data",
+        "items": [
+          "RAG",
+          "Qdrant",
+          "Embeddings",
+          "Gemini API",
+          "Function calling",
+          "ETL pipelines",
+          "Web scraping (BeautifulSoup)",
+          "PostgreSQL",
+          "SQLite"
+        ]
+      },
+      {
+        "icon": "fa-server",
+        "layer": "Backend a integrace",
+        "items": [
+          "Python",
+          "Flask",
+          "Django",
+          "Node.js",
+          "REST API",
+          "OAuth 2.0",
+          "Bankovní API (PSD2)",
+          "Webhooky",
+          "Platební brány"
+        ]
+      },
+      {
+        "icon": "fa-cubes",
+        "layer": "Platformy a low-code",
+        "items": [
+          "Zoho Creator",
+          "Deluge",
+          "Zoho Catalyst (Functions, Data Store, File Store)",
+          "Zoho Writer",
+          "Lovable (integrace)"
+        ]
+      },
+      {
+        "icon": "fa-display",
+        "layer": "Frontend",
+        "items": [
+          "Next.js",
+          "Tailwind CSS",
+          "Jinja šablony",
+          "Vercel"
+        ]
+      },
+      {
+        "icon": "fa-gears",
+        "layer": "Infra a DevOps",
+        "items": [
+          "Docker",
+          "Docker Compose",
+          "Linux",
+          "Cloudflare Tunnel",
+          "GitHub Actions (self-hosted runner)",
+          "Cron",
+          "Monitoring a alerting"
+        ]
+      }
+    ],
+    "fd_how_title": "Jak pracuju",
+    "fd_how": [
+      {
+        "icon": "fa-wand-magic-sparkles",
+        "title": "AI-first, ale se záměrem",
+        "text": "Kód píšu s Claude Code, takže jsem rychlá. Architekturu, review a bezpečnost ale nedeleguju: chci rozumět, proč věc funguje, ne jen že funguje."
+      },
+      {
+        "icon": "fa-code-branch",
+        "title": "Git i tam, kde to není zvykem",
+        "text": "Verzuju i low-code: exporty Zoho aplikací a Deluge funkce jsou v Gitu. Díky historii umím dohledat, odkud chyba přišla, a nehádat."
+      },
+      {
+        "icon": "fa-bell",
+        "title": "Nic nesmí selhat potichu",
+        "text": "Každá automatizace má alerting. U úloh spouštěných cronem navíc dead man's switch, který se ozve i tehdy, když se úloha vůbec nespustí."
+      },
+      {
+        "icon": "fa-shield-halved",
+        "title": "Bezpečnost od začátku",
+        "text": "Tajné klíče nikdy v repozitáři, AI nikdy přímo do databáze, minimální oprávnění. Raději o krok víc než únik dat."
+      },
+      {
+        "icon": "fa-magnifying-glass",
+        "title": "Ověřit, ne odhadovat",
+        "text": "Ladím z dat a logů. Když platforma logy nemá, vyrobím si je. Teprve pak opravuju."
+      }
+    ],
+    "fd_lab_title": "Tenhle web běží u mě doma",
+    "fd_lab_text": "Portfolio je zároveň ukázka infrastruktury, kterou si spravuju sama:",
+    "fd_lab_points": [
+      "Flask web, Django hry a PostgreSQL v Docker Compose na domácím serveru s Linuxem",
+      "Web je zvenku dostupný jen přes Cloudflare Tunnel, bez reverse proxy na serveru",
+      "CI/CD: push do main → GitHub Actions self-hosted runner → build a nasazení",
+      "Vlastní hlídač kontejnerů každých 5 minut: pád, návrat i crash-loop hlásí e-mailem a na Discord"
+    ],
+    "fd_lab_btn": "Kód webu na GitHubu",
+    "fd_cta_title": "Hledáte parťáka do projektu?",
+    "fd_cta_text": "AI agent, RAG, integrace nebo backend: napište mi přímo. Studuju informatiku na PEF ČZU a ráda se přidám do týmu.",
+    "fd_cta_btn": "Napsat mi",
+    "fd_clients_note": "Hledáte řešení pro svou firmu?",
+    "fd_clients_link": "Pokračujte sem",
+    "nav_for_clients": "Pro klienty",
+    "nav_for_devs": "Pro vývojáře",
+    "nav_experiments": "Experimenty",
+    "nav_case_studies": "Case studies",
+    "ab_seo_title": "O mně | Monika Krausová",
+    "ab_seo_desc": "Od analýzy zakázek a testování softwaru k vývoji automatizací a agentní AI. Příběh, zkušenosti a co mě baví mimo kód.",
+    "ab_hello": "Ahoj, jsem Monika",
+    "ab_nick_title": "Proč Paprček?",
+    "ab_nick": "Je to spojení slov prcek a paprsek. Měřím 154 cm a nejvíc mě baví přinášet světlo tam, kde něco nefunguje. Problémy kolem sebe aktivně hledám (nevyrábím, slibuju) a řešit je je moje základní nastavení. Věřím, že tohle nastavení mám od Boha, a proto ho chci používat dobře.",
+    "ab_story_title": "Můj příběh",
+    "ab_story": [
+      "Osm let jsem pracovala v administrativě bezpečnostních firem. Analyzovala jsem zadávací podmínky veřejných zakázek, připravovala podklady pro vedení a ručně hlídala fakturaci a odpracované hodiny. Naučila jsem se tam, kolik času firmy ztrácejí opakovanou ruční prací a jak snadno se v ní dělají chyby.",
+      "V roce 2024 jsem se rekvalifikovala na testerku softwaru. Testování mě naučilo nevěřit, dokud si věc neověřím, a dívat se na software očima člověka, který ho bude používat. Brzy mě ale víc začalo bavit věci stavět. Postavila jsem si vlastní web na domácím serveru, s AI jako parťákem, a přišli první klienti.",
+      "Od dubna 2026 působím v delame.it / it.cafe jako vývojářka a systémová integrátorka. Pracuji na reálných projektech v ostrém provozu, od bankovních API a platebních bran po AI piloty, a vedle seniorního kolegy se učím, jak stavět software, který musí fungovat i ve tři ráno. K tomu studuju kombinovaně informatiku na PEF ČZU, protože chci věcem rozumět do hloubky, ne je jen skládat dohromady.",
+      "Pro firmy, kde jsem dřív fakturovala ručně, by dnes stejnou práci zvládl systém, který jim umím postavit. Tohle propojení mě baví nejvíc: rozumím procesům z kanceláře i kódu, který je automatizuje."
+    ],
+    "ab_quote": "Architekturu a logiku držím v rukách já, na psaní kódu využívám AI. Rozhoduji o tom, co a proč má vzniknout, a dohlížím na to, aby technologie lidem práci usnadňovala, ne komplikovala.",
+    "ab_timeline_title": "Cesta v kostce",
+    "ab_timeline": [
+      {
+        "when": "od 04/2026",
+        "what": "Vývojářka a systémová integrátorka",
+        "where": "delame.it / it.cafe",
+        "note": "Automatizace, aplikace na Zoho Creator a Catalyst, integrace bankovních API a platebních bran, AI piloty s RAG.",
+        "current": true
+      },
+      {
+        "when": "od 2026",
+        "what": "Informatika (kombinované studium)",
+        "where": "PEF ČZU v Praze",
+        "note": "",
+        "current": true
+      },
+      {
+        "when": "2025 – 2026",
+        "what": "Vlastní projekty a první klienti",
+        "where": "paprcekmonimerka.cz",
+        "note": "Web na domácím serveru (Flask, Django, Docker, CI/CD), Watchdog pro e-shop, web na WordPressu pro klientku.",
+        "current": false
+      },
+      {
+        "when": "10 – 12/2024",
+        "what": "Rekvalifikace: manuální tester",
+        "where": "Coders Lab",
+        "note": "Celý životní cyklus testování, testovací scénáře, Jira, Postman, SOAP UI, Selenium, SQL. Přijata do crowdtestingové platformy Testbirds.",
+        "current": false
+      },
+      {
+        "when": "2016 – 2024",
+        "what": "Administrativa a analýza zakázek",
+        "where": "Armour security, RTM Security",
+        "note": "Analýza zadávacích podmínek veřejných i soukromých zakázek, podklady pro výběrová řízení, fakturace a evidence hodin, spolupráce na náboru.",
+        "current": false
+      },
+      {
+        "when": "2015 – 2017",
+        "what": "Podniková ekonomika",
+        "where": "VŠEM",
+        "note": "Vedla jsem Studentský senát: koordinace týmu 20 lidí, sběr zpětné vazby, vyjednávání.",
+        "current": false
+      }
+    ],
+    "ab_bring_title": "Co si z cesty nesu",
+    "ab_bring": [
+      {
+        "icon": "fa-bug",
+        "title": "Oko testerky",
+        "text": "Nic nepovažuju za hotové, dokud to neověřím. Hledám, kde věci prasknou, dřív než to najde uživatel."
+      },
+      {
+        "icon": "fa-file-contract",
+        "title": "Analýza zadání",
+        "text": "Osm let čtení zadávacích podmínek mě naučilo najít v zadání to podstatné i to, co v něm chybí."
+      },
+      {
+        "icon": "fa-briefcase",
+        "title": "Pohled z kanceláře",
+        "text": "Vím, jak vypadá ruční fakturace a přepisování dat zevnitř. Proto vím, co má automatizace opravdu vyřešit."
+      },
+      {
+        "icon": "fa-users",
+        "title": "Práce s lidmi",
+        "text": "Domluvím se s klientem i s vývojáři. Vedení studentského senátu mě naučilo koordinovat a vyjednávat."
+      }
+    ],
+    "ab_life_title": "Mimo kód",
+    "ab_life_intro": "Baví mě propojovat zdánlivě nepropojitelná témata. Duchovní zákonitosti si ráda vysvětluju přes IT a hledám algoritmy i tam, kde je vesmír nekonečně větší než to, co z něj dokážeme uchopit.",
+    "ab_life": [
+      {
+        "icon": "fa-chess-knight",
+        "title": "Šachy",
+        "text": "Strategie, trpělivost a přemýšlení o pár tahů dopředu."
+      },
+      {
+        "icon": "fa-mountain-sun",
+        "title": "Hory",
+        "text": "Příroda a hlavně hory jsou místo, kde nabírám sílu. Kdykoli to jde."
+      },
+      {
+        "icon": "fa-atom",
+        "title": "Kvantová fyzika",
+        "text": "Mikrokosmos mě fascinuje. Baví mě objevovat pravidla, která stojí pod povrchem naší reality."
+      },
+      {
+        "icon": "fa-book-open",
+        "title": "Učení a knihy",
+        "text": "Učení je pro mě skoro závislost. Pořád čtu a hledám nové inspirace."
+      },
+      {
+        "icon": "fa-feather-pointed",
+        "title": "Píšu knihu",
+        "text": "O propojení duchovna a technologií. Jde to pomalu, ale jednou to zkompiluju."
+      },
+      {
+        "icon": "fa-people-arrows",
+        "title": "Lidé a antropologie",
+        "text": "Zajímá mě, jak lidé vnímají a reagují, včetně mě samotné."
+      },
+      {
+        "icon": "fa-utensils",
+        "title": "Vaření",
+        "text": "Jsem na dobré jídlo. Jednotlivé suroviny poznám podle vůně a chuti."
+      },
+      {
+        "icon": "fa-heart",
+        "title": "Rodina a víra",
+        "text": "Mám tři dcery. A v životě i práci se snažím jít poctivě po stopách Ježíše — s pokorou, ale pevně."
+      }
+    ],
+    "ab_lang_title": "Jazyky",
+    "ab_lang": "Čeština (rodilá mluvčí) · Angličtina (B1–B2)",
+    "ab_next_title": "Kam dál?",
+    "ab_next_clients": "Co umíme postavit",
+    "ab_next_devs": "Stack a jak pracuju",
+    "ab_next_contact": "Napište mi"
   },
   "en": {
     "home_title": "Monika Paprcek | IT Portfolio",
@@ -184,7 +670,7 @@
     "wd_popis": "Python bot for automatic monitoring of wholesale prices and inventory. It runs in Docker and sends HTML messages.",
     "vytvorit_poptavku": "Create an inquiry",
     "zobrazit_specifikaci": "Technical specification",
-    "tbn_popis": "Technical deployment of a WordPress-based website according to the client's specific requirements. Implementation of custom PHP snippets, HTML, and CSS.",    
+    "tbn_popis": "Technical deployment of a WordPress-based website according to the client's specific requirements. Implementation of custom PHP snippets, HTML, and CSS.",
     "go_web": "Visit the Website",
     "watchdog_page_title": "Project Watchdog",
     "watchdog_main_title": "Watchdog: Intelligent Monitoring",
@@ -203,7 +689,7 @@
     "watchdog_seaclub": "Major Naval Decoration Wholesaler (Germany)",
     "back_to_portfolio": "Back to portfolio",
     "cookie_title": "Cookies & Debugging",
-    "cookie_text": "Hi there! Would you mind helping me improve my website by enabling Google Analytics? I only use the data for traffic analysis and debugging the user experience.",
+    "cookie_text": "Will you help me improve the website? I only use basic analytics to measure traffic.",
     "cookie_accept": "Sure, go ahead!",
     "cookie_decline": "No, thanks",
     "testimonials_title": "What my clients say",
@@ -213,7 +699,7 @@
     "gdpr_text_03": "You have the right to request the deletion or correction of your data at any time. If you have any questions about the security of your data, please feel free to contact me directly via email.",
     "watchdog_form_gdpr": "By submitting this form, you consent with",
     "watchdog_form_gdpr1": "my privacy policy",
-    "gdpr":"GDPR & Data Protection",
+    "gdpr": "GDPR & Data Protection",
     "gdpr_cookies_title": "Cookie Policy",
     "gdpr_cookies_text": "This website uses cookies for traffic analysis (Google Analytics). This data helps me understand how users interact with the site so I can continuously improve Watchdog. Cookies are only activated if you click the 'I agree' button on the banner.",
     "contact_title": "Send a Signal",
@@ -228,9 +714,9 @@
     "contact_gdpr_agree": "I agree to the",
     "contact_gdpr_link": "data processing",
     "contact_btn_send": "Send digital ray",
-    "wd_cta_title": "Interested in this analytical approach?",
-    "wd_cta_text": "Stop spending time manually retyping data. Discover how automated ETL processes can save your time and money.",
-    "wd_cta_btn": "I am interested in Watchdog",
+    "wd_cta_title": "Facing a similar problem?",
+    "wd_cta_text": "Monitoring prices, stock or other data without an API can be built to measure. See what else we can build and get in touch.",
+    "wd_cta_btn": "What we can build",
     "default_title": "Monika Paprcek | Custom Development – Python, AI, Automation",
     "default_desc": "Custom web scraping, process automation and AI applications. Prague-based, available remotely across the EU.",
     "home_seo_title": "Monika Paprcek | Python, AI & Automation Developer for Hire",
@@ -250,6 +736,492 @@
         "logo": "yachtmeni.webp",
         "text": "Working with Monika was excellent. I needed 'watchdogs' for our suppliers' websites to automatically monitor availability and price changes. Communication was fast, the solution is functional, and all feedback was incorporated quickly."
       }
-    ]
+    ],
+    "hp_seo_title": "Monika Krausová | Automation, Integrations & Custom Apps",
+    "hp_seo_desc": "I automate and connect business systems and build custom applications that keep the work running by itself: payment matching, bookings and orders wired to the website, AI on top of company data.",
+    "hp_hero_title": "Apps and automations that keep your work running by itself.",
+    "hp_hero_sub": "Monika Krausová · developer · automation, integrations, custom apps & AI · computer science student at CZU Prague",
+    "hp_hero_intro": "I connect the systems a company already uses so data flows on its own: bank payments match themselves with invoices, website orders land straight in the back office, and nobody retypes anything. And when the right app doesn't exist, I build it – from bookings and vouchers with online payments to event and member management. I work with the delame.it / it.cafe studio and I run this website on my own server.",
+    "hp_card_clients_title": "Need an app or an automation?",
+    "hp_card_clients_text": "Booking systems, orders, invoicing, price monitoring or AI on top of your data. See what we can build and get in touch.",
+    "hp_card_clients_btn": "What we can build",
+    "hp_card_devs_title": "Looking for a teammate?",
+    "hp_card_devs_text": "Backend and integrations in Python and Node.js, the Zoho ecosystem, RAG pipelines, Docker and self-hosting. I work AI-first, but intentionally: architecture and security stay under my control.",
+    "hp_card_devs_btn": "Stack & how I work",
+    "hp_projects_title": "Selected projects",
+    "hp_projects": [
+      {
+        "title": "Events, payments and members for a networking organization",
+        "desc": "A system for regional chapters of a business networking organization: event registrations, card payments, invoices that match themselves with bank payments overnight, automatic invitations and name badge printing. Live in production for several chapters.",
+        "tags": [
+          "Zoho Creator",
+          "Deluge",
+          "Bank API (PSD2, OAuth)",
+          "Payment gateway"
+        ],
+        "icon": "fa-people-group",
+        "link": ""
+      },
+      {
+        "title": "Vouchers and bookings with online payment for an escape room",
+        "desc": "Customers buy a gift voucher on the website or pay for a game directly. After the card payment they automatically receive an email with a unique code, and the booking website learns about the payment by itself – no manual retyping. The owner sees all sales and can also issue vouchers by hand. Live in production.",
+        "tags": [
+          "Zoho Creator",
+          "Deluge",
+          "Payment gateway",
+          "Webhooks",
+          "Lovable"
+        ],
+        "icon": "fa-key",
+        "link": ""
+      },
+      {
+        "title": "Ordering website for a catering company",
+        "desc": "Customers put together an order on the website like in an e-shop. The company manages menu, prices and photos in one internal system and they appear on the web automatically. Every inquiry produces a quote from the company template, which the team reviews before sending. The customer gets a confirmation, the company a notification, and the customer database fills itself.",
+        "tags": [
+          "Zoho Creator",
+          "Deluge",
+          "Next.js",
+          "Vercel",
+          "REST API",
+          "Zoho Writer",
+          "Cloudinary"
+        ],
+        "icon": "fa-utensils",
+        "link": ""
+      },
+      {
+        "title": "Watchdog – price and stock monitor",
+        "desc": "An automatic monitor for suppliers that offer no API or XML feed. Every morning it checks thousands of items, compares prices and availability and reports only what changed. When it fails, it tells me.",
+        "tags": [
+          "Python",
+          "Docker",
+          "Cron",
+          "Alerting (email + Discord)"
+        ],
+        "icon": "fa-shield-dog",
+        "link": "/watchdog"
+      }
+    ],
+    "hp_case_study": "Case study",
+    "hp_case_soon": "Case study coming soon",
+    "hp_experiments_title": "Experiments",
+    "hp_experiments_sub": "Smaller projects where I learned and tried new things.",
+    "hp_partners_title": "I work with",
+    "hp_partners_text": "On client projects I work with the delame.it team. Please send app and automation inquiries through it.cafe.",
+    "hp_partners": [
+      {
+        "name": "delame.it",
+        "url": "https://delame.it",
+        "desc": "IT studio with 20+ years of experience: development, outsourcing, audit"
+      },
+      {
+        "name": "it.cafe",
+        "url": "https://it.cafe",
+        "desc": "IT and AI consulting for small and mid-sized companies in Prague"
+      },
+      {
+        "name": "delame.ai",
+        "url": "https://delame.ai",
+        "desc": "AI solutions for business and industry"
+      },
+      {
+        "name": "bohumilvideo.cz",
+        "url": "https://bohumilvideo.cz/",
+        "desc": "AI videos, reels and full ad campaigns – when your app needs a video or a campaign to get noticed"
+      }
+    ],
+    "soon_title": "Page in progress",
+    "soon_text": "I'm working on this page right now. In the meantime, have a look at the selected projects or drop me a line.",
+    "soon_back": "Back to home",
+    "fc_seo_title": "What we can build | Automation and custom apps – Monika Krausová",
+    "fc_seo_desc": "Automation, system integrations and custom apps for small and mid-sized companies: payment matching, bookings and vouchers with online payment, ordering websites, price monitoring and AI on top of company data.",
+    "fc_title": "What we can build",
+    "fc_intro": "You don't need to know which technology you need. Just describe what slows you down. Here are a few typical situations and how we solved them elsewhere.",
+    "fc_problem": "The problem",
+    "fc_solution": "What we do",
+    "fc_example": "Real example",
+    "fc_items": [
+      {
+        "icon": "fa-arrows-rotate",
+        "title": "Automation and system integration",
+        "problem": "You retype data from one system to another by hand. You check who paid, copy orders into spreadsheets, and mistakes surface too late.",
+        "solution": "We connect the tools you already use (website, bank, accounting, CRM, spreadsheets) so data flows on its own. You only get the result, or an alert when something needs attention.",
+        "example": "Bank payments match themselves with invoices every night and a paid attendee automatically receives an invitation."
+      },
+      {
+        "icon": "fa-ticket",
+        "title": "Bookings, vouchers and online payments",
+        "problem": "You sell time slots, tickets or gift vouchers and track payments and codes by hand – or pay for an expensive system that doesn't quite fit.",
+        "solution": "We build an app connected to your website and payment gateway. The customer pays by card and instantly gets a confirmation or voucher; you see all sales in one place.",
+        "example": "An escape room sells vouchers and direct game payments. The code arrives by email and the booking website learns about the payment by itself."
+      },
+      {
+        "icon": "fa-cart-shopping",
+        "title": "Orders and quotes from your website",
+        "problem": "Inquiries arrive by email or phone, you put quotes together by hand, and the price list on the website is always a bit outdated.",
+        "solution": "Customers build their order on the website like in an e-shop. You manage the menu or price list in one place and each inquiry produces a quote you just review and send.",
+        "example": "A catering company updates its menu and photos in an internal system, the website updates itself and quotes follow the company template."
+      },
+      {
+        "icon": "fa-calendar-check",
+        "title": "Events, registrations and members",
+        "problem": "You run regular events and the registrations, payments, invoices and name badges are scattered across emails and spreadsheets.",
+        "solution": "One app for the whole flow: registration, payment, invoice, invitation, reminder and badge printing. The finished system can be copied for more branches or chapters.",
+        "example": "A networking organization runs its events this way across several regional chapters."
+      },
+      {
+        "icon": "fa-magnifying-glass-chart",
+        "title": "Price and stock monitoring",
+        "problem": "Your supplier or competitor has no API or XML feed, so you track price and stock changes by hand – or not at all.",
+        "solution": "An automatic monitor checks their website every day, compares the data and sends you only what changed. If something fails, it tells you.",
+        "example": "An e-shop gets a morning summary of price and stock changes at two suppliers instead of hours of manual browsing."
+      }
+    ],
+    "fc_process_title": "How we work together",
+    "fc_process": [
+      {
+        "title": "You get in touch",
+        "text": "Describe what slows you down or what should run by itself. No technical details needed."
+      },
+      {
+        "title": "We discuss and propose",
+        "text": "We find out what you already use and propose a solution. Where possible, we connect existing tools instead of building new ones."
+      },
+      {
+        "title": "We build in parts",
+        "text": "We show working pieces along the way, so you shape the result instead of just receiving it at the end."
+      },
+      {
+        "title": "We launch and monitor",
+        "text": "After launch we monitor the solution and adjust it based on how it's used."
+      }
+    ],
+    "fc_faq_title": "FAQ",
+    "fc_faq": [
+      {
+        "q": "Do I have to replace the systems I use?",
+        "a": "Usually not. We first try to connect what you already have. We build a new app only when one is missing or the current one is a dead end."
+      },
+      {
+        "q": "What do you build it with?",
+        "a": "It depends. Often on the Zoho platform, which is fast and affordable for smaller companies; other times custom code in Python or Next.js. We pick what will be easy for you to maintain, not what's trendy."
+      },
+      {
+        "q": "Is this worth it for a small company?",
+        "a": "Yes. Most of the projects above are for small and mid-sized companies. A small automation that saves an hour a day often pays off more than a big system."
+      }
+    ],
+    "fc_cta_title": "Dealing with something similar?",
+    "fc_cta_text": "We deliver projects with the delame.it team. Reach out through it.cafe, briefly describe what's bothering you, and we'll get back to you.",
+    "fc_cta_btn": "Contact via it.cafe",
+    "fc_devs_note": "Are you a developer looking for a teammate?",
+    "fc_devs_link": "Go here",
+    "fc_ai_badge": "My specialization",
+    "fc_ai_title": "AI assistants that know your data",
+    "fc_ai_intro": "This is the area I focus on most. Not a chatbot that makes things up – the assistant looks for answers in your own data (catalog, documents, standards) and can take the next step by itself: build a cart, check an order or prepare a document.",
+    "fc_ai_items": [
+      {
+        "icon": "fa-basket-shopping",
+        "title": "AI shopping assistant",
+        "problem": "Customers get lost in your online catalog, don't know what to choose, and call or email with simple questions.",
+        "solution": "The assistant understands plain sentences, knows your current catalog, prices and rules, and drafts an order for the customer. It answers only from your data and the customer always has the final say.",
+        "example": "In a pilot for a catering company, the assistant turned “buffet for 40 people, two vegetarians” into a cart from the current menu."
+      },
+      {
+        "icon": "fa-robot",
+        "title": "AI assistant for company know-how",
+        "problem": "Know-how is hidden in documents, standards and experienced colleagues' heads, and new people get lost.",
+        "solution": "The assistant answers and checks based on your own materials, not the general internet. Data stays under control and every answer can be traced to its source.",
+        "example": "In a pilot project for a manufacturing company, AI checks orders against internal standards and flags what must not be forgotten."
+      }
+    ],
+    "fd_seo_title": "Stack & how I work | Monika Krausová – AI agents, RAG, integrations",
+    "fd_seo_desc": "Developer specializing in agentic AI and RAG. Python, Node.js, Zoho Creator and Catalyst, Gemini API, Qdrant, Docker, self-hosted CI/CD. Open to collaboration.",
+    "fd_title": "Stack & how I work",
+    "fd_intro": "I'm a developer and systems integrator focused on agentic AI, RAG, integrations and automation. I build backends, data pipelines and custom apps, from low-code in Zoho to custom code in Python and Node.js. Happy to join a project as a teammate for AI, backend or integrations.",
+    "fd_open": "Open to collaboration",
+    "fd_ai_badge": "Specialization",
+    "fd_ai_title": "Agentic AI & RAG",
+    "fd_ai_intro": "AI that doesn't make things up – it works with the client's data and can call tools. This is how I typically build the pipeline:",
+    "fd_flow": [
+      {
+        "icon": "fa-comment-dots",
+        "label": "Query",
+        "sub": "user / system"
+      },
+      {
+        "icon": "fa-diagram-project",
+        "label": "Agent",
+        "sub": "orchestration, skill files"
+      },
+      {
+        "icon": "fa-database",
+        "label": "RAG",
+        "sub": "embeddings → Qdrant"
+      },
+      {
+        "icon": "fa-screwdriver-wrench",
+        "label": "Tools",
+        "sub": "function calling via API"
+      },
+      {
+        "icon": "fa-code",
+        "label": "Structured JSON",
+        "sub": "validation, audit log"
+      }
+    ],
+    "fd_ai_points": [
+      "RAG instead of large JSON dumps in the prompt: embeddings, Qdrant vector DB, payload filters to separate multiple clients' data",
+      "Function calling instead of direct DB access, with a middleware layer as the security boundary",
+      "Structured JSON outputs that the downstream system can process directly",
+      "AI instructions as versioned .md skill files in Git, loaded dynamically",
+      "Audit log and feedback loop: every request is traceable and answers can be reviewed afterwards",
+      "Serverless deployment on Zoho Catalyst or anywhere else: own server, Vercel, cloud"
+    ],
+    "fd_stack_title": "Stack by layer",
+    "fd_stack": [
+      {
+        "icon": "fa-brain",
+        "layer": "AI & data",
+        "items": [
+          "RAG",
+          "Qdrant",
+          "Embeddings",
+          "Gemini API",
+          "Function calling",
+          "ETL pipelines",
+          "Web scraping (BeautifulSoup)",
+          "PostgreSQL",
+          "SQLite"
+        ]
+      },
+      {
+        "icon": "fa-server",
+        "layer": "Backend & integrations",
+        "items": [
+          "Python",
+          "Flask",
+          "Django",
+          "Node.js",
+          "REST API",
+          "OAuth 2.0",
+          "Bank API (PSD2)",
+          "Webhooks",
+          "Payment gateways"
+        ]
+      },
+      {
+        "icon": "fa-cubes",
+        "layer": "Platforms & low-code",
+        "items": [
+          "Zoho Creator",
+          "Deluge",
+          "Zoho Catalyst (Functions, Data Store, File Store)",
+          "Zoho Writer",
+          "Lovable (integration)"
+        ]
+      },
+      {
+        "icon": "fa-display",
+        "layer": "Frontend",
+        "items": [
+          "Next.js",
+          "Tailwind CSS",
+          "Jinja templates",
+          "Vercel"
+        ]
+      },
+      {
+        "icon": "fa-gears",
+        "layer": "Infra & DevOps",
+        "items": [
+          "Docker",
+          "Docker Compose",
+          "Linux",
+          "Cloudflare Tunnel",
+          "GitHub Actions (self-hosted runner)",
+          "Cron",
+          "Monitoring & alerting"
+        ]
+      }
+    ],
+    "fd_how_title": "How I work",
+    "fd_how": [
+      {
+        "icon": "fa-wand-magic-sparkles",
+        "title": "AI-first, but intentional",
+        "text": "I write code with Claude Code, so I'm fast. But I don't delegate architecture, review or security: I want to understand why something works, not just that it does."
+      },
+      {
+        "icon": "fa-code-branch",
+        "title": "Git even where it's unusual",
+        "text": "I version low-code too: Zoho app exports and Deluge functions live in Git. Thanks to the history I can trace where a bug came from instead of guessing."
+      },
+      {
+        "icon": "fa-bell",
+        "title": "Nothing may fail silently",
+        "text": "Every automation has alerting. Cron jobs also get a dead man's switch that speaks up even when the job never runs."
+      },
+      {
+        "icon": "fa-shield-halved",
+        "title": "Security from day one",
+        "text": "Secrets never in the repo, AI never directly in the database, least privilege. One extra step beats a data leak."
+      },
+      {
+        "icon": "fa-magnifying-glass",
+        "title": "Verify, don't guess",
+        "text": "I debug from data and logs. When a platform has no logs, I make my own. Only then do I fix."
+      }
+    ],
+    "fd_lab_title": "This website runs at my home",
+    "fd_lab_text": "The portfolio is also a showcase of infrastructure I run myself:",
+    "fd_lab_points": [
+      "Flask website, Django games and PostgreSQL in Docker Compose on a Linux home server",
+      "The website is reachable from outside only through Cloudflare Tunnel, no reverse proxy on the server",
+      "CI/CD: push to main → GitHub Actions self-hosted runner → build and deploy",
+      "Custom container monitor every 5 minutes: crashes, recoveries and crash-loops reported by email and Discord"
+    ],
+    "fd_lab_btn": "Website code on GitHub",
+    "fd_cta_title": "Looking for a teammate?",
+    "fd_cta_text": "AI agent, RAG, integrations or backend – write to me directly. I study computer science at CZU Prague and I'm happy to join a team.",
+    "fd_cta_btn": "Get in touch",
+    "fd_clients_note": "Looking for a solution for your company?",
+    "fd_clients_link": "Go here",
+    "nav_for_clients": "For clients",
+    "nav_for_devs": "For developers",
+    "nav_experiments": "Experiments",
+    "nav_case_studies": "Case studies",
+    "ab_seo_title": "About me | Monika Krausová",
+    "ab_seo_desc": "From tender analysis and software testing to building automations and agentic AI. My story, experience and what I enjoy outside of code.",
+    "ab_hello": "Hi, I'm Monika",
+    "ab_nick_title": "Why Paprček?",
+    "ab_nick": "It's a blend of two Czech words: prcek (a little one) and paprsek (a ray of light). I'm 154 cm tall and what I enjoy most is bringing light where something doesn't work. I actively look for problems around me (I don't create them, I promise) – solving them is my default setting. I believe that setting is a gift from God, so I want to use it well.",
+    "ab_story_title": "My story",
+    "ab_story": [
+      "For eight years I worked in administration at security companies. I analyzed tender conditions for public contracts, prepared materials for management and manually tracked invoicing and working hours. I learned how much time companies lose on repetitive manual work and how easily mistakes slip in.",
+      "In 2024 I retrained as a software tester. Testing taught me not to trust anything until I've verified it, and to look at software through the eyes of the person who'll use it. Soon, though, I enjoyed building things more. I built my own website on a home server, with AI as my partner, and the first clients came.",
+      "Since April 2026 I've been working at delame.it / it.cafe as a developer and systems integrator. I work on real projects in production, from bank APIs and payment gateways to AI pilots, and next to a senior colleague I'm learning how to build software that has to work at 3 a.m. too. Alongside that I study computer science part-time at CZU Prague, because I want to understand things deeply, not just put them together.",
+      "The companies where I once did invoicing by hand could now have a system do the same work – one I can build. That connection is what I enjoy most: I understand the processes in the office and the code that automates them."
+    ],
+    "ab_quote": "I hold the architecture and logic in my hands; I use AI to write the code. I decide what should be built and why, and I make sure technology makes people's work easier, not harder.",
+    "ab_timeline_title": "The journey in brief",
+    "ab_timeline": [
+      {
+        "when": "since 04/2026",
+        "what": "Developer and systems integrator",
+        "where": "delame.it / it.cafe",
+        "note": "Automation, apps on Zoho Creator and Catalyst, bank API and payment gateway integrations, AI pilots with RAG.",
+        "current": true
+      },
+      {
+        "when": "since 2026",
+        "what": "Computer Science (part-time)",
+        "where": "CZU Prague, Faculty of Economics and Management",
+        "note": "",
+        "current": true
+      },
+      {
+        "when": "2025 – 2026",
+        "what": "Own projects and first clients",
+        "where": "paprcekmonimerka.cz",
+        "note": "Website on a home server (Flask, Django, Docker, CI/CD), Watchdog for an e-shop, a WordPress website for a client.",
+        "current": false
+      },
+      {
+        "when": "10 – 12/2024",
+        "what": "Retraining: manual software tester",
+        "where": "Coders Lab",
+        "note": "Full testing lifecycle, test scenarios, Jira, Postman, SOAP UI, Selenium, SQL. Accepted to the Testbirds crowdtesting platform.",
+        "current": false
+      },
+      {
+        "when": "2016 – 2024",
+        "what": "Administration and tender analysis",
+        "where": "Armour security, RTM Security",
+        "note": "Analysis of public and private tender conditions, bid documentation, invoicing and time tracking, support in recruitment.",
+        "current": false
+      },
+      {
+        "when": "2015 – 2017",
+        "what": "Business Economics",
+        "where": "University of Economics and Management (VŠEM)",
+        "note": "I led the Student Senate: coordinating a team of 20, collecting feedback, negotiating.",
+        "current": false
+      }
+    ],
+    "ab_bring_title": "What I bring from the journey",
+    "ab_bring": [
+      {
+        "icon": "fa-bug",
+        "title": "A tester's eye",
+        "text": "Nothing is done until I've verified it. I look for where things break before the user finds out."
+      },
+      {
+        "icon": "fa-file-contract",
+        "title": "Requirements analysis",
+        "text": "Eight years of reading tender conditions taught me to find what matters in a brief – and what's missing."
+      },
+      {
+        "icon": "fa-briefcase",
+        "title": "The office perspective",
+        "text": "I know manual invoicing and retyping data from the inside, so I know what automation really needs to solve."
+      },
+      {
+        "icon": "fa-users",
+        "title": "Working with people",
+        "text": "I can talk to clients and developers alike. Leading the student senate taught me to coordinate and negotiate."
+      }
+    ],
+    "ab_life_title": "Outside of code",
+    "ab_life_intro": "I love connecting seemingly unrelated topics. I like explaining spiritual principles through IT and I look for algorithms even where the universe is infinitely bigger than what we can grasp.",
+    "ab_life": [
+      {
+        "icon": "fa-chess-knight",
+        "title": "Chess",
+        "text": "Strategy, patience and thinking a few moves ahead."
+      },
+      {
+        "icon": "fa-mountain-sun",
+        "title": "Mountains",
+        "text": "Nature, and above all the mountains, is where I recharge. Whenever I can."
+      },
+      {
+        "icon": "fa-atom",
+        "title": "Quantum physics",
+        "text": "The microcosm fascinates me. I love discovering the rules that lie beneath the surface of our reality."
+      },
+      {
+        "icon": "fa-book-open",
+        "title": "Learning and books",
+        "text": "Learning is almost an addiction for me. I keep reading and looking for new inspiration."
+      },
+      {
+        "icon": "fa-feather-pointed",
+        "title": "Writing a book",
+        "text": "About connecting spirituality and technology. It's slow going, but one day I'll compile it."
+      },
+      {
+        "icon": "fa-people-arrows",
+        "title": "People and anthropology",
+        "text": "I'm curious how people perceive and react – myself included."
+      },
+      {
+        "icon": "fa-utensils",
+        "title": "Cooking",
+        "text": "I love good food. I can recognize individual ingredients by smell and taste."
+      },
+      {
+        "icon": "fa-heart",
+        "title": "Family and faith",
+        "text": "I have three daughters. And in life and work I try to honestly follow in the footsteps of Jesus – humbly, but firmly."
+      }
+    ],
+    "ab_lang_title": "Languages",
+    "ab_lang": "Czech (native) · English (B1–B2)",
+    "ab_next_title": "Where next?",
+    "ab_next_clients": "What we can build",
+    "ab_next_devs": "Stack & how I work",
+    "ab_next_contact": "Get in touch"
   }
 }

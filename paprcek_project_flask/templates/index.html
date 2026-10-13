@@ -1,127 +1,102 @@
 {% extends "base.html" %}
 
-{% block title %}Paprcekmonimerka | Python vývojářka & Analytička{% endblock %}
+{% block title %}{{ g.T['hp_seo_title'] }}{% endblock %}
 
-{% block meta_description %}Stavím datové mosty, automatizuji e-shopy a ladím digitální procesy. Specializace na Python, ETL a efektivní řešení na míru.{% endblock %}
+{% block meta_description %}{{ g.T['hp_seo_desc'] }}{% endblock %}
 
 {% block content %}
-<div class="text-center mb-12">
-    <h1 class="text-5xl font-extrabold mb-4">{{ g.T['greeting'] }}</h1>
-    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-        {{ g.T['intro_text'] }}
+
+<!-- 1. Hero -->
+<section class="relative text-center pt-16 pb-20 px-4 overflow-hidden">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <img src="{{ url_for('static', filename='images/my_photo.jpg') }}" alt="Monika Krausová"
+         class="relative w-28 h-28 mx-auto rounded-full object-cover mb-8 ring-4 ring-green-600/60 shadow-2xl"
+         data-aos="zoom-in">
+    <h1 class="relative text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 max-w-4xl mx-auto leading-tight"
+        data-aos="fade-up" data-aos-delay="100">
+        {{ g.T['hp_hero_title'] }}
+    </h1>
+    <p class="relative text-sm sm:text-base text-green-400 font-semibold tracking-wide mb-6"
+       data-aos="fade-up" data-aos-delay="200">
+        {{ g.T['hp_hero_sub'] }}
     </p>
-</div>
+    <p class="relative text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed"
+       data-aos="fade-up" data-aos-delay="300">
+        {{ g.T['hp_hero_intro'] }}
+    </p>
+</section>
 
-<section class="mt-16">
-    <h2 class="text-4xl font-bold text-center mb-10 text-green-500">{{ g.T['projects_title'] }}</h2>
+<!-- 2. Rozcestník -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 sm:px-0 max-w-5xl mx-auto">
+    <a href="{{ url_for('core.for_clients') }}"
+       class="path-card group block bg-gray-800 p-8 rounded-2xl border border-green-700/60"
+       data-aos="fade-right">
+        <i class="fa-solid fa-briefcase text-3xl text-green-500 mb-4"></i>
+        <h2 class="text-2xl font-bold mb-3">{{ g.T['hp_card_clients_title'] }}</h2>
+        <p class="text-gray-300 mb-6">{{ g.T['hp_card_clients_text'] }}</p>
+        <span class="inline-flex items-center font-semibold text-white bg-green-600 group-hover:bg-green-500 rounded-full px-5 py-2.5 transition">
+            {{ g.T['hp_card_clients_btn'] }}
+            <i class="fa-solid fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+        </span>
+    </a>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 sm:px-0">
+    <a href="{{ url_for('core.for_devs') }}"
+       class="path-card group block bg-gray-800 p-8 rounded-2xl border border-cyan-700/60"
+       data-aos="fade-left">
+        <i class="fa-solid fa-code text-3xl text-cyan-400 mb-4"></i>
+        <h2 class="text-2xl font-bold mb-3 !text-cyan-400">{{ g.T['hp_card_devs_title'] }}</h2>
+        <p class="text-gray-300 mb-6">{{ g.T['hp_card_devs_text'] }}</p>
+        <span class="inline-flex items-center font-semibold text-white bg-cyan-600 group-hover:bg-cyan-500 rounded-full px-5 py-2.5 transition">
+            {{ g.T['hp_card_devs_btn'] }}
+            <i class="fa-solid fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+        </span>
+    </a>
+</section>
 
-        <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-[1.02] border border-green-700 flex flex-col justify-between">
-            <div>
-                <div class="flex items-center mb-4">
-                    <span class="text-green-500 text-3xl mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    </span>
-                    <h3 class="text-2xl font-semibold text-white">Watchdog</h3>
-                </div>
-                <p class="text-gray-300 mb-6">{{ g.T['wd_popis'] }}</p>
-            </div>
-            <div class="flex flex-col space-y-3">
-                <a href="/monitoring-eshopu" class="w-full text-white bg-cyan-600 hover:bg-cyan-700 font-bold rounded-full text-sm px-5 py-2.5 text-center transition duration-150 shadow-md shadow-cyan-900/20">
-                    {{ g.T['vytvorit_poptavku'] }}
-                </a>
-                
-                <a href="/watchdog" class="w-full text-green-500 border border-green-600 hover:bg-green-600 hover:text-white font-medium rounded-full text-sm px-5 py-2.5 text-center transition duration-150">
-                    {{ g.T['zobrazit_specifikaci'] }}
-                </a>
-            </div>
-        </div>
+<!-- 3. Vybrané projekty -->
+<section class="mt-24 px-4 sm:px-0">
+    <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">{{ g.T['hp_projects_title'] }}</h2>
 
-        <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-[1.02] border border-green-700 flex flex-col justify-between">
-            <div>
-                <div class="flex items-center mb-4">
-                    <span class="text-green-500 text-3xl mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
-                    </span>
-                    <h3 class="text-2xl font-semibold text-white">Tělo bez napětí</h3>
-                </div>
-                <p class="text-gray-300 mb-6">{{ g.T['tbn_popis'] }}</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        {% for p in g.T['hp_projects'] %}
+        <article class="project-card bg-gray-800 p-6 rounded-2xl border border-green-700/50 flex flex-col"
+                 data-aos="fade-up" data-aos-delay="{{ (loop.index0 % 2) * 120 }}">
+            <div class="flex items-center mb-4">
+                <i class="fa-solid {{ p.icon }} text-2xl text-green-500 mr-3"></i>
+                <h3 class="text-xl font-semibold text-white leading-snug">{{ p.title }}</h3>
             </div>
-            <div class="flex flex-col space-y-3">
-                <a href="https://telo-bez-napeti.cz" target="_blank" class="w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-full text-sm px-5 py-2.5 text-center transition duration-150 shadow-md">
-                    {{ g.T['go_web'] }}
-                </a>
+            <p class="text-gray-300 mb-6 flex-grow">{{ p.desc }}</p>
+            <div class="flex flex-wrap gap-2 mb-6">
+                {% for tag in p.tags %}
+                <span class="text-xs font-medium text-green-300 bg-green-900/30 border border-green-800 rounded-full px-3 py-1">{{ tag }}</span>
+                {% endfor %}
             </div>
-        </div>
-
-        <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-[1.02] border border-green-700 flex flex-col justify-between">
-            <div>
-                <div class="flex items-center mb-4">
-                    <span class="text-green-500 text-3xl mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M12 2a10 10 0 0 0 9.8 11.6c-4.3 4.4-11.3 4.4-15.6 0A10 10 0 0 0 12 2z"></path><path d="M16 17a4 4 0 0 0-8 0"></path><path d="M12 17v4"></path></svg>
-                    </span>
-                    <h3 class="text-2xl font-semibold text-white">{{ g.T['project_air_title'] }}</h3>
-                </div>
-                <p class="text-gray-300 mb-6">{{ g.T['project_air_desc'] }}</p>
-            </div>
-            <div class="flex flex-col space-y-3">
-                <a href="{{ url_for('projects.air_quality') }}" class="w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-full text-sm px-5 py-2.5 text-center transition duration-150 shadow-md">
-                    {{ g.T['project_air_link'] }}
-                </a>
-                <a href="{{ url_for('projects.air_history') }}" class="w-full text-green-400 bg-gray-700 hover:bg-gray-600 font-medium rounded-full text-sm px-5 py-2.5 text-center transition duration-150 shadow-md">
-                    {{ g.T['nav_air_history'] }}
-                </a>
-            </div>
-        </div>
-
-        <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-[1.02] border border-green-700 flex flex-col justify-between">
-            <div>
-                <div class="flex items-center mb-4">
-                    <span class="text-green-500 text-3xl mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"></path></svg>
-                    </span>
-                    <h3 class="text-2xl font-semibold text-white">{{ g.T['future_project'] }}</h3>
-                </div>
-                <p class="text-gray-300 mb-6">{{ g.T['future_placeholder'] }}</p>
-            </div>
-            <div class="flex flex-col space-y-3">
-                <a href="/game/" class="w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-full text-sm px-5 py-2.5 text-center transition duration-150 shadow-md">
-                    {{ g.T['play_game'] }}
-                </a>
-            </div>
-        </div>
-
-        <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-[1.02] border border-green-700 flex flex-col justify-between">
-            <div>
-                <div class="flex items-center mb-4">
-                    <span class="text-green-500 text-3xl mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-                    </span>
-                    <h3 class="text-2xl font-semibold text-white">{{ g.T['project_binary_title'] }}</h3>
-                </div>
-                <p class="text-gray-300 mb-6">{{ g.T['project_binary_desc'] }}</p>
-            </div>
-            <div class="flex flex-col space-y-3">
-                <a href="{{ url_for('projects.binary_translator') }}" class="w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-full text-sm px-5 py-2.5 text-center transition duration-150 shadow-md">
-                    {{ g.T['project_binary_link'] }}
-                </a>
-            </div>
-        </div>
-
+            {% if p.link %}
+            <a href="{{ p.link }}" class="text-center text-green-400 border border-green-600 hover:bg-green-600 hover:text-white font-medium rounded-full text-sm px-5 py-2.5 transition">
+                {{ g.T['hp_case_study'] }} →
+            </a>
+            {% else %}
+            <span class="text-center text-gray-500 border border-gray-700 rounded-full text-sm px-5 py-2.5">
+                {{ g.T['hp_case_soon'] }}
+            </span>
+            {% endif %}
+        </article>
+        {% endfor %}
     </div>
 </section>
 
-<section class="py-20 bg-black mt-10">
+<!-- 4. Reference -->
+<section class="py-20 bg-black mt-24 rounded-3xl">
     <div class="max-w-6xl mx-auto px-4">
-        <h2 class="text-4xl font-bold text-center text-white mb-16">
+        <h2 class="text-4xl font-bold text-center text-white mb-16" data-aos="fade-up">
             {{ g.T.testimonials_title }}<span class="text-green-400">.</span>
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
             {% for review in g.T.testimonials %}
-            <div class="relative group bg-gray-900 p-8 rounded-2xl border border-gray-800 hover:border-green-400/30 transition-all duration-500 flex flex-col justify-between">
-                
+            <div class="relative group bg-gray-900 p-8 rounded-2xl border border-gray-800 hover:border-green-400/30 transition-all duration-500 flex flex-col justify-between"
+                 data-aos="fade-up" data-aos-delay="{{ loop.index0 * 150 }}">
+
                 <div class="absolute top-4 right-8 text-6xl text-gray-800 group-hover:text-green-400/10 transition-colors duration-500 font-serif">
                     &ldquo;
                 </div>
@@ -133,7 +108,7 @@
 
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <img src="{{ url_for('static', filename='images/' + review.photo) }}" 
+                            <img src="{{ url_for('static', filename='images/' + review.photo) }}"
                                  alt="{{ review.name }}"
                                  class="w-14 h-14 rounded-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500 ring-2 ring-gray-800 group-hover:ring-green-400">
                             <div class="ml-4">
@@ -144,7 +119,7 @@
 
                         {% if review.logo %}
                         <div class="ml-4 opacity-50 group-hover:opacity-100 transition-opacity duration-500">
-                            <img src="{{ url_for('static', filename='images/' + review.logo) }}" 
+                            <img src="{{ url_for('static', filename='images/' + review.logo) }}"
                                  alt="Logo {{ review.position }}"
                                  class="h-8 w-auto object-contain max-w-[100px]">
                         </div>
@@ -154,6 +129,46 @@
             </div>
             {% endfor %}
         </div>
+    </div>
+</section>
+
+<!-- 5. Spolupracuju s -->
+<section class="mt-24 px-4 sm:px-0 max-w-5xl mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-4" data-aos="fade-up">{{ g.T['hp_partners_title'] }}</h2>
+    <p class="text-gray-300 mb-10" data-aos="fade-up" data-aos-delay="100">{{ g.T['hp_partners_text'] }}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+        {% for partner in g.T['hp_partners'] %}
+        <a href="{{ partner.url }}" target="_blank" rel="noopener"
+           class="project-card block bg-gray-800 p-5 rounded-xl border border-gray-700 hover:border-green-600"
+           data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+            <span class="text-lg font-bold text-white">{{ partner.name }}</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-gray-500 ml-1"></i>
+            <p class="text-sm text-gray-400 mt-1">{{ partner.desc }}</p>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- 6. Experimenty -->
+<section class="mt-24 px-4 sm:px-0">
+    <h2 class="text-3xl font-bold text-center mb-2" data-aos="fade-up">{{ g.T['hp_experiments_title'] }}</h2>
+    <p class="text-center text-gray-400 mb-10" data-aos="fade-up">{{ g.T['hp_experiments_sub'] }}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <a href="{{ url_for('projects.air_quality') }}" class="project-card block bg-gray-800/60 p-5 rounded-xl border border-gray-700 hover:border-green-600" data-aos="fade-up">
+            <i class="fa-solid fa-wind text-green-500 mr-2"></i>
+            <span class="font-semibold text-white">{{ g.T['project_air_title'] }}</span>
+            <p class="text-sm text-gray-400 mt-2">{{ g.T['project_air_desc'] }}</p>
+        </a>
+        <a href="/game/" class="project-card block bg-gray-800/60 p-5 rounded-xl border border-gray-700 hover:border-green-600" data-aos="fade-up" data-aos-delay="80">
+            <i class="fa-solid fa-gamepad text-green-500 mr-2"></i>
+            <span class="font-semibold text-white">{{ g.T['future_project'] }}</span>
+            <p class="text-sm text-gray-400 mt-2">{{ g.T['future_placeholder'] }}</p>
+        </a>
+        <a href="{{ url_for('projects.binary_translator') }}" class="project-card block bg-gray-800/60 p-5 rounded-xl border border-gray-700 hover:border-green-600" data-aos="fade-up" data-aos-delay="160">
+            <i class="fa-solid fa-terminal text-green-500 mr-2"></i>
+            <span class="font-semibold text-white">{{ g.T['project_binary_title'] }}</span>
+            <p class="text-sm text-gray-400 mt-2">{{ g.T['project_binary_desc'] }}</p>
+        </a>
     </div>
 </section>
 

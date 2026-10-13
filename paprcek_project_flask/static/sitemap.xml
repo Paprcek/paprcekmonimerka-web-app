@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://paprcekmonimerka.cz/</loc>
-    <lastmod>2026-03-18</lastmod>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://paprcekmonimerka.cz/monitoring-eshopu</loc>
-    <lastmod>2026-03-18</lastmod>
-    <priority>0.8</priority>
-  </url>
+  <url><loc>https://paprcekmonimerka.cz/</loc><lastmod>2026-10-13</lastmod><priority>1.0</priority></url>
+  <url><loc>https://paprcekmonimerka.cz/pro-klienty</loc><lastmod>2026-10-13</lastmod><priority>0.9</priority></url>
+  <url><loc>https://paprcekmonimerka.cz/pro-vyvojare</loc><lastmod>2026-10-13</lastmod><priority>0.9</priority></url>
+  <url><loc>https://paprcekmonimerka.cz/watchdog</loc><lastmod>2026-10-13</lastmod><priority>0.6</priority></url>
+  <url><loc>https://paprcekmonimerka.cz/about</loc><lastmod>2026-10-13</lastmod><priority>0.6</priority></url>
 </urlset>
