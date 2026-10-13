@@ -21,7 +21,7 @@ Flask obsluhuje mé portfolio a externí API volání.
 * **Jazyky & Frameworky:** Python (Django, Flask)
 * **Databáze:** SQL (přes Django ORM / SQLite)
 * **Frontend:** Jinja2, HTML5, CSS (Tailwind)
-* **Infrastruktura:** Docker, Linux (Ubuntu), Git
+* **Infrastruktura:** Docker, Linux (Debian), Git
 
 ## 📈 Služba Watchdog
 Mimo tento web se věnuji vývoji nástroje **Watchdog**. Jde o řešení pro monitoring změn cen a skladu tam, kde chybí standardní API/XML rozhraní. V rámci této služby využívám techniky jako:
