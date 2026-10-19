@@ -74,6 +74,15 @@ msgstr "White"
 
 #: logic/templates/logic/logic_game.html:56
 #: tictactoe/templates/tictactoe/tictactoe_game.html:37
+msgid "Černá: dobrá barva, dobré místo"
+msgstr "Black: right colour, right place"
+
+msgid "Bílá: dobrá barva, špatné místo"
+msgstr "White: right colour, wrong place"
+
+msgid "V těžké obtížnosti jsou kolíčky zamíchané a neodpovídají pozicím."
+msgstr "In hard mode the pegs are shuffled and don't match positions."
+
 msgid "Restartovat hru"
 msgstr "Restart Game"
 

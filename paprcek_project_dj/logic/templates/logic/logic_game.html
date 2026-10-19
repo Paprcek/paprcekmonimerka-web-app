@@ -27,6 +27,18 @@
         </div>
     </div>
 
+    <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 mb-6 text-xs text-gray-400">
+        <span class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-black border border-gray-500 shadow-[0_0_5px_rgba(0,0,0,0.8)]"></span>
+            {% translate "Černá: dobrá barva, dobré místo" %}
+        </span>
+        <span class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-white border border-gray-400 shadow-[0_0_5px_rgba(255,255,255,0.5)]"></span>
+            {% translate "Bílá: dobrá barva, špatné místo" %}
+        </span>
+        <span id="hard-note" class="hidden w-full text-center text-gray-500">{% translate "V těžké obtížnosti jsou kolíčky zamíchané a neodpovídají pozicím." %}</span>
+    </div>
+
     <div id="game-board" class="space-y-2 mb-4"></div>
 
     <div class="sticky bottom-0 bg-gray-900 pt-4 border-t border-gray-700">
@@ -101,6 +113,7 @@
             normalBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold transition uppercase tracking-wider bg-green-600 text-white shadow-lg';
             hardBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold transition uppercase tracking-wider text-gray-400 hover:text-white';
         }
+        document.getElementById('hard-note').classList.toggle('hidden', difficulty !== 'hard');
     }
 
     function setDifficulty(mode) {
