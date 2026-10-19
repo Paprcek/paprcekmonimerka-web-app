@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% set ui = g.T['cs_ui'] %}
+
+{% block title %}{{ cs.seo_title }}{% endblock %}
+
+{% block meta_description %}{{ cs.seo_desc }}{% endblock %}
+
+{% block content %}
+
+<!-- Úvod -->
+<section class="relative text-center pt-12 pb-12 px-4 overflow-hidden">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <span class="relative inline-flex items-center text-xs uppercase tracking-widest font-bold text-green-300 border border-green-700 rounded-full px-4 py-1 mb-6" data-aos="fade-up">
+        <i class="fa-solid {{ cs.icon }} mr-2"></i> {{ ui.badge }}
+    </span>
+    <h1 class="relative text-3xl sm:text-5xl font-extrabold mb-6 max-w-4xl mx-auto leading-tight" data-aos="fade-up" data-aos-delay="80">{{ cs.title }}</h1>
+    <p class="relative text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="160">{{ cs.lead }}</p>
+</section>
+
+<!-- Fakta -->
+<section class="px-4 sm:px-0 max-w-5xl mx-auto">
+    <dl class="grid grid-cols-1 md:grid-cols-3 gap-4" data-aos="fade-up">
+        {% for m in cs.meta %}
+        <div class="bg-gray-800/70 border border-gray-700 rounded-2xl px-5 py-4">
+            <dt class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-1">{{ m.label }}</dt>
+            <dd class="text-gray-200">{{ m.value }}</dd>
+        </div>
+        {% endfor %}
+    </dl>
+    <div class="flex flex-wrap justify-center gap-2 mt-6" data-aos="fade-up">
+        {% for tag in cs.stack %}
+        <span class="text-xs font-medium text-green-300 bg-green-900/30 border border-green-800 rounded-full px-3 py-1">{{ tag }}</span>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Výchozí situace -->
+<section class="mt-20 px-4 sm:px-0 max-w-3xl mx-auto">
+    <h2 class="text-3xl font-bold mb-6" data-aos="fade-up">{{ ui.situation }}</h2>
+    <div class="space-y-5 text-gray-300 text-lg leading-relaxed">
+        {% for para in cs.situation %}
+        <p data-aos="fade-up">{{ para }}</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Co vzniklo -->
+<section class="mt-20 px-4 sm:px-0 max-w-6xl mx-auto">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12" data-aos="fade-up">{{ ui.built }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for f in cs.features %}
+        <article class="project-card bg-gray-800 border border-green-700/50 rounded-2xl p-6"
+                 data-aos="fade-up" data-aos-delay="{{ (loop.index0 % 3) * 100 }}">
+            <i class="fa-solid {{ f.icon }} text-2xl text-green-500 mb-4"></i>
+            <h3 class="text-lg font-semibold text-white mb-2">{{ f.title }}</h3>
+            <p class="text-sm text-gray-400">{{ f.text }}</p>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Jak to funguje -->
+<section class="mt-20 px-4 sm:px-0 max-w-6xl mx-auto">
+    <div class="rounded-3xl border border-cyan-700/60 bg-gradient-to-br from-cyan-950/50 via-gray-900 to-gray-900 px-6 sm:px-10 py-12">
+        <h2 class="text-3xl font-bold text-center mb-10 !text-cyan-300" data-aos="fade-up">{{ ui.flow }}</h2>
+        <ol class="flex flex-col lg:flex-row items-stretch justify-center gap-3">
+            {% for step in cs.flow %}
+            <li class="flex flex-col lg:flex-row items-center" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+                <div class="w-full lg:w-36 text-center bg-gray-900/80 border border-cyan-800 rounded-2xl px-3 py-4">
+                    <i class="fa-solid {{ step.icon }} text-xl text-cyan-300 mb-2"></i>
+                    <p class="font-semibold text-white text-sm">{{ step.label }}</p>
+                </div>
+                {% if not loop.last %}
+                <i class="fa-solid fa-arrow-right hidden lg:block text-cyan-600 mx-2"></i>
+                <i class="fa-solid fa-arrow-down lg:hidden text-cyan-600 my-2"></i>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>
+
+<!-- Technické výzvy -->
+<section class="mt-20 px-4 sm:px-0 max-w-4xl mx-auto">
+    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-4" data-aos="fade-up">{{ ui.challenges }}</h2>
+    <p class="text-center text-gray-400 mb-10" data-aos="fade-up">{{ ui.challenges_sub }}</p>
+    <div class="space-y-4">
+        {% for c in cs.challenges %}
+        <article class="bg-gray-800 border border-gray-700 rounded-2xl p-6" data-aos="fade-up">
+            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-1">{{ ui.problem }}</p>
+            <p class="text-gray-200 mb-4">{{ c.problem }}</p>
+            <p class="text-xs uppercase tracking-widest text-green-500 font-bold mb-1">{{ ui.solution }}</p>
+            <p class="text-gray-300">{{ c.solution }}</p>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Výsledek -->
+<section class="mt-20 px-4 sm:px-0 max-w-3xl mx-auto">
+    <h2 class="text-3xl font-bold mb-6" data-aos="fade-up">{{ ui.results }}</h2>
+    <ul class="space-y-3">
+        {% for r in cs.results %}
+        <li class="flex items-start text-gray-200 text-lg" data-aos="fade-up">
+            <i class="fa-solid fa-check text-green-400 mt-1.5 mr-3 shrink-0"></i><span>{{ r }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    <p class="mt-10 text-sm text-gray-500 border-l-2 border-gray-700 pl-4" data-aos="fade-up">{{ cs.role_note }} {{ ui.nda_note }}</p>
+</section>
+
+<!-- Výzva k akci -->
+<section class="mt-20 px-4 sm:px-0 max-w-4xl mx-auto">
+    <div class="text-center bg-gradient-to-br from-green-900/60 to-gray-900 border border-green-700 rounded-3xl px-6 py-12" data-aos="zoom-in">
+        <h2 class="text-3xl font-bold mb-4">{{ ui.cta_title }}</h2>
+        <p class="text-gray-200 max-w-2xl mx-auto mb-8">{{ ui.cta_text }}</p>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <a href="{{ url_for('core.for_clients') }}"
+               class="inline-flex items-center font-semibold text-white bg-green-600 hover:bg-green-500 rounded-full px-7 py-3 transition">
+                {{ ui.cta_btn }} <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+            <a href="https://it.cafe/#contact" target="_blank" rel="noopener" class="text-green-300 hover:text-white transition">
+                {{ ui.cta_contact }} <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-sm"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Další case studies -->
+<section class="mt-16 px-4 sm:px-0 max-w-5xl mx-auto">
+    <h2 class="text-xl font-bold text-center mb-6">{{ ui.more }}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {% for other_slug, other in g.T['cs_items'].items() if other_slug != slug %}
+        <a href="{{ url_for('projects.case_study', slug=other_slug) }}" class="project-card block bg-gray-800/60 p-5 rounded-xl border border-gray-700 hover:border-green-600">
+            <i class="fa-solid {{ other.icon }} text-green-500 mr-2"></i>
+            <span class="font-semibold text-white">{{ other.short }}</span>
+        </a>
+        {% endfor %}
+        <a href="{{ url_for('projects.watchdog') }}" class="project-card block bg-gray-800/60 p-5 rounded-xl border border-gray-700 hover:border-green-600">
+            <i class="fa-solid fa-shield-dog text-green-500 mr-2"></i>
+            <span class="font-semibold text-white">Watchdog</span>
+        </a>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 import requests
 import datetime
-from flask import Blueprint, render_template, request, flash, redirect, url_for, g, current_app, send_from_directory
+from flask import Blueprint, render_template, request, flash, redirect, url_for, g, current_app, send_from_directory, abort
 from flask_mail import Message
 from extensions import mail
 
@@ -12,6 +12,14 @@ LONGITUDE = 14.4378
 @projects_bp.route('/watchdog')
 def watchdog():
     return render_template('watchdog.html')
+
+@projects_bp.route('/projekty/<slug>')
+def case_study(slug):
+    # Texty case studies jsou v translations.json pod klíčem cs_items (klienti anonymně kvůli NDA)
+    cs = g.T['cs_items'].get(slug)
+    if cs is None:
+        abort(404)
+    return render_template('case_study.html', cs=cs, slug=slug)
 
 @projects_bp.route('/monitoring-eshopu')
 def watchdog_sales():
