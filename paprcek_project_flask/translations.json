@@ -158,7 +158,7 @@
           "Platební brána"
         ],
         "icon": "fa-people-group",
-        "link": ""
+        "link": "/projekty/networkingova-organizace"
       },
       {
         "title": "Vouchery a rezervace s online platbou pro únikovou hru",
@@ -171,7 +171,7 @@
           "Lovable"
         ],
         "icon": "fa-key",
-        "link": ""
+        "link": "/projekty/unikova-hra"
       },
       {
         "title": "Objednávkový web pro cateringovou firmu",
@@ -186,7 +186,7 @@
           "Cloudinary"
         ],
         "icon": "fa-utensils",
-        "link": ""
+        "link": "/projekty/catering"
       },
       {
         "title": "Watchdog – hlídač cen a skladu",
@@ -620,7 +620,372 @@
     "ab_next_title": "Kam dál?",
     "ab_next_clients": "Co umíme postavit",
     "ab_next_devs": "Stack a jak pracuju",
-    "ab_next_contact": "Napište mi"
+    "ab_next_contact": "Napište mi",
+    "cs_ui": {
+      "badge": "Case study",
+      "situation": "Výchozí situace",
+      "built": "Co vzniklo",
+      "flow": "Jak to funguje",
+      "challenges": "Technické výzvy",
+      "challenges_sub": "Co se cestou pokazilo nebo zadrhlo a jak jsme to vyřešili.",
+      "problem": "Problém",
+      "solution": "Řešení",
+      "results": "Co to přineslo",
+      "nda_note": "Klient je kvůli mlčenlivosti uveden anonymně.",
+      "cta_title": "Řešíte něco podobného?",
+      "cta_text": "Podívejte se, co dalšího umíme postavit, nebo nám rovnou napište přes it.cafe.",
+      "cta_btn": "Co umíme postavit",
+      "cta_contact": "Napsat přes it.cafe",
+      "more": "Další case studies",
+      "nav_networking": "Networkingová organizace",
+      "nav_escape": "Úniková hra",
+      "nav_catering": "Catering"
+    },
+    "cs_items": {
+      "networkingova-organizace": {
+        "icon": "fa-people-group",
+        "short": "Akce, platby a členové pro networkingovou organizaci",
+        "seo_title": "Case study: správa akcí, plateb a členů | Monika Krausová",
+        "seo_desc": "Registrace na akce, platby kartou, faktury a automatické párování plateb z banky pro regionální skupiny networkingové organizace.",
+        "title": "Správa akcí, plateb a členů pro networkingovou organizaci",
+        "lead": "Z ručních faktur a kontroly bankovních výpisů na systém, který si platby páruje sám.",
+        "meta": [
+          {
+            "label": "Klient",
+            "value": "Regionální skupiny podnikatelské networkingové organizace"
+          },
+          {
+            "label": "Moje role",
+            "value": "Vývoj a integrace v týmu delame.it"
+          },
+          {
+            "label": "Stav",
+            "value": "V ostrém provozu u několika skupin"
+          }
+        ],
+        "stack": [
+          "Zoho Creator",
+          "Deluge",
+          "Bankovní API (PSD2, OAuth)",
+          "Platební brány",
+          "Git"
+        ],
+        "situation": [
+          "Každá skupina pořádá pravidelná setkání, na která se registrují členové i hosté. Registrace, platby, faktury, pozvánky i jmenovky se dřív řešily ručně.",
+          "Někdo musel hlídat, kdo zaplatil, porovnávat bankovní výpis s fakturami a před každou akcí připravit seznam účastníků a jmenovky. Každá chyba znamenala dohledávání a omlouvání."
+        ],
+        "features": [
+          {
+            "icon": "fa-calendar-check",
+            "title": "Registrace na akce",
+            "text": "Veřejný formulář pro hosty i členy, včetně zástupů za nepřítomné členy."
+          },
+          {
+            "icon": "fa-credit-card",
+            "title": "Platba kartou nebo převodem",
+            "text": "Platební brána s automatickým potvrzením, u převodu QR kód přímo na faktuře."
+          },
+          {
+            "icon": "fa-building-columns",
+            "title": "Noční párování plateb",
+            "text": "Každou noc se přes bankovní API stáhnou příchozí platby a podle variabilního symbolu se spárují s fakturami."
+          },
+          {
+            "icon": "fa-envelope-open-text",
+            "title": "Automatické e-maily",
+            "text": "Potvrzení registrace, pozvánka s praktickými informacemi a připomínka před akcí."
+          },
+          {
+            "icon": "fa-id-badge",
+            "title": "Jmenovky a prezenční listina",
+            "text": "Tisk na A4 jedním klikem, s rozlišením člen, host a zástup."
+          },
+          {
+            "icon": "fa-bell",
+            "title": "Logování a alerty",
+            "text": "Když se něco pokazí, systém pošle e-mail, místo aby tiše selhal."
+          }
+        ],
+        "flow": [
+          {
+            "icon": "fa-pen-to-square",
+            "label": "Registrace"
+          },
+          {
+            "icon": "fa-credit-card",
+            "label": "Platba"
+          },
+          {
+            "icon": "fa-file-invoice",
+            "label": "Faktura"
+          },
+          {
+            "icon": "fa-building-columns",
+            "label": "Párování s bankou"
+          },
+          {
+            "icon": "fa-envelope",
+            "label": "Pozvánka a připomínka"
+          },
+          {
+            "icon": "fa-id-badge",
+            "label": "Jmenovky"
+          }
+        ],
+        "challenges": [
+          {
+            "problem": "Platba kartou proběhla, ale zákazník zavřel prohlížeč dřív, než se vrátil na web. Registrace tak zůstala nezaplacená.",
+            "solution": "Noční kontrola nedokončených plateb přímo u platební brány. Když platba prošla, systém registraci dodatečně potvrdí, vystaví fakturu a pošle pozvánku."
+          },
+          {
+            "problem": "Když stav platby změnila funkce, a ne člověk ve formuláři, navázaný workflow se nespustil a pozvánka neodešla.",
+            "solution": "Odeslání pozvánky je přímo ve funkcích, které platbu potvrzují. Nezáleží tedy na tom, kudy platba přišla."
+          },
+          {
+            "problem": "Některé chyby byly tiché: funkce skončila bez faktury a nikdo se to nedozvěděl.",
+            "solution": "Jednotný log funkcí s e-mailovým alertem při chybě. Problém, který se dřív dal jen odhadovat, je teď dohledatelný."
+          },
+          {
+            "problem": "Každá skupina má vlastní aplikaci a opravy se musely dělat několikrát.",
+            "solution": "Referenční šablona aplikace a znovupoužitelné funkce verzované v Gitu. Nová skupina znamená kopii a konfiguraci, ne vývoj od nuly."
+          }
+        ],
+        "results": [
+          "Platby se párují s fakturami samy, bez ruční kontroly výpisů.",
+          "Pozvánky, potvrzení a připomínky odcházejí automaticky.",
+          "Chyby se hlásí samy a dají se zpětně dohledat.",
+          "Nová skupina se dá nasadit z hotové šablony."
+        ],
+        "role_note": "Na projektu pracuji v týmu delame.it. Mám na starosti hlavně napojení na banky a platební brány, automatické e-maily, jmenovky a logování."
+      },
+      "unikova-hra": {
+        "icon": "fa-key",
+        "short": "Vouchery a online platby pro únikovou hru",
+        "seo_title": "Case study: vouchery a online platby pro únikovou hru | Monika Krausová",
+        "seo_desc": "Dárkové vouchery s online platbou, ruční vystavení voucherů, přímá platba hry a napojení na nový rezervační web přes webhook.",
+        "title": "Vouchery a rezervace s online platbou pro únikovou hru",
+        "lead": "Dárkové vouchery a platba hry online, napojené na nový rezervační web.",
+        "meta": [
+          {
+            "label": "Klient",
+            "value": "Úniková hra"
+          },
+          {
+            "label": "Moje role",
+            "value": "Dokončení rozpracovaného systému a integrace s novým webem"
+          },
+          {
+            "label": "Stav",
+            "value": "V ostrém provozu"
+          }
+        ],
+        "stack": [
+          "Zoho Creator",
+          "Deluge",
+          "Platební brána",
+          "Webhooky",
+          "Lovable"
+        ],
+        "situation": [
+          "Majitel prodával dárkové vouchery přes web s online platbou, jenže systém byl rozpracovaný. Kód voucheru se nikam neukládal a počítal se pokaždé znovu. Voucher vystavený ručně, třeba při platbě v hotovosti, tak nešel vůbec vytvořit.",
+          "Platba samotné hry navíc běžela přes samostatný rezervační systém, který o voucherech nic nevěděl."
+        ],
+        "features": [
+          {
+            "icon": "fa-gift",
+            "title": "Prodej voucherů online",
+            "text": "Platba kartou a hned po zaplacení e-mail s unikátním kódem."
+          },
+          {
+            "icon": "fa-hand-holding-dollar",
+            "title": "Ruční vystavení voucheru",
+            "text": "Majitel vystaví voucher i bez online platby a kód se vygeneruje stejně spolehlivě."
+          },
+          {
+            "icon": "fa-ticket",
+            "title": "Přímá platba hry",
+            "text": "Samostatný formulář pro zaplacení hry bez voucheru, s potvrzovacím e-mailem."
+          },
+          {
+            "icon": "fa-plug",
+            "title": "Napojení na nový web",
+            "text": "Po zaplacení systém sám pošle webhook novému rezervačnímu webu a zákazník se vrátí tam, odkud přišel."
+          },
+          {
+            "icon": "fa-table-list",
+            "title": "Přehled prodejů",
+            "text": "Všechny vouchery a platby na jednom místě, včetně stavu platby."
+          }
+        ],
+        "flow": [
+          {
+            "icon": "fa-globe",
+            "label": "Web"
+          },
+          {
+            "icon": "fa-credit-card",
+            "label": "Platební brána"
+          },
+          {
+            "icon": "fa-circle-check",
+            "label": "Potvrzení platby"
+          },
+          {
+            "icon": "fa-envelope",
+            "label": "Kód a e-mail"
+          },
+          {
+            "icon": "fa-plug",
+            "label": "Webhook na web"
+          },
+          {
+            "icon": "fa-arrow-rotate-left",
+            "label": "Návrat zákazníka"
+          }
+        ],
+        "challenges": [
+          {
+            "problem": "Kód voucheru se skládal z ID platební transakce a dnešního data. Bez transakce nešel vytvořit a při každém dalším zobrazení mohl vyjít jinak.",
+            "solution": "Kód se vygeneruje jednou a uloží se. Funkce je idempotentní: opakované volání vrátí stejný kód. Ruční vouchery dostanou náhodný kód s kontrolou kolize."
+          },
+          {
+            "problem": "Potvrzovací e-mail mohl kvůli chybě v proměnných odcházet s prázdnými hodnotami.",
+            "solution": "Opraveno při sjednocení generování kódu do jedné funkce, kterou používají všechny cesty."
+          },
+          {
+            "problem": "Nový rezervační web stavěl jiný vývojář a bylo potřeba se domluvit na přesném formátu webhooku.",
+            "solution": "Kontrakt jsme doladili naživo: názvy polí, formát těla i návratovou adresu. Webhook je ošetřený tak, aby jeho výpadek nezastavil potvrzení zákazníkovi."
+          },
+          {
+            "problem": "Dva typy plateb (voucher a hra) by potřebovaly dvě návratové stránky a dvojí nastavení platební brány.",
+            "solution": "Jedna společná návratová stránka, která sama pozná, o jakou platbu jde, a zobrazí buď kód voucheru, nebo potvrzení."
+          }
+        ],
+        "results": [
+          "Vouchery jde vystavit i ručně, se stejným typem kódu.",
+          "Zákazník dostane kód hned po zaplacení.",
+          "Rezervační web se o platbě dozví sám, bez ručního přepisování."
+        ],
+        "role_note": "Navázala jsem na rozpracovaný systém v týmu delame.it: dokončila jsem generování kódů, přidala přímou platbu hry a napojila systém na nový rezervační web."
+      },
+      "catering": {
+        "icon": "fa-utensils",
+        "short": "Objednávkový web pro cateringovou firmu",
+        "seo_title": "Case study: objednávkový web pro cateringovou firmu | Monika Krausová",
+        "seo_desc": "Katalog spravovaný v interním systému, košík napojený na poptávky, automatická nabídka podle šablony a zákaznická databáze, která se plní sama.",
+        "title": "Objednávkový web pro cateringovou firmu",
+        "lead": "Objednávka jako v e-shopu, menu spravované na jednom místě a nabídka připravená automaticky.",
+        "meta": [
+          {
+            "label": "Klient",
+            "value": "Firemní catering"
+          },
+          {
+            "label": "Moje role",
+            "value": "Backend a integrace webu s interním systémem"
+          },
+          {
+            "label": "Stav",
+            "value": "Nasazeno, další rozšíření podle klienta"
+          }
+        ],
+        "stack": [
+          "Zoho Creator",
+          "Deluge",
+          "Next.js",
+          "Vercel",
+          "REST API",
+          "OAuth 2.0",
+          "Zoho Writer"
+        ],
+        "situation": [
+          "Firma měla nový web s katalogem, ale menu bylo napevno v kódu a poptávky z košíku nikam nechodily.",
+          "Ceny, fotky a dostupnost se spravovaly jinde než na webu a každá poptávka znamenala ruční přepisování do nabídky."
+        ],
+        "features": [
+          {
+            "icon": "fa-book-open",
+            "title": "Katalog z interního systému",
+            "text": "Menu, ceny, fotky a alergeny se spravují na jednom místě a web si je načítá sám."
+          },
+          {
+            "icon": "fa-cart-shopping",
+            "title": "Košík jako poptávka",
+            "text": "Objednávka z webu se i s položkami uloží rovnou do interního systému."
+          },
+          {
+            "icon": "fa-file-signature",
+            "title": "Automatická nabídka",
+            "text": "Z poptávky vznikne dokument podle firemní šablony. Tým ho zkontroluje a odešle."
+          },
+          {
+            "icon": "fa-address-book",
+            "title": "Zákaznická databáze",
+            "text": "Zákazníci se podle e-mailu sami zakládají a aktualizují, včetně počtu objednávek."
+          },
+          {
+            "icon": "fa-envelope",
+            "title": "Potvrzení a notifikace",
+            "text": "Zákazník dostane potvrzení, firma notifikaci o nové poptávce."
+          },
+          {
+            "icon": "fa-wand-magic-sparkles",
+            "title": "Pilot: asistent objednávky",
+            "text": "Zákazník popíše akci vlastními slovy a dostane návrh položek rovnou do košíku."
+          }
+        ],
+        "flow": [
+          {
+            "icon": "fa-database",
+            "label": "Interní systém"
+          },
+          {
+            "icon": "fa-globe",
+            "label": "Katalog na webu"
+          },
+          {
+            "icon": "fa-cart-shopping",
+            "label": "Košík"
+          },
+          {
+            "icon": "fa-inbox",
+            "label": "Poptávka"
+          },
+          {
+            "icon": "fa-file-signature",
+            "label": "Nabídka"
+          },
+          {
+            "icon": "fa-envelope",
+            "label": "E-maily"
+          }
+        ],
+        "challenges": [
+          {
+            "problem": "Fotky produktů jsou v interním systému za přihlášením, takže je web nemůže načíst napřímo.",
+            "solution": "Proxy na straně webu, která fotku stáhne s tokenem a pošle ji dál s cache. Web je rychlý a interní systém zůstává zavřený."
+          },
+          {
+            "problem": "API interního systému vyžaduje specifický formát data a prostředí (vývoj nebo ostrý provoz) se volí hlavičkou, ne adresou.",
+            "solution": "Sdílená vrstva, která řeší token, prostředí i převod dat na jednom místě. Ostatní kód se o to nestará."
+          },
+          {
+            "problem": "Některá pole (kategorie, pořadí) API vůbec nevracelo, přestože v systému byla vyplněná.",
+            "solution": "API vrací jen pole zobrazená v příslušném přehledu. Doplnili jsme je tam a zapsali do dokumentace, aby se to neopakovalo."
+          },
+          {
+            "problem": "U asistenta objednávky selhávalo doslovné hledání podle názvu produktu na běžných popisech typu „mísa s masem“.",
+            "solution": "Model má roli zkušeného prodavače a vrací strukturovaný výstup (spárované a nespárované položky). U zhruba 250 položek stačí celý katalog v promptu, RAG by tu byl zbytečná složitost."
+          }
+        ],
+        "results": [
+          "Poptávky z webu chodí rovnou do systému, bez přepisování.",
+          "Změna ceny nebo fotky se na webu projeví sama.",
+          "Zákaznická databáze se plní automaticky."
+        ],
+        "role_note": "Na projektu pracuji v týmu delame.it. Postavila jsem napojení webu na interní systém, katalog, zákaznickou databázi a pilot asistenta objednávky."
+      }
+    }
   },
   "en": {
     "home_title": "Monika Paprcek | IT Portfolio",
@@ -760,7 +1125,7 @@
           "Payment gateway"
         ],
         "icon": "fa-people-group",
-        "link": ""
+        "link": "/projekty/networkingova-organizace"
       },
       {
         "title": "Vouchers and bookings with online payment for an escape room",
@@ -773,7 +1138,7 @@
           "Lovable"
         ],
         "icon": "fa-key",
-        "link": ""
+        "link": "/projekty/unikova-hra"
       },
       {
         "title": "Ordering website for a catering company",
@@ -788,7 +1153,7 @@
           "Cloudinary"
         ],
         "icon": "fa-utensils",
-        "link": ""
+        "link": "/projekty/catering"
       },
       {
         "title": "Watchdog – price and stock monitor",
@@ -1222,6 +1587,371 @@
     "ab_next_title": "Where next?",
     "ab_next_clients": "What we can build",
     "ab_next_devs": "Stack & how I work",
-    "ab_next_contact": "Get in touch"
+    "ab_next_contact": "Get in touch",
+    "cs_ui": {
+      "badge": "Case study",
+      "situation": "The starting point",
+      "built": "What we built",
+      "flow": "How it works",
+      "challenges": "Technical challenges",
+      "challenges_sub": "What broke or got stuck along the way, and how we solved it.",
+      "problem": "Problem",
+      "solution": "Solution",
+      "results": "The outcome",
+      "nda_note": "The client is anonymised due to a confidentiality agreement.",
+      "cta_title": "Dealing with something similar?",
+      "cta_text": "See what else we can build, or get in touch right away through it.cafe.",
+      "cta_btn": "What we can build",
+      "cta_contact": "Contact via it.cafe",
+      "more": "More case studies",
+      "nav_networking": "Networking organisation",
+      "nav_escape": "Escape room",
+      "nav_catering": "Catering"
+    },
+    "cs_items": {
+      "networkingova-organizace": {
+        "icon": "fa-people-group",
+        "short": "Events, payments and members for a networking organisation",
+        "seo_title": "Case study: events, payments and members | Monika Krausová",
+        "seo_desc": "Event registration, card payments, invoices and automatic bank payment matching for regional chapters of a networking organisation.",
+        "title": "Events, payments and members for a networking organisation",
+        "lead": "From manual invoices and checking bank statements to a system that matches payments on its own.",
+        "meta": [
+          {
+            "label": "Client",
+            "value": "Regional chapters of a business networking organisation"
+          },
+          {
+            "label": "My role",
+            "value": "Development and integrations in the delame.it team"
+          },
+          {
+            "label": "Status",
+            "value": "Live in several chapters"
+          }
+        ],
+        "stack": [
+          "Zoho Creator",
+          "Deluge",
+          "Banking API (PSD2, OAuth)",
+          "Payment gateways",
+          "Git"
+        ],
+        "situation": [
+          "Each chapter runs regular meetings that members and guests register for. Registrations, payments, invoices, invitations and name badges used to be handled by hand.",
+          "Someone had to track who had paid, compare bank statements with invoices and prepare the attendee list and badges before every event. Every mistake meant chasing it down and apologising."
+        ],
+        "features": [
+          {
+            "icon": "fa-calendar-check",
+            "title": "Event registration",
+            "text": "A public form for guests and members, including substitutes for absent members."
+          },
+          {
+            "icon": "fa-credit-card",
+            "title": "Card or bank transfer",
+            "text": "A payment gateway with automatic confirmation, and a QR code on the invoice for transfers."
+          },
+          {
+            "icon": "fa-building-columns",
+            "title": "Nightly payment matching",
+            "text": "Every night incoming payments are pulled through the banking API and matched to invoices by reference number."
+          },
+          {
+            "icon": "fa-envelope-open-text",
+            "title": "Automatic e-mails",
+            "text": "Registration confirmation, an invitation with practical details and a reminder before the event."
+          },
+          {
+            "icon": "fa-id-badge",
+            "title": "Name badges and attendance list",
+            "text": "One-click A4 printing that tells members, guests and substitutes apart."
+          },
+          {
+            "icon": "fa-bell",
+            "title": "Logging and alerts",
+            "text": "When something goes wrong, the system sends an e-mail instead of failing silently."
+          }
+        ],
+        "flow": [
+          {
+            "icon": "fa-pen-to-square",
+            "label": "Registration"
+          },
+          {
+            "icon": "fa-credit-card",
+            "label": "Payment"
+          },
+          {
+            "icon": "fa-file-invoice",
+            "label": "Invoice"
+          },
+          {
+            "icon": "fa-building-columns",
+            "label": "Bank matching"
+          },
+          {
+            "icon": "fa-envelope",
+            "label": "Invitation & reminder"
+          },
+          {
+            "icon": "fa-id-badge",
+            "label": "Badges"
+          }
+        ],
+        "challenges": [
+          {
+            "problem": "A card payment went through, but the customer closed the browser before returning to the site, so the registration stayed unpaid.",
+            "solution": "A nightly check of unfinished payments directly with the payment gateway. If the payment succeeded, the system confirms the registration, issues the invoice and sends the invitation."
+          },
+          {
+            "problem": "When a function, not a person in the form, changed the payment status, the linked workflow didn't fire and the invitation never went out.",
+            "solution": "Sending the invitation lives directly in the functions that confirm payment, so it doesn't matter which path the payment took."
+          },
+          {
+            "problem": "Some failures were silent: a function ended without an invoice and nobody found out.",
+            "solution": "A shared function log with an e-mail alert on errors. Problems that could only be guessed at before are now traceable."
+          },
+          {
+            "problem": "Each chapter has its own app, so fixes had to be done several times.",
+            "solution": "A reference app template and reusable functions versioned in Git. A new chapter means a copy and configuration, not building from scratch."
+          }
+        ],
+        "results": [
+          "Payments are matched to invoices automatically, with no manual statement checks.",
+          "Invitations, confirmations and reminders go out on their own.",
+          "Errors report themselves and can be traced afterwards.",
+          "A new chapter can be set up from a ready-made template."
+        ],
+        "role_note": "I work on this project in the delame.it team, mainly on the bank and payment gateway integrations, automatic e-mails, name badges and logging."
+      },
+      "unikova-hra": {
+        "icon": "fa-key",
+        "short": "Vouchers and online payments for an escape room",
+        "seo_title": "Case study: vouchers and online payments for an escape room | Monika Krausová",
+        "seo_desc": "Gift vouchers with online payment, manually issued vouchers, direct game payment and a webhook integration with a new booking site.",
+        "title": "Vouchers and bookings with online payment for an escape room",
+        "lead": "Gift vouchers and online game payments, connected to a new booking website.",
+        "meta": [
+          {
+            "label": "Client",
+            "value": "Escape room"
+          },
+          {
+            "label": "My role",
+            "value": "Finishing an unfinished system and integrating it with a new website"
+          },
+          {
+            "label": "Status",
+            "value": "Live"
+          }
+        ],
+        "stack": [
+          "Zoho Creator",
+          "Deluge",
+          "Payment gateway",
+          "Webhooks",
+          "Lovable"
+        ],
+        "situation": [
+          "The owner sold gift vouchers through a website with online payment, but the system was unfinished. The voucher code was never stored and was recalculated every time, so a manually issued voucher, for example for a cash payment, couldn't be created at all.",
+          "Paying for the game itself ran through a separate booking system that knew nothing about vouchers."
+        ],
+        "features": [
+          {
+            "icon": "fa-gift",
+            "title": "Selling vouchers online",
+            "text": "Card payment, and an e-mail with a unique code right after paying."
+          },
+          {
+            "icon": "fa-hand-holding-dollar",
+            "title": "Manual vouchers",
+            "text": "The owner can issue a voucher without an online payment, and the code is generated just as reliably."
+          },
+          {
+            "icon": "fa-ticket",
+            "title": "Direct game payment",
+            "text": "A separate form to pay for a game without a voucher, with a confirmation e-mail."
+          },
+          {
+            "icon": "fa-plug",
+            "title": "New website integration",
+            "text": "After payment, the system sends a webhook to the new booking site and the customer returns to where they came from."
+          },
+          {
+            "icon": "fa-table-list",
+            "title": "Sales overview",
+            "text": "All vouchers and payments in one place, including payment status."
+          }
+        ],
+        "flow": [
+          {
+            "icon": "fa-globe",
+            "label": "Website"
+          },
+          {
+            "icon": "fa-credit-card",
+            "label": "Payment gateway"
+          },
+          {
+            "icon": "fa-circle-check",
+            "label": "Payment confirmed"
+          },
+          {
+            "icon": "fa-envelope",
+            "label": "Code & e-mail"
+          },
+          {
+            "icon": "fa-plug",
+            "label": "Webhook to site"
+          },
+          {
+            "icon": "fa-arrow-rotate-left",
+            "label": "Customer returns"
+          }
+        ],
+        "challenges": [
+          {
+            "problem": "The voucher code was built from the payment transaction ID and today's date. Without a transaction it couldn't be created, and it could come out differently every time it was displayed.",
+            "solution": "The code is generated once and stored. The function is idempotent: calling it again returns the same code. Manual vouchers get a random code with a collision check."
+          },
+          {
+            "problem": "Because of a variable bug, the confirmation e-mail could go out with empty values.",
+            "solution": "Fixed while unifying code generation into a single function used by every path."
+          },
+          {
+            "problem": "A different developer was building the new booking site, so we needed to agree on the exact webhook format.",
+            "solution": "We fine-tuned the contract live: field names, body format and return URL. The webhook is guarded so that if it fails, the customer's confirmation still goes out."
+          },
+          {
+            "problem": "Two payment types (voucher and game) would need two return pages and a double payment gateway setup.",
+            "solution": "One shared return page that recognises the payment type and shows either the voucher code or a confirmation."
+          }
+        ],
+        "results": [
+          "Vouchers can be issued manually, with the same kind of code.",
+          "Customers get their code right after paying.",
+          "The booking site learns about the payment on its own, with no manual re-entry."
+        ],
+        "role_note": "I picked up an unfinished system in the delame.it team: I finished code generation, added direct game payment and connected the system to the new booking site."
+      },
+      "catering": {
+        "icon": "fa-utensils",
+        "short": "Ordering website for a catering company",
+        "seo_title": "Case study: ordering website for a catering company | Monika Krausová",
+        "seo_desc": "A catalogue managed in the internal system, a cart connected to enquiries, automatic quotes from a template and a customer database that fills itself.",
+        "title": "Ordering website for a catering company",
+        "lead": "Ordering like an online shop, a menu managed in one place and a quote prepared automatically.",
+        "meta": [
+          {
+            "label": "Client",
+            "value": "Corporate catering"
+          },
+          {
+            "label": "My role",
+            "value": "Backend and integration of the website with the internal system"
+          },
+          {
+            "label": "Status",
+            "value": "Deployed, further extensions per client"
+          }
+        ],
+        "stack": [
+          "Zoho Creator",
+          "Deluge",
+          "Next.js",
+          "Vercel",
+          "REST API",
+          "OAuth 2.0",
+          "Zoho Writer"
+        ],
+        "situation": [
+          "The company had a new website with a catalogue, but the menu was hard-coded and enquiries from the cart went nowhere.",
+          "Prices, photos and availability were managed somewhere other than the website, and every enquiry meant retyping it into a quote by hand."
+        ],
+        "features": [
+          {
+            "icon": "fa-book-open",
+            "title": "Catalogue from the internal system",
+            "text": "Menu, prices, photos and allergens are managed in one place and the website loads them on its own."
+          },
+          {
+            "icon": "fa-cart-shopping",
+            "title": "Cart as an enquiry",
+            "text": "An order from the website is saved, items included, straight into the internal system."
+          },
+          {
+            "icon": "fa-file-signature",
+            "title": "Automatic quote",
+            "text": "Each enquiry produces a document from the company template. The team reviews it and sends it."
+          },
+          {
+            "icon": "fa-address-book",
+            "title": "Customer database",
+            "text": "Customers are created and updated automatically by e-mail address, including their order count."
+          },
+          {
+            "icon": "fa-envelope",
+            "title": "Confirmations and notifications",
+            "text": "The customer gets a confirmation, the company a notification about the new enquiry."
+          },
+          {
+            "icon": "fa-wand-magic-sparkles",
+            "title": "Pilot: ordering assistant",
+            "text": "The customer describes the event in their own words and gets suggested items straight in the cart."
+          }
+        ],
+        "flow": [
+          {
+            "icon": "fa-database",
+            "label": "Internal system"
+          },
+          {
+            "icon": "fa-globe",
+            "label": "Website catalogue"
+          },
+          {
+            "icon": "fa-cart-shopping",
+            "label": "Cart"
+          },
+          {
+            "icon": "fa-inbox",
+            "label": "Enquiry"
+          },
+          {
+            "icon": "fa-file-signature",
+            "label": "Quote"
+          },
+          {
+            "icon": "fa-envelope",
+            "label": "E-mails"
+          }
+        ],
+        "challenges": [
+          {
+            "problem": "Product photos live in the internal system behind a login, so the website can't load them directly.",
+            "solution": "A proxy on the website side fetches the photo with a token and serves it with caching. The site stays fast and the internal system stays closed."
+          },
+          {
+            "problem": "The internal system's API needs a specific date format, and the environment (development or production) is chosen by a header, not the URL.",
+            "solution": "A shared layer handles the token, environment and data conversion in one place. The rest of the code doesn't have to care."
+          },
+          {
+            "problem": "Some fields (category, order) never came back from the API even though they were filled in.",
+            "solution": "The API only returns fields shown in the related report. We added them there and documented it so it doesn't happen again."
+          },
+          {
+            "problem": "For the ordering assistant, literal matching on product names failed on everyday descriptions like “a platter with meat”.",
+            "solution": "The model plays an experienced salesperson and returns structured output (matched and unmatched items). With about 250 items the whole catalogue fits in the prompt, so RAG would only add complexity."
+          }
+        ],
+        "results": [
+          "Enquiries from the website land straight in the system, with no retyping.",
+          "A change of price or photo shows up on the website automatically.",
+          "The customer database fills itself."
+        ],
+        "role_note": "I work on this project in the delame.it team. I built the website integration with the internal system, the catalogue, the customer database and the ordering assistant pilot."
+      }
+    }
   }
 }
