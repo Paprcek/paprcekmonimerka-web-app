@@ -7,6 +7,19 @@
     <title>{% block title %}{{ g.T['default_title'] }}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{{ g.T['default_desc'] }}{% endblock %}">
 
+    <!-- Náhled odkazu (LinkedIn, Facebook, WhatsApp, X) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Monika Krausová">
+    <meta property="og:locale" content="{{ 'en_US' if g.lang == 'en' else 'cs_CZ' }}">
+    <meta property="og:title" content="{{ self.title() }}">
+    <meta property="og:description" content="{{ self.meta_description() }}">
+    <meta property="og:url" content="https://paprcekmonimerka.cz{{ request.path }}">
+    <meta property="og:image" content="https://paprcekmonimerka.cz{{ url_for('static', filename='images/og-image.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Monika Krausová – aplikace a automatizace, se kterými vám práce poběží sama">
+    <meta name="twitter:card" content="summary_large_image">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
