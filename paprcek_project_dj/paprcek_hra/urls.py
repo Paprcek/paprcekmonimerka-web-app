@@ -10,5 +10,6 @@ urlpatterns = [
     path('game/', views.game_hub, name='game_hub'),
     path('game/tictactoe/', include('tictactoe.urls', namespace='tictactoe')),
     path('game/logic/', include('logic.urls', namespace='logic')),
+    path('czu/', include('czu.urls', namespace='czu')),
     path('', views.game_hub, name='home'),
 ]

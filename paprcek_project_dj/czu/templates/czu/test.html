@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} – {{ s.name }}{% endblock %}
+{% block content %}
+{% include "czu/_style.html" %}
+<div class="czu-wrap">
+  <div class="czu-crumbs"><a href="{% url 'czu:index' %}">ČZU</a> › <a href="{% url 'czu:subject' slug %}">{{ s.name }}</a> › {{ title }}</div>
+  <div id="czu-app"
+       data-subject="{{ s.generator }}"
+       data-generator="{{ s.generator }}"
+       data-seed="{{ seed }}"
+       data-title="{{ title }}"
+       data-back-url="{% url 'czu:subject' slug %}"
+       data-next-url="{{ next_url }}">
+    <p class="czu-meta">Načítám test…</p>
+  </div>
+</div>
+<script src="{% url 'czu:asset' s.generator|add:'.js' %}"></script>
+<script src="{% url 'czu:asset' 'engine.js' %}"></script>
+{% endblock %}
