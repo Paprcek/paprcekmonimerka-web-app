@@ -7,7 +7,7 @@
  * ručně opsaná, takže v nich nemůže být překlep.
  *
  * Výstup: { title, timeLimitMin, questions: [...] } – formát popsaný v engine.js.
- * Typy úloh vychází z cvičného testu v Moodlu a ze sbírek Logika_1, Logika_2, Množiny.
+ * Struktura 1:1 podle cvičného testu v Moodlu: 5 úloh, 10 + 10 + 5 + 8 + 5 = 38 bodů.
  */
 (function () {
   'use strict';
@@ -73,10 +73,6 @@
     return out;
   }
   const tv = (f, vars) => rows(vars).map((e) => (ev(f, e) ? 1 : 0));
-  function classify(f, vars) {
-    const t = tv(f, vars), s = t.reduce((a, b) => a + b, 0);
-    return s === t.length ? 'taut' : s === 0 ? 'contra' : 'sat';
-  }
   function rf(r, vars, d) {
     if (d <= 0 || r() < 0.2) { const v = V(pick(r, vars)); return r() < 0.4 ? N(v) : v; }
     const op = pick(r, ['and', 'or', 'imp', 'eq', 'and', 'or', 'imp']);
@@ -128,14 +124,6 @@
     (n) => n.t === 'eq' ? mk('eq', N(n.a), N(n.b)) : null,
     (n) => (n.t === 'and' || n.t === 'or') ? mk(n.t, n.b, n.a) : null,
   ];
-  const MUTATIONS = [
-    (n) => n.t === 'imp' ? mk('imp', n.b, n.a) : null,
-    (n) => n.t === 'and' ? mk('or', n.a, n.b) : null,
-    (n) => n.t === 'or' ? mk('and', n.a, n.b) : null,
-    (n) => n.t === 'eq' ? mk('imp', n.a, n.b) : null,
-    (n) => n.t === 'v' ? N(n) : null,
-    (n) => n.t === 'n' ? n.a : null,
-  ];
 
   const fm = (f) => '<span class="fm">' + esc(typeof f === 'string' ? f : show(f)) + '</span>';
   function ttHTML(vars, cols) {
@@ -149,82 +137,78 @@
     return h + '</tbody></table>';
   }
 
-  // ---------- Q: tautologie / kontradikce ----------
-  function qFormulaType(r) {
-    const LABEL = { taut: 'tautologie', contra: 'kontradikce', sat: 'splnitelná, ale ne tautologie' };
-    const ORDER = ['taut', 'contra', 'sat'];
-    const targets = shuffle(r, ['taut', 'contra', 'sat', pick(r, ['taut', 'sat', 'contra', 'sat'])]);
-    const seen = new Set(), items = [];
-    targets.forEach((target) => {
-      let found = null;
-      for (let i = 0; i < 8000 && !found; i++) {
-        const vars = r() < 0.5 ? ['A', 'B'] : ['A', 'B', 'C'];
-        const f = rf(r, vars, ri(r, 2, 3)), s = size(f), str = show(f);
-        if (s < 5 || s > 12 || varsOf(f).size !== vars.length || seen.has(str) || trivial(f)) continue;
-        if (classify(f, vars) === target) found = { f, vars };
-      }
-      if (!found) { // pojistka – nemělo by nastat
-        const A = V('A'), B = V('B');
-        const f = target === 'taut' ? mk('imp', A, mk('imp', B, A)) : target === 'contra' ? mk('and', mk('or', A, B), mk('and', N(A), N(B))) : mk('imp', A, B);
-        found = { f, vars: ['A', 'B'] };
-      }
-      seen.add(show(found.f));
-      items.push({ ...found, cls: classify(found.f, found.vars) });
-    });
-    const letters = 'abcd';
+  // ---------- Úloha 1: pravdivostní tabulky φ, ψ + ekvivalence + důsledek ----------
+  function subformulas(f, out = []) { // podformule (bez proměnných) v pořadí výpočtu
+    if (f.t === 'v') return out;
+    if (f.t === 'n') subformulas(f.a, out); else { subformulas(f.a, out); subformulas(f.b, out); }
+    if (!(f.t === 'n' && f.a.t === 'v') && !out.some((g) => show(g) === show(f))) out.push(f);
+    return out;
+  }
+  function qTruthTables(r) {
+    const vars = ['A', 'B', 'C'];
+    const wantEq = r() < 0.25, wantCons = wantEq || r() < 0.5;
+    const ok = (f) => { const s = size(f); return s >= 5 && s <= 9 && varsOf(f).size === 3 && !trivial(f); };
+    let phi = null, psi = null;
+    for (let i = 0; i < 30000 && !phi; i++) {
+      const p = dn(rf(r, vars, 3));
+      if (!ok(p)) continue;
+      const tp = tv(p, vars), cp = tp.reduce((a, b) => a + b, 0);
+      if (cp < 2 || cp > 6) continue;
+      let q;
+      if (wantEq) { q = applyRandom(r, p, EQUIV_RULES); if (q && r() < 0.6) q = applyRandom(r, q, EQUIV_RULES) || q; }
+      else q = dn(rf(r, vars, 3));
+      if (!q || show(q) === show(p) || size(q) > 11 || varsOf(q).size !== 3 || trivial(q)) continue;
+      const tq = tv(q, vars), cq = tq.reduce((a, b) => a + b, 0);
+      if (cq < 1 || cq > 7) continue;
+      const eq = tp.join('') === tq.join(''), cons = tq.every((x, k) => !tp[k] || x);
+      if (eq !== wantEq || cons !== wantCons) continue;
+      phi = p; psi = q;
+    }
+    if (!phi) { // pojistka: zadání z Moodlu
+      phi = mk('imp', mk('or', V('A'), N(V('B'))), V('C'));
+      psi = mk('and', N(mk('eq', V('B'), V('C'))), V('A'));
+    }
+    const tp = tv(phi, vars), tq = tv(psi, vars);
+    const eq = tp.join('') === tq.join(''), cons = tq.every((x, k) => !tp[k] || x);
+    const env = rows(vars);
+    const helper = subformulas(phi).slice(0, -1).map((f) => ({ name: show(f), f }))
+      .concat([{ name: 'φ', f: phi }])
+      .concat(subformulas(psi).slice(0, -1).map((f) => ({ name: show(f), f })))
+      .concat([{ name: 'ψ', f: psi }]);
+    const badRow = tq.findIndex((x, k) => tp[k] && !x);
+    const bits = (k) => vars.map((v) => (env[k][v] ? 1 : 0)).join('');
     return {
-      title: 'Tautologie, kontradikce, splnitelnost', points: 4, kind: 'inline',
-      prompt: 'Pro každou formuli rozhodněte, zda je tautologie, kontradikce, nebo splnitelná formule, která není tautologií.',
-      rows: items.map((it, i) => ['(' + letters[i] + ')', fm(it.f), 'je', { sel: ORDER.map((k) => LABEL[k]), ans: ORDER.indexOf(it.cls) }]),
-      explain: items.map((it, i) => '<div class="ex-item"><p><b>(' + letters[i] + ')</b> ' + fm(it.f) + ' → <b>' + LABEL[it.cls] + '</b></p>' +
-        ttHTML(it.vars, [{ name: 'φ', f: it.f }]) + '</div>').join('') +
-        '<p class="note">Tautologie má ve sloupci samé 1, kontradikce samé 0, splnitelná formule aspoň jednu 1.</p>',
+      title: 'Pravdivostní tabulka, ekvivalence, důsledek', points: 10, kind: 'inline',
+      prompt: 'Napište pravdivostní tabulky formulí <span class="fm">φ = ' + esc(show(phi)) + '</span> a <span class="fm">ψ = ' + esc(show(psi)) + '</span> a rozhodněte, zda jsou ekvivalentní a zda je formule ψ důsledkem formule φ.',
+      table: {
+        head: ['A', 'B', 'C', 'φ', 'ψ'],
+        rows: env.map((e, k) => [e.A ? '1' : '0', e.B ? '1' : '0', e.C ? '1' : '0',
+          { sel: ['0', '1'], ans: tp[k] }, { sel: ['0', '1'], ans: tq[k] }]),
+      },
+      rows: [
+        ['Formule φ a ψ', { sel: ['jsou', 'nejsou'], ans: eq ? 0 : 1 }, 'ekvivalentní.'],
+        ['Formule ψ', { sel: ['je', 'není'], ans: cons ? 0 : 1 }, 'důsledkem formule φ.'],
+      ],
+      explain: '<p>Tabulka i s mezivýpočty (podformule zleva doprava):</p>' + ttHTML(vars, helper) +
+        '<p><b>' + (eq ? 'Jsou ekvivalentní' : 'Nejsou ekvivalentní') + '</b>: ' + (eq ? 'sloupce φ a ψ jsou shodné.' : 'sloupce φ a ψ se liší.') + '</p>' +
+        '<p><b>ψ ' + (cons ? 'je' : 'není') + ' důsledkem φ</b>: ' + (cons ? 've všech řádcích, kde φ = 1, je i ψ = 1.' : 'v řádku ' + bits(badRow) + ' je φ = 1, ale ψ = 0.') + '</p>' +
+        '<p class="note">Pozor na směr: „ψ je důsledkem φ“ = kde platí φ, musí platit ψ (φ ⇒ ψ je tautologie). Řádky, kde φ = 0, nehrají roli.</p>',
     };
   }
 
-  // ---------- Q: ekvivalence formulí ----------
-  function qEquivalence(r) {
-    const targets = shuffle(r, [true, true, false, false]);
-    const letters = 'abcd', items = [];
-    targets.forEach((target) => {
-      let item = null;
-      for (let i = 0; i < 3000 && !item; i++) {
-        const vars = r() < 0.4 ? ['A', 'B'] : ['A', 'B', 'C'];
-        const phi = dn(rf(r, vars, ri(r, 2, 3)));
-        const s = size(phi);
-        if (s < 4 || s > 9 || varsOf(phi).size < 2 || trivial(phi)) continue;
-        let psi = applyRandom(r, phi, EQUIV_RULES);
-        if (!psi) continue;
-        if (r() < 0.5) psi = applyRandom(r, psi, EQUIV_RULES) || psi;
-        if (!target) psi = applyRandom(r, psi, MUTATIONS);
-        if (!psi || show(psi) === show(phi) || size(psi) > 14 || trivial(psi)) continue;
-        const allVars = ['A', 'B', 'C'].filter((v) => varsOf(phi).has(v) || varsOf(psi).has(v));
-        const same = tv(phi, allVars).join('') === tv(psi, allVars).join('');
-        if (same !== target) continue;
-        item = { phi, psi, vars: allVars, same };
-      }
-      items.push(item);
-    });
-    return {
-      title: 'Ekvivalence formulí', points: 4, kind: 'inline',
-      prompt: 'Rozhodněte, zda jsou dvojice formulí navzájem ekvivalentní (mají stejnou pravdivostní tabulku).',
-      rows: items.map((it, i) => ['(' + letters[i] + ')', fm(it.phi), '<span class="muted">a</span>', fm(it.psi), { sel: ['jsou ekvivalentní', 'nejsou ekvivalentní'], ans: it.same ? 0 : 1 }]),
-      explain: items.map((it, i) => '<div class="ex-item"><p><b>(' + letters[i] + ')</b> ' + (it.same ? 'jsou ekvivalentní – sloupce φ a ψ se shodují.' : 'nejsou ekvivalentní – sloupce se liší (zvýrazněno).') + '</p>' +
-        ttHTML(it.vars, [{ name: 'φ = ' + show(it.phi), f: it.phi }, { name: 'ψ = ' + show(it.psi), f: it.psi }]) + '</div>').join(''),
-    };
-  }
-
-  // ---------- Q: minimální DNF (jako ve cvičném testu) ----------
-  const DV = ['A', 'B', 'C'];
+  // ---------- Úloha 2: minimální DNF (4 proměnné, jako v Moodlu) ----------
+  const DV = ['A', 'B', 'C', 'D'], NV = 4, NR = 1 << NV;
+  const RANGE = [...Array(NR).keys()];
   const termStr = (t) => t.map((x, k) => (x === null ? null : DV[k] + (x ? '' : '′'))).filter(Boolean).join(' ∧ ');
-  const minIdxBits = (i) => [!((i >> 2) & 1), !((i >> 1) & 1), !(i & 1)];
-  const covers = (t, i) => minIdxBits(i).every((b, k) => t[k] === null || t[k] === (b ? 1 : 0));
-  const coverSet = (t) => [0, 1, 2, 3, 4, 5, 6, 7].filter((i) => covers(t, i));
+  const minBits = (i) => DV.map((_, k) => (((i >> (NV - 1 - k)) & 1) ? 0 : 1)); // řádek 0 = 1111
+  const covers = (t, i) => { const b = minBits(i); return t.every((x, k) => x === null || x === b[k]); };
+  const COVER = new Map();
+  const coverSet = (t) => { const key = t.join(','); if (!COVER.has(key)) COVER.set(key, RANGE.filter((i) => covers(t, i))); return COVER.get(key); };
   const lits = (t) => t.filter((x) => x !== null).length;
   const ALL_TERMS = (() => {
-    const out = [];
-    for (const a of [1, 0, null]) for (const b of [1, 0, null]) for (const c of [1, 0, null]) if (!(a === null && b === null && c === null)) out.push([a, b, c]);
-    return out;
+    let out = [[]];
+    for (let k = 0; k < NV; k++) out = out.flatMap((t) => [t.concat([1]), t.concat([0]), t.concat([null])]);
+    return out.filter((t) => lits(t) > 0);
   })();
 
   function minimalDNF(F) {
@@ -234,83 +218,44 @@
       const cp = coverSet(p);
       return !impl.some((q) => q !== p && coverSet(q).length > cp.length && cp.every((i) => covers(q, i)));
     });
+    if (primes.length > 14) return { primes, best: null, unique: false };
     let best = null, bestCount = 0;
     for (let mask = 1; mask < (1 << primes.length); mask++) {
       const chosen = primes.filter((_, k) => (mask >> k) & 1);
       const cov = new Set(); chosen.forEach((t) => coverSet(t).forEach((i) => cov.add(i)));
-      if (![...Fs].every((i) => cov.has(i))) continue;
-      const cost = chosen.reduce((s, t) => s + lits(t), 0) * 10 + chosen.length;
+      if (cov.size !== Fs.size) continue;
+      const cost = chosen.reduce((s, t) => s + lits(t), 0) * 100 + chosen.length;
       if (!best || cost < best.cost) { best = { cost, chosen }; bestCount = 1; } else if (cost === best.cost) bestCount++;
     }
-    return { primes, best: best.chosen, unique: bestCount === 1 };
+    return { primes, best: best && best.chosen, unique: bestCount === 1 };
   }
 
   function qMinDNF(r) {
-    for (let attempt = 0; attempt < 2000; attempt++) {
-      const F = shuffle(r, [0, 1, 2, 3, 4, 5, 6, 7]).slice(0, ri(r, 3, 6)).sort((a, b) => a - b);
+    for (let attempt = 0; attempt < 3000; attempt++) {
+      const F = shuffle(r, RANGE).slice(0, ri(r, 5, 9)).sort((a, b) => a - b);
       const { primes, best, unique } = minimalDNF(F);
-      if (!unique || best.length < 2 || best.length > 3) continue;
+      if (!unique || !best || best.length < 2 || best.length > 4) continue;
+      if (!best.some((t) => lits(t) >= 3)) continue; // ať to není triviální
       const key = (t) => t.join(',');
       const bestKeys = new Set(best.map(key));
-      const minterms = F.map((i) => minIdxBits(i).map((b) => (b ? 1 : 0)));
-      // distraktory: nepoužité prosté implikanty, mintermy, náhodné termy
       const pool = [];
       const add = (t) => { if (!bestKeys.has(key(t)) && !pool.some((p) => key(p) === key(t))) pool.push(t); };
-      shuffle(r, primes).forEach(add);
-      shuffle(r, minterms).forEach(add);
-      shuffle(r, ALL_TERMS.filter((t) => lits(t) >= 2)).forEach(add);
-      const distract = pool.slice(0, 6 - best.length);
-      const opts = shuffle(r, best.map((t) => ({ t, ok: true })).concat(distract.map((t) => ({ t, ok: false }))));
-      // zobrazení formule: disjunkce mintermů, někdy s opakováním (jako v Moodlu)
-      let shown = shuffle(r, minterms);
-      if (r() < 0.6) shown.splice(ri(r, 0, shown.length), 0, pick(r, minterms));
+      shuffle(r, primes).slice(0, 2).forEach(add);                      // jiné prosté implikanty
+      shuffle(r, ALL_TERMS.filter((t) => lits(t) <= 3)).forEach(add);  // krátké "lákavé" termy
+      const opts = shuffle(r, best.map((t) => ({ t, ok: true })).concat(pool.slice(0, 6 - best.length).map((t) => ({ t, ok: false }))));
+      const minterms = F.map((i) => minBits(i));
+      const shown = shuffle(r, minterms);
+      for (let d = ri(r, 0, 2); d > 0; d--) shown.splice(ri(r, 0, shown.length), 0, pick(r, minterms));
       const formula = shown.map((t) => '(' + termStr(t) + ')').join(' ∨ ');
-      const bits = (i) => minIdxBits(i).map((b) => (b ? 1 : 0)).join('');
       return {
-        title: 'Minimální disjunktivní tvar', points: 5, kind: 'multi',
+        title: 'Minimální disjunktivní tvar', points: 10, kind: 'multi',
         prompt: 'Je zadána formule<div class="fm-block">' + esc(formula) + '</div>Vyberte konjunkce, jejichž disjunkcí je minimální disjunktivní tvar zadané formule.',
         options: opts.map((o) => fm(termStr(o.t))),
         answer: opts.map((o) => o.ok),
-        explain: '<p>Formule je pravdivá v řádcích (A B C): <b>' + F.map(bits).join(', ') + '</b>.</p>' +
-          '<p>Prosté implikanty (nedají se už zjednodušit): ' + primes.map((t) => fm(termStr(t))).join(', ') + '.</p>' +
-          '<p>Nejmenší pokrytí všech řádků: <b>' + fm(best.map((t) => '(' + termStr(t) + ')').join(' ∨ ')) + '</b></p>' +
-          '<p class="note">Postup (Quine–McCluskey / Karnaughova mapa): sloučíte mintermy lišící se v jedné proměnné, dokud to jde, a pak vyberete co nejméně implikantů tak, aby pokryly všechny jedničky.</p>',
-      };
-    }
-  }
-
-  // ---------- Q: logický důsledek ----------
-  function qConsequence(r) {
-    const vars = ['A', 'B', 'C'];
-    for (let attempt = 0; attempt < 3000; attempt++) {
-      const phi = dn(rf(r, vars, ri(r, 2, 3)));
-      const tphi = tv(phi, vars), cnt = tphi.reduce((a, b) => a + b, 0);
-      if (cnt < 2 || cnt > 5 || size(phi) < 5 || size(phi) > 11 || varsOf(phi).size < 3 || trivial(phi)) continue;
-      const pool = new Map();
-      for (let i = 0; i < 400; i++) {
-        const psi = dn(rf(r, vars, ri(r, 1, 2)));
-        if (size(psi) > 6 || trivial(psi)) continue;
-        pool.set(show(psi), psi);
-      }
-      pool.delete(show(phi));
-      const isCons = (psi) => tv(psi, vars).every((x, k) => !tphi[k] || x);
-      const all = [...pool.values()];
-      const cons = shuffle(r, all.filter(isCons));
-      const consNT = cons.filter((p) => classify(p, vars) !== 'taut');
-      const non = shuffle(r, all.filter((p) => !isCons(p)));
-      if (!consNT.length || non.length < 3) continue;
-      const nCons = Math.min(ri(r, 1, 3), cons.length);
-      const chosenCons = consNT.slice(0, nCons);
-      if (chosenCons.length < nCons) { const t = cons.find((p) => classify(p, vars) === 'taut'); if (t) chosenCons.push(t); }
-      const chosen = shuffle(r, chosenCons.concat(non.slice(0, 4 - chosenCons.length)));
-      return {
-        title: 'Logický důsledek', points: 4, kind: 'multi',
-        prompt: 'Které z následujících formulí jsou logickým důsledkem formule <span class="fm">φ = ' + esc(show(phi)) + '</span>?',
-        options: chosen.map((p) => fm(p)),
-        answer: chosen.map(isCons),
-        explain: '<p>ψ je důsledkem φ, právě když v každém řádku, kde je φ pravdivá, je pravdivá i ψ.</p>' +
-          ttHTML(vars, [{ name: 'φ', f: phi }].concat(chosen.map((p, k) => ({ name: 'ψ' + (k + 1) + ' = ' + show(p), f: p })))) +
-          '<p>Důsledky: <b>' + (chosen.filter(isCons).map((p) => fm(p)).join(', ') || 'žádná') + '</b></p>',
+        explain: '<p>Mintermy (A B C D): <b>' + F.map((i) => minBits(i).join('')).join(', ') + '</b></p>' +
+          '<p>Prosté implikanty: ' + primes.map((t) => fm(termStr(t))).join(', ') + '</p>' +
+          '<p>Minimální pokrytí: <b>' + fm(best.map((t) => '(' + termStr(t) + ')').join(' ∨ ')) + '</b></p>' +
+          '<p class="note">Postup (Quine–McCluskey): seskupte mintermy podle počtu jedniček, slučujte dvojice lišící se v jedné proměnné (ta zmizí), opakujte. Co už sloučit nejde, jsou prosté implikanty. Z nich vyberte co nejméně tak, aby pokryly všechny mintermy, a začněte těmi nezbytnými (jediné pokrývají některý minterm).</p>',
       };
     }
   }
@@ -435,7 +380,7 @@
       order: p.order ? 'je reflexivní, antisymetrická a tranzitivní' : 'uspořádání = reflexivní + antisymetrická + tranzitivní, něco chybí',
     };
     return {
-      title: 'Vlastnosti relace', points: 5, kind: 'inline',
+      title: 'Vlastnosti relace', points: 8, kind: 'inline',
       prompt: 'Je zadána relace R na množině {' + S.join(',') + '}. Rozhodněte, jaké má vlastnosti.<div class="fm-block">R = ' + relStr(R) + '</div>',
       rows: LIST.map(([k, name]) => ['Relace R', { sel: ['je', 'není'], ans: p[k] ? 0 : 1 }, name + '.']),
       explain: '<ul class="ex-list">' + LIST.map(([k, name]) => '<li><b>' + (p[k] ? 'je' : 'není') + ' ' + name + '</b> – ' +
@@ -492,48 +437,8 @@
     }
   }
 
-  // ---------- Q: slovní úloha (Vennův diagram) ----------
-  const THEMES = [
-    { intro: 'Na sportovním soustředění je {N} studentů. Každý si mohl zapsat fotbal, plavání a posilovnu (nebo nic).', items: ['fotbal', 'plavání', 'posilovna'], who: 'studentů', what: 'sport' , none: 'si nezapsalo nic', one: 'si zapsalo právě jeden sport', two: 'si zapsalo právě dva sporty' },
-    { intro: 'Ve frontě u pokladen stojí {N} zákazníků. Sledujeme, kdo má ve vozíku pivo, jogurty a rohlíky.', items: ['pivo', 'jogurty', 'rohlíky'], who: 'zákazníků', none: 'nemá nic z toho', one: 'má právě jednu z těchto potravin', two: 'má právě dvě z těchto potravin' },
-    { intro: 'V restauraci obědvá {N} turistů. Mohli si objednat polévku, hlavní jídlo a zákusek.', items: ['polévka', 'hlavní jídlo', 'zákusek'], who: 'turistů', none: 'si neobjednalo nic', one: 'si objednalo právě jednu věc', two: 'si objednalo právě dvě věci' },
-    { intro: 'Ve skupině {N} studentů jsme zjišťovali, které jazyky ovládají: angličtinu, němčinu a španělštinu.', items: ['angličtina', 'němčina', 'španělština'], who: 'studentů', none: 'neovládá žádný z jazyků', one: 'ovládá právě jeden jazyk', two: 'ovládá právě dva jazyky' },
-    { intro: 'Průzkumu se zúčastnilo {N} domácností. Ptali jsme se, které služby předplácí: Netflix, HBO Max a Disney+.', items: ['Netflix', 'HBO Max', 'Disney+'], who: 'domácností', none: 'nepředplácí nic', one: 'předplácí právě jednu službu', two: 'předplácí právě dvě služby' },
-  ];
-  function qVenn(r) {
-    const th = pick(r, THEMES);
-    const g = { a: ri(r, 2, 9), b: ri(r, 2, 9), c: ri(r, 1, 8), ab: ri(r, 0, 6), ac: ri(r, 0, 5), bc: ri(r, 1, 6), abc: ri(r, 1, 4), none: ri(r, 0, 6) };
-    const total = Object.values(g).reduce((s, x) => s + x, 0);
-    const [X, Y, Z] = th.items;
-    const nA = g.a + g.ab + g.ac + g.abc, nB = g.b + g.ab + g.bc + g.abc, nC = g.c + g.ac + g.bc + g.abc;
-    const pairs = [[X, Y, Z, g.ab], [X, Z, Y, g.ac], [Y, Z, X, g.bc]];
-    const clues = [X + ': <b>' + nA + '</b>', Y + ': <b>' + nB + '</b>', Z + ': <b>' + nC + '</b>'];
-    pairs.forEach(([p, q, o, only]) => {
-      if (r() < 0.5) clues.push(p + ' i ' + q + ' (případně i ' + o + '): <b>' + (only + g.abc) + '</b>');
-      else clues.push(p + ' i ' + q + ', ale ne ' + o + ': <b>' + only + '</b>');
-    });
-    clues.push('všechny tři: <b>' + g.abc + '</b>');
-    const one = g.a + g.b + g.c, two = g.ab + g.ac + g.bc;
-    return {
-      title: 'Slovní úloha s množinami', points: 6, kind: 'inline',
-      prompt: th.intro.replace('{N}', '<b>' + total + '</b>') + ' Víme:<ul class="clues">' + clues.map((c) => '<li>' + c + '</li>').join('') + '</ul>',
-      rows: [
-        ['Kolik ' + th.who + ' ' + th.none + '?', { num: true, ans: g.none }],
-        ['Kolik ' + th.who + ' ' + th.one + '?', { num: true, ans: one }],
-        ['Kolik ' + th.who + ' ' + th.two + '?', { num: true, ans: two }],
-      ],
-      explain: '<p>Nakreslíme Vennův diagram a plníme ho od středu ven:</p><ul class="ex-list">' +
-        '<li>všechny tři: <b>' + g.abc + '</b></li>' +
-        '<li>jen ' + X + ' a ' + Y + ': <b>' + g.ab + '</b>, jen ' + X + ' a ' + Z + ': <b>' + g.ac + '</b>, jen ' + Y + ' a ' + Z + ': <b>' + g.bc + '</b></li>' +
-        '<li>jen ' + X + ': ' + nA + ' − ' + g.ab + ' − ' + g.ac + ' − ' + g.abc + ' = <b>' + g.a + '</b>; jen ' + Y + ': <b>' + g.b + '</b>; jen ' + Z + ': <b>' + g.c + '</b></li>' +
-        '<li>nic: ' + total + ' − ' + (total - g.none) + ' = <b>' + g.none + '</b></li></ul>' +
-        '<p>Právě jedna: ' + g.a + ' + ' + g.b + ' + ' + g.c + ' = <b>' + one + '</b>; právě dvě: ' + g.ab + ' + ' + g.ac + ' + ' + g.bc + ' = <b>' + two + '</b>.</p>' +
-        '<p class="note">Pozor na rozdíl „X i Y“ (zahrnuje i ty, co mají všechny tři) vs. „X i Y, ale ne Z“.</p>',
-    };
-  }
-
   // ---------- Sestavení testu ----------
-  const BUILDERS = [qFormulaType, qMinDNF, qSets, qRelationProps, qRelationComplete, qEquivalence, qConsequence, qVenn];
+  const BUILDERS = [qTruthTables, qMinDNF, qSets, qRelationProps, qRelationComplete];
 
   function generate(seed) {
     const questions = BUILDERS.map((b, i) => {
@@ -546,5 +451,5 @@
 
   window.CZU_GENERATORS = window.CZU_GENERATORS || {};
   window.CZU_GENERATORS.mlg = generate;
-  if (typeof module !== 'undefined') module.exports = { generate, _internal: { minimalDNF, props, transClosure, inSet, show, tv } };
+  if (typeof module !== 'undefined') module.exports = { generate, _internal: { minimalDNF, props, transClosure, inSet, show, tv, minBits } };
 })();

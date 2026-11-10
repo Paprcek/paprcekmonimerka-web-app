@@ -57,7 +57,7 @@
     root.innerHTML =
       '<div class="czu-intro">' +
       '<h1 class="czu-h1">' + CONFIG.title + '</h1>' +
-      '<div class="czu-infobox"><p>Test sestavený podle cvičného testu z Moodlu: 8 úloh, ' + MAX + ' bodů. Úlohy se generují podle čísla testu, takže tento test vyjde všem stejně.</p></div>' +
+      '<div class="czu-infobox"><p>Test sestavený podle cvičného testu z Moodlu: ' + QS.length + ' úloh, ' + MAX + ' bodů. Úlohy se generují podle čísla testu, takže tento test vyjde všem stejně.</p></div>' +
       '<button class="czu-btn" id="czu-start">' + (running ? 'Pokračovat v pokusu' : (hist.length ? 'Začít další pokus' : 'Začít pokus')) + '</button>' +
       '<p class="czu-meta">Časový limit: ' + test.timeLimitMin + ' min.</p>' +
       '<p class="czu-meta">Metoda hodnocení: Nejvyšší známka</p>' +
@@ -77,11 +77,13 @@
       '</table></div>';
   }
 
+  const allTokens = (q) => (q.table ? q.table.rows.flat() : []).concat(q.rows || []).flat().filter((t) => typeof t === 'object');
+
   // ---------- POKUS ----------
   function emptyAnswers() {
     const a = {};
     QS.forEach((q) => {
-      a[q.id] = q.kind === 'multi' ? q.options.map(() => false) : q.rows.flat().filter((t) => typeof t === 'object').map(() => '');
+      a[q.id] = q.kind === 'multi' ? q.options.map(() => false) : allTokens(q).map(() => '');
     });
     return a;
   }
@@ -156,20 +158,25 @@
       }).join('') + '</div>';
     } else {
       let k = 0;
-      body = '<div class="czu-rows">' + q.rows.map((row) => '<div class="czu-row">' + row.map((t) => {
+      const tok = (t) => {
         if (typeof t === 'string') return '<span class="tok">' + t + '</span>';
         const idx = k++;
         const v = ans[idx];
         if (t.sel) {
           const ok = review && String(v) === String(t.ans);
-          const opts = '<option value="">Vyberte…</option>' + t.sel.map((s, j) => '<option value="' + j + '"' + (String(v) === String(j) ? ' selected' : '') + '>' + s + '</option>').join('');
+          const opts = '<option value="">' + (t.sel.length <= 2 && t.sel[0].length <= 1 ? '–' : 'Vyberte…') + '</option>' + t.sel.map((s, j) => '<option value="' + j + '"' + (String(v) === String(j) ? ' selected' : '') + '>' + s + '</option>').join('');
           return '<span class="selwrap' + (review ? (ok ? ' ok' : ' bad') : '') + '"><select data-q="' + q.id + '" data-k="' + idx + '">' + opts + '</select>' +
             (review ? (ok ? '<span class="mk ok">✓</span>' : '<span class="mk bad">✗ ' + t.sel[t.ans] + '</span>') : '') + '</span>';
         }
         const ok = review && v !== '' && Number(v) === t.ans;
         return '<span class="selwrap' + (review ? (ok ? ' ok' : ' bad') : '') + '"><input type="number" inputmode="numeric" data-q="' + q.id + '" data-k="' + idx + '" value="' + (v === '' ? '' : v) + '">' +
           (review ? (ok ? '<span class="mk ok">✓</span>' : '<span class="mk bad">✗ ' + t.ans + '</span>') : '') + '</span>';
-      }).join(' ') + '</div>').join('') + '</div>';
+      };
+      if (q.table) {
+        body += '<div class="czu-ttwrap"><table class="czu-tt"><thead><tr>' + q.table.head.map((h) => '<th>' + h + '</th>').join('') + '</tr></thead><tbody>' +
+          q.table.rows.map((row) => '<tr>' + row.map((t) => '<td>' + tok(t) + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>';
+      }
+      body += '<div class="czu-rows">' + (q.rows || []).map((row) => '<div class="czu-row">' + row.map(tok).join(' ') + '</div>').join('') + '</div>';
     }
     const info = review
       ? '<div class="czu-qstate ' + (got >= q.points - 1e-9 ? 'ok' : got > 0 ? 'part' : 'bad') + '">' + (got >= q.points - 1e-9 ? 'Správně' : got > 0 ? 'Částečně správně' : 'Nesprávně') + '</div><div>Počet bodů: ' + fmtNum(got) + ' z ' + fmtNum(q.points) + '</div>'
@@ -230,7 +237,7 @@
       q.answer.forEach((c, i) => { if (ans[i]) { if (c) hit++; else wrong++; } });
       return q.points * Math.max(0, (hit - wrong) / k);
     }
-    const toks = q.rows.flat().filter((t) => typeof t === 'object');
+    const toks = allTokens(q);
     const good = toks.filter((t, i) => ans[i] !== '' && (t.sel ? String(ans[i]) === String(t.ans) : Number(ans[i]) === t.ans)).length;
     return q.points * good / toks.length;
   }

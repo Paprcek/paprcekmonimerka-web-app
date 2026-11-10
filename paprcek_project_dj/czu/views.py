@@ -12,6 +12,11 @@ ASSETS_DIR = Path(__file__).resolve().parent / 'assets'
 ASSET_NAMES = {'engine.js', 'mlg.js'}
 
 
+def _asset_version():
+    # mění se s obsahem JS → po deployi prohlížeč nestáhne starou verzi z cache
+    return int(max((ASSETS_DIR / n).stat().st_mtime for n in ASSET_NAMES))
+
+
 def _subject(slug):
     try:
         return SUBJECTS[slug]
@@ -43,6 +48,7 @@ def test(request, slug, seed):
     next_url = reverse('czu:test', args=[slug, seed + 1]) if seed < s['tests'] else reverse('czu:random', args=[slug])
     return render(request, 'czu/test.html', {
         'slug': slug, 's': s, 'seed': seed, 'title': title, 'next_url': next_url,
+        'v': _asset_version(),
     })
 
 

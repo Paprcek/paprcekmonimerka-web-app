@@ -7,7 +7,7 @@
   <h1 class="czu-h1">{{ s.name }}</h1>
   <div class="czu-infobox">
     <p>{{ s.note }}</p>
-    <p class="note" style="margin-top:8px">Každý test má 8 úloh za 38 bodů a limit {{ s.time_limit_min }} minut, stejně jako cvičný test v Moodlu. Témata: {{ s.topics|join:" · " }}.</p>
+    <p class="note" style="margin-top:8px">Každý test má stejnou strukturu jako cvičný test v Moodlu: 5 úloh za 38 bodů a limit {{ s.time_limit_min }} minut. Úlohy: {{ s.topics|join:" · " }}.</p>
   </div>
   <div class="czu-grid" id="czu-tests">
     {% for n in tests %}

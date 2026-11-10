@@ -14,6 +14,6 @@
     <p class="czu-meta">Načítám test…</p>
   </div>
 </div>
-<script src="{% url 'czu:asset' s.generator|add:'.js' %}"></script>
-<script src="{% url 'czu:asset' 'engine.js' %}"></script>
+<script src="{% url 'czu:asset' s.generator|add:'.js' %}?v={{ v }}"></script>
+<script src="{% url 'czu:asset' 'engine.js' %}?v={{ v }}"></script>
 {% endblock %}
