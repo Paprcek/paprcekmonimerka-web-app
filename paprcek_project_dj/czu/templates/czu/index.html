@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}ČZU – studijní trenažéry{% endblock %}
+{% block content %}
+{% include "czu/_style.html" %}
+<div class="czu-wrap">
+  <div class="czu-crumbs">ČZU · PEF · Informatika</div>
+  <h1 class="czu-h1">Studijní trenažéry</h1>
+  <div class="czu-infobox">Cvičné testy na zápočty a zkoušky. Stejný formát, časový limit i hodnocení jako v Moodlu, a po odeslání se ukáže správné řešení s postupem. Vznikají průběžně, jak postupuje studium.</div>
+  {% for semester, subjects in semesters.items %}
+    <h2 class="czu-h2">{{ semester }}</h2>
+    <div class="czu-grid">
+      {% for s in subjects %}
+        <a class="czu-tile" href="{% url 'czu:subject' s.slug %}">
+          <div class="t">{{ s.name }}</div>
+          <div class="s">{{ s.code }} · {{ s.tests }} testů · {{ s.time_limit_min }} min</div>
+          <div class="s">{{ s.note }}</div>
+        </a>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ s.name }} – cvičné testy{% endblock %}
+{% block content %}
+{% include "czu/_style.html" %}
+<div class="czu-wrap">
+  <div class="czu-crumbs"><a href="{% url 'czu:index' %}">ČZU</a> › {{ s.semester }} › {{ s.name }}</div>
+  <h1 class="czu-h1">{{ s.name }}</h1>
+  <div class="czu-infobox">
+    <p>{{ s.note }}</p>
+    <p class="note" style="margin-top:8px">Každý test má stejnou strukturu jako cvičný test v Moodlu: 5 úloh za 38 bodů a limit {{ s.time_limit_min }} minut. Úlohy: {{ s.topics|join:" · " }}.</p>
+  </div>
+  <div class="czu-grid" id="czu-tests">
+    {% for n in tests %}
+      <a class="czu-tile" href="{% url 'czu:test' slug n %}" data-seed="{{ n }}">
+        <div class="t">Cvičný test {{ n }}</div>
+        <div class="s" data-best>Zatím nezkoušeno</div>
+      </a>
+    {% endfor %}
+    <a class="czu-tile" href="{% url 'czu:random' slug %}" style="border-style:dashed">
+      <div class="t">🎲 Náhodný test</div>
+      <div class="s">Pokaždé nové zadání</div>
+    </a>
+  </div>
+  <p class="czu-small">Výsledky se ukládají jen ve vašem prohlížeči. Úlohy generuje program a správné odpovědi počítá z definic, ale kdybyste narazili na chybu, napište mi.</p>
+</div>
+<script>
+(function () {
+  var hist = [];
+  try { hist = JSON.parse(localStorage.getItem('czu.{{ s.generator }}.attempts') || '[]'); } catch (e) {}
+  document.querySelectorAll('#czu-tests [data-seed]').forEach(function (el) {
+    var seed = +el.dataset.seed, mine = hist.filter(function (a) { return a.seed === seed; });
+    if (!mine.length) return;
+    var best = Math.max.apply(null, mine.map(function (a) { return a.score; }));
+    var max = mine[0].max;
+    el.querySelector('[data-best]').innerHTML = 'Nejlépe <b>' + (100 * best / max).toFixed(0) + ' %</b> · pokusů: ' + mine.length;
+  });
+})();
+</script>
+{% endblock %}
