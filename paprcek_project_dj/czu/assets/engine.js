@@ -7,6 +7,7 @@
  *   { id, title, points, prompt (HTML), kind: 'inline' | 'multi', explain (HTML),
  *     rows:    [[token…]…]  pro 'inline'; token = HTML string | {sel:[…], ans: idx, ph?} | {num:true, ans: n}
  *              | {radio:[…], ans: idx, vertical?} | {text:true, check(v)→bool, show, w?}
+ *              (každý token může mít váhu pts, výchozí 1)
  *     options: [HTML…], answer: [bool…]  pro 'multi'; u 'inline' volitelně navíc
  *              (zaškrtávací část za políčky, hodnocená zvlášť: multiPoints, optionsPrompt) }
  *
@@ -270,8 +271,10 @@
     if (q.kind === 'multi') return q.points * multiScore(q, ans);
     const toks = allTokens(q);
     const mp = q.options ? (q.multiPoints || 0) : 0;
-    const good = toks.filter((t, i) => tokOk(t, ans[i])).length;
-    return (q.points - mp) * good / toks.length + (mp ? mp * multiScore(q, ans.slice(toks.length)) : 0);
+    // políčka mohou mít různou váhu (t.pts), jinak se počítají rovným dílem
+    const wsum = toks.reduce((a, t) => a + (t.pts || 1), 0);
+    const good = toks.reduce((a, t, i) => a + (tokOk(t, ans[i]) ? (t.pts || 1) : 0), 0);
+    return (q.points - mp) * good / wsum + (mp ? mp * multiScore(q, ans.slice(toks.length)) : 0);
   }
 
   function submit(timeout) {

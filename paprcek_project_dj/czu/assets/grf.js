@@ -5,8 +5,8 @@
  *   1. Skóre grafu (Havel–Hakimi)            2 b
  *   2. Izomorfismus orientovaných grafů      6 b
  *   3. Eulerovský graf (tah jedním tahem)    4 b
- *   4. Prefixová notace → hodnota, postfix   6 b
- *   5. Maximální tok a minimální řezy       10 b
+ *   4. Prefixová notace → hodnota, postfix   6 b (2 + 4, podle Moodlu)
+ *   5. Maximální tok a minimální řezy       10 b (8 × 1 + 2 za řezy, podle Moodlu)
  *   6. Minimální kostra                     10 b
  *
  * Test je deterministický podle čísla (seed) a všechna řešení se POČÍTAJÍ.
@@ -319,8 +319,8 @@
         title: 'Prefixová a postfixová notace', points: 6, kind: 'inline',
         prompt: 'Výraz v prefixové notaci<div class="fm-block" style="font-style:normal;letter-spacing:.06em">' + p + '</div>vypočítejte, pokud víte, že každé číslo ve výrazu je kladné a jednociferné. Následně tento výraz převeďte do postfixové notace.',
         rows: [
-          ['Hodnota výrazu:', { text: true, w: 90, check: (x) => { const t = String(x).trim().replace(/[−–]/g, '-'); return /^-?\d+$/.test(t) && Number(t) === v; }, show: num(v) }],
-          ['Postfixová notace:', { text: true, w: 220, check: (x) => normPost(x) === pf, show: pf }, '<span class="note">místo × můžete psát *</span>'],
+          ['Hodnota výrazu:', { text: true, w: 90, check: (x) => { const t = String(x).trim().replace(/[−–]/g, '-'); return /^-?\d+$/.test(t) && Number(t) === v; }, show: num(v), pts: 2 }],
+          ['Postfixová notace:', { text: true, w: 220, check: (x) => normPost(x) === pf, show: pf, pts: 4 }, '<span class="note">místo × můžete psát *</span>'],
         ],
         explain: '<p>Prefix čteme zleva: operátor patří ke dvěma výrazům, které za ním následují. Uzávorkovaný (infixový) zápis je</p>' +
           '<div class="fm-block" style="font-style:normal">' + inf(e, true) + '</div>' +
@@ -396,7 +396,7 @@
       const opts = shuffle(r, mins.map((c) => ({ ...c, ok: true })).concat(others.map((c) => ({ ...c, ok: false }))));
       const capStr = (S) => FE.map((e, i) => (S.has(e[0]) && !S.has(e[1]) ? vi(ename(e)) + ' ' + cap[i] : null)).filter(Boolean).join(' + ');
       return {
-        title: 'Maximální tok a minimální řezy', points: 10, kind: 'inline', multiPoints: 4,
+        title: 'Maximální tok a minimální řezy', points: 10, kind: 'inline', multiPoints: 2, // podle Moodlu: 8 × 1 b za toky + 2 b za řezy
         prompt: 'Nalezněte maximální tok a minimální řezy dané sítě:<div class="czu-figs">' + drawFlow(cap) + '</div>',
         rows: FE.map((e, i) => ['Maximální tok podél hrany ' + vi(ename(e)) + ' je:', { num: true, ans: f[i] }]),
         optionsPrompt: 'Z níže uvedených řezů vyberte ty, které jsou minimální.',
