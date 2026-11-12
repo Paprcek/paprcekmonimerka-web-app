@@ -9,7 +9,7 @@ from django.views.decorators.cache import cache_control
 from .registry import SUBJECTS, semesters
 
 ASSETS_DIR = Path(__file__).resolve().parent / 'assets'
-ASSET_NAMES = {'engine.js', 'mlg.js'}
+ASSET_NAMES = {'engine.js', 'mlg.js', 'grf.js'}
 
 
 def _asset_version():

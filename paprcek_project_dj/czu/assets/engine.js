@@ -5,11 +5,14 @@
  *
  * Formát otázky (vrací generátor):
  *   { id, title, points, prompt (HTML), kind: 'inline' | 'multi', explain (HTML),
- *     rows:    [[token…]…]  pro 'inline'; token = HTML string | {sel:[…], ans: idx} | {num:true, ans: n}
- *     options: [HTML…], answer: [bool…]  pro 'multi' }
+ *     rows:    [[token…]…]  pro 'inline'; token = HTML string | {sel:[…], ans: idx, ph?} | {num:true, ans: n}
+ *              | {radio:[…], ans: idx, vertical?} | {text:true, check(v)→bool, show, w?}
+ *              (každý token může mít váhu pts, výchozí 1)
+ *     options: [HTML…], answer: [bool…]  pro 'multi'; u 'inline' volitelně navíc
+ *              (zaškrtávací část za políčky, hodnocená zvlášť: multiPoints, optionsPrompt) }
  *
  * Hodnocení jako v Moodlu:
- *   inline: body × (správné rozbalovačky / všechny)
+ *   inline: body × (správná políčka / všechna)  (+ multiPoints za zaškrtávací část)
  *   multi:  body × max(0, (správně zaškrtnuté − špatně zaškrtnuté) / počet správných)
  *
  * Úložiště: localStorage (rozpracovaný pokus + historie). Pro budoucí přihlášení
@@ -83,7 +86,7 @@
   function emptyAnswers() {
     const a = {};
     QS.forEach((q) => {
-      a[q.id] = q.kind === 'multi' ? q.options.map(() => false) : allTokens(q).map(() => '');
+      a[q.id] = q.kind === 'multi' ? q.options.map(() => false) : allTokens(q).map(() => '').concat((q.options || []).map(() => false));
     });
     return a;
   }
@@ -133,7 +136,7 @@
     } else {
       root.querySelectorAll('select, input').forEach((el) => {
         el.addEventListener('change', onInput);
-        if (el.type === 'number') el.addEventListener('input', onInput);
+        if (el.type === 'number' || el.type === 'text') el.addEventListener('input', onInput);
       });
       document.getElementById('czu-submit').onclick = confirmSubmit;
       document.getElementById('czu-submit-bottom').onclick = confirmSubmit;
@@ -141,21 +144,38 @@
     }
   }
 
+  function tokOk(t, v) {
+    if (v === '' || v === undefined || v === null) return false;
+    if (t.sel || t.radio) return String(v) === String(t.ans);
+    if (t.text) return !!t.check(v);
+    return Number(String(v).replace(',', '.')) === t.ans;
+  }
+  function renderOpts(q, ans, off, review) {
+    return '<div class="czu-opts' + (q.optionsInline ? ' inline' : '') + '">' + q.options.map((o, k) => {
+      const a = ans[off + k];
+      const checked = a ? ' checked' : '';
+      let mark = '';
+      if (review) {
+        if (q.answer[k] && a) mark = '<span class="mk ok">✓</span>';
+        else if (!q.answer[k] && a) mark = '<span class="mk bad">✗</span>';
+        else if (q.answer[k] && !a) mark = '<span class="mk miss">' + (q.optionsInline ? '←' : '← mělo být zaškrtnuto') + '</span>';
+      }
+      const cls = review ? (q.answer[k] ? ' correct' : a ? ' wrong' : '') : '';
+      return '<label class="czu-opt' + cls + '"><input type="checkbox" data-q="' + q.id + '" data-k="' + (off + k) + '"' + checked + '> ' + (q.optionsInline ? '' : '<span class="lt">' + 'abcdefghijklmnop'[k] + '.</span> ') + o + mark + '</label>';
+    }).join('') + '</div>';
+  }
+  function multiScore(q, ans) {
+    const k = q.answer.filter(Boolean).length;
+    let hit = 0, wrong = 0;
+    q.answer.forEach((c, i) => { if (ans[i]) { if (c) hit++; else wrong++; } });
+    return Math.max(0, (hit - wrong) / k);
+  }
+
   function renderQuestion(q, i, review, got) {
     const ans = state.answers[q.id];
     let body = '';
     if (q.kind === 'multi') {
-      body = '<div class="czu-opts">' + q.options.map((o, k) => {
-        const checked = ans[k] ? ' checked' : '';
-        let mark = '';
-        if (review) {
-          if (q.answer[k] && ans[k]) mark = '<span class="mk ok">✓</span>';
-          else if (!q.answer[k] && ans[k]) mark = '<span class="mk bad">✗</span>';
-          else if (q.answer[k] && !ans[k]) mark = '<span class="mk miss">← mělo být zaškrtnuto</span>';
-        }
-        const cls = review ? (q.answer[k] ? ' correct' : ans[k] ? ' wrong' : '') : '';
-        return '<label class="czu-opt' + cls + '"><input type="checkbox" data-q="' + q.id + '" data-k="' + k + '"' + checked + '> <span class="lt">' + 'abcdefghijklmnop'[k] + '.</span> ' + o + mark + '</label>';
-      }).join('') + '</div>';
+      body = renderOpts(q, ans, 0, review);
     } else {
       let k = 0;
       const tok = (t) => {
@@ -164,11 +184,21 @@
         const v = ans[idx];
         if (t.sel) {
           const ok = review && String(v) === String(t.ans);
-          const opts = '<option value="">' + (t.sel.length <= 2 && t.sel[0].length <= 1 ? '–' : 'Vyberte…') + '</option>' + t.sel.map((s, j) => '<option value="' + j + '"' + (String(v) === String(j) ? ' selected' : '') + '>' + s + '</option>').join('');
+          const opts = '<option value="">' + (t.ph || (t.sel.length <= 2 && t.sel[0].length <= 1 ? '–' : 'Vyberte…')) + '</option>' + t.sel.map((s, j) => '<option value="' + j + '"' + (String(v) === String(j) ? ' selected' : '') + '>' + s + '</option>').join('');
           return '<span class="selwrap' + (review ? (ok ? ' ok' : ' bad') : '') + '"><select data-q="' + q.id + '" data-k="' + idx + '">' + opts + '</select>' +
             (review ? (ok ? '<span class="mk ok">✓</span>' : '<span class="mk bad">✗ ' + t.sel[t.ans] + '</span>') : '') + '</span>';
         }
-        const ok = review && v !== '' && Number(v) === t.ans;
+        const ok = review && tokOk(t, v);
+        if (t.radio) {
+          return '<span class="radios' + (t.vertical ? ' vert' : '') + (review ? (ok ? ' ok' : ' bad') : '') + '">' + t.radio.map((s, j) =>
+            '<label><input type="radio" name="' + q.id + '-' + idx + '" value="' + j + '" data-q="' + q.id + '" data-k="' + idx + '"' + (String(v) === String(j) ? ' checked' : '') + '> ' + s + '</label>').join('') +
+            (review ? (ok ? '<span class="mk ok">✓</span>' : '<span class="mk bad">✗ ' + t.radio[t.ans] + '</span>') : '') + '</span>';
+        }
+        if (t.text) {
+          const vv = String(v).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+          return '<span class="selwrap' + (review ? (ok ? ' ok' : ' bad') : '') + '"><input type="text" autocomplete="off" spellcheck="false" style="width:' + (t.w || 120) + 'px" data-q="' + q.id + '" data-k="' + idx + '" value="' + vv + '">' +
+            (review ? (ok ? '<span class="mk ok">✓</span>' : '<span class="mk bad">✗ ' + t.show + '</span>') : '') + '</span>';
+        }
         return '<span class="selwrap' + (review ? (ok ? ' ok' : ' bad') : '') + '"><input type="number" inputmode="numeric" data-q="' + q.id + '" data-k="' + idx + '" value="' + (v === '' ? '' : v) + '">' +
           (review ? (ok ? '<span class="mk ok">✓</span>' : '<span class="mk bad">✗ ' + t.ans + '</span>') : '') + '</span>';
       };
@@ -177,6 +207,7 @@
           q.table.rows.map((row) => '<tr>' + row.map((t) => '<td>' + tok(t) + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>';
       }
       body += '<div class="czu-rows">' + (q.rows || []).map((row) => '<div class="czu-row">' + row.map(tok).join(' ') + '</div>').join('') + '</div>';
+      if (q.options) body += (q.optionsPrompt ? '<div class="czu-prompt" style="margin:14px 0 6px">' + q.optionsPrompt + '</div>' : '') + renderOpts(q, ans, k, review);
     }
     const info = review
       ? '<div class="czu-qstate ' + (got >= q.points - 1e-9 ? 'ok' : got > 0 ? 'part' : 'bad') + '">' + (got >= q.points - 1e-9 ? 'Správně' : got > 0 ? 'Částečně správně' : 'Nesprávně') + '</div><div>Počet bodů: ' + fmtNum(got) + ' z ' + fmtNum(q.points) + '</div>'
@@ -195,12 +226,18 @@
     updateNav();
   }
   const answeredCount = (q) => state.answers[q.id].filter((v) => v !== '' && v !== false).length;
+  function isDone(q) {
+    const a = state.answers[q.id];
+    if (q.kind === 'multi') return a.some(Boolean);
+    const n = allTokens(q).length;
+    return a.slice(0, n).every((v) => v !== '') && (!q.options || a.slice(n).some(Boolean));
+  }
   function updateNav() {
     QS.forEach((q) => {
       const n = answeredCount(q), total = state.answers[q.id].length;
       const navEl = root.querySelector('.czu-navq[data-q="' + q.id + '"]');
       const st = root.querySelector('[data-state="' + q.id + '"]');
-      const done = q.kind === 'multi' ? n > 0 : n === total;
+      const done = isDone(q); void total;
       if (navEl) navEl.classList.toggle('answered', n > 0);
       if (st) st.textContent = done ? 'Zodpovězeno' : n > 0 ? 'Rozpracováno' : 'Dosud nezodpovězeno';
     });
@@ -231,15 +268,13 @@
 
   // ---------- HODNOCENÍ ----------
   function gradeQuestion(q, ans) {
-    if (q.kind === 'multi') {
-      const k = q.answer.filter(Boolean).length;
-      let hit = 0, wrong = 0;
-      q.answer.forEach((c, i) => { if (ans[i]) { if (c) hit++; else wrong++; } });
-      return q.points * Math.max(0, (hit - wrong) / k);
-    }
+    if (q.kind === 'multi') return q.points * multiScore(q, ans);
     const toks = allTokens(q);
-    const good = toks.filter((t, i) => ans[i] !== '' && (t.sel ? String(ans[i]) === String(t.ans) : Number(ans[i]) === t.ans)).length;
-    return q.points * good / toks.length;
+    const mp = q.options ? (q.multiPoints || 0) : 0;
+    // políčka mohou mít různou váhu (t.pts), jinak se počítají rovným dílem
+    const wsum = toks.reduce((a, t) => a + (t.pts || 1), 0);
+    const good = toks.reduce((a, t, i) => a + (tokOk(t, ans[i]) ? (t.pts || 1) : 0), 0);
+    return (q.points - mp) * good / wsum + (mp ? mp * multiScore(q, ans.slice(toks.length)) : 0);
   }
 
   function submit(timeout) {
