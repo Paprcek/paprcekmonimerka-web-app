@@ -457,7 +457,7 @@
       const rows = [];
       for (let i = 0; i < E.length; i += 3) {
         const row = [];
-        E.slice(i, i + 3).forEach((e, k) => { row.push('<span class="lbl">Hrana ' + vi(nm(e)) + '</span>'); row.push({ sel: ['ano', 'ne'], ans: inT[i + k] ? 0 : 1, ph: '–' }); });
+        E.slice(i, i + 3).forEach((e, k) => { row.push('<span class="lbl">Hrana ' + vi(nm(e)) + '</span>'); row.push({ sel: ['je', 'není'], ans: inT[i + k] ? 0 : 1, ph: '–' }); });
         rows.push(row);
       }
       return {
