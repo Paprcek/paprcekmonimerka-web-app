@@ -9,6 +9,9 @@
  *   5. Maximální tok a minimální řezy       10 b (8 × 1 + 2 za řezy, podle Moodlu)
  *   6. Minimální kostra                     10 b
  *
+ * Varianta B (generátor grf2, podle skutečného zápočtu 25. 11. 2026): úlohy 1–4 stejné,
+ * místo 5 a 6 kritická cesta (10 b) a Dijkstrův algoritmus (10 b).
+ *
  * Test je deterministický podle čísla (seed) a všechna řešení se POČÍTAJÍ.
  * Generátor bere jen zadání, která mají jednoznačnou odpověď
  * (jediný maximální tok, jediná minimální kostra).
@@ -472,20 +475,174 @@
     }
   }
 
+  // =====================================================================
+  // 5B. KRITICKÁ CESTA (10 b) – varianta B podle skutečného zápočtu
+  // =====================================================================
+  // S, čtyři sloupce po dvou vrcholech (nahoře/dole), T. Hrany vedou jen dopředu
+  // nebo svisle v rámci sloupce, takže síť je vždy acyklická.
+  const CN = ['S', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'T'];
+  const CPOS = [{ x: 0, y: 85 }];
+  for (let c = 0; c < 4; c++) CPOS.push({ x: 115 + c * 115, y: 0 }, { x: 115 + c * 115, y: 170 });
+  CPOS.push({ x: 575, y: 85 });
+  const ctop = (c) => 1 + 2 * c, cbot = (c) => 2 + 2 * c;
+  const normPaths = (v) => String(v).toUpperCase().replace(/[\s\-–—→>]/g, '').split(/[,;]+/).filter(Boolean).sort().join(',');
+  function qCrit(r) {
+    const wantPaths = pick(r, [1, 1, 2, 2, 3]);
+    for (let attempt = 0; attempt < 5000; attempt++) {
+      const E = [[0, ctop(0), { side: 1 }], [0, cbot(0), { side: -1 }]];
+      for (let c = 0; c < 4; c++) {
+        if (r() < 0.65) E.push(r() < 0.5 ? [ctop(c), cbot(c), { side: -1 }] : [cbot(c), ctop(c), { side: -1 }]);
+        if (c < 3) {
+          E.push([ctop(c), ctop(c + 1), { side: 1 }], [cbot(c), cbot(c + 1), { side: -1 }]);
+          if (r() < 0.75) E.push(r() < 0.5 ? [ctop(c), cbot(c + 1), { t: 0.32, side: 1 }] : [cbot(c), ctop(c + 1), { t: 0.32, side: -1 }]);
+        }
+      }
+      E.push([ctop(3), 9, { side: 1 }], [cbot(3), 9, { side: -1 }]);
+      const w = E.map(() => ri(r, 2, 15));
+      // nejdřívější časy v topologickém pořadí (Kahn)
+      const indeg = Array(10).fill(0); E.forEach(([, v]) => indeg[v]++);
+      const order = [], q = [0];
+      while (q.length) { const x = q.shift(); order.push(x); E.forEach(([u, v]) => { if (u === x && --indeg[v] === 0) q.push(v); }); }
+      const ET = Array(10).fill(-Infinity); ET[0] = 0;
+      order.forEach((x) => E.forEach(([u, v], i) => { if (u === x) ET[v] = Math.max(ET[v], ET[u] + w[i]); }));
+      // všechny kritické cesty = cesty S→T po hranách s nulovou rezervou
+      const paths = [];
+      const dfs = (x, acc) => {
+        if (x === 9) { paths.push(acc); return; }
+        E.forEach(([u, v], i) => { if (u === x && ET[u] + w[i] === ET[v] && LT[v] === ET[v]) dfs(v, acc + CN[v]); });
+      };
+      const LT = Array(10).fill(Infinity); LT[9] = ET[9];
+      order.slice().reverse().forEach((x) => E.forEach(([u, v], i) => { if (v === x) LT[u] = Math.min(LT[u], LT[v] - w[i]); }));
+      dfs(0, 'S');
+      if (paths.length !== wantPaths) continue;
+      // kritická cesta má používat aspoň jednu svislou nebo šikmou hranu, ať to není jen „rovně“
+      if (!paths.some((p) => /[ACEG][BDFH]|[BDFH][ACEG]/.test(p))) continue;
+      const crit = E.map(([u, v], i) => ET[u] + w[i] === ET[v] && LT[v] === ET[v] && LT[u] === ET[u]);
+      const draw = (hl) => svgGraph({
+        nodes: CPOS.map((p, i) => ({ ...p, label: CN[i], hl: hl && LT[i] === ET[i] })), r: 15, off: 10,
+        edges: E.map(([u, v, lab], i) => ({ u, v, dir: true, w: w[i], ...lab, hl: hl && crit[i], dim: hl && !crit[i] })),
+      });
+      const steps = order.slice(1).map((x) => {
+        const ins = E.map((e, i) => ({ e, i })).filter(({ e }) => e[1] === x);
+        const terms = ins.map(({ e, i }) => 't(' + CN[e[0]] + ') + ' + w[i]);
+        const vals = ins.map(({ e, i }) => ET[e[0]] + w[i]);
+        return '<li>t(' + CN[x] + ') = ' + (ins.length > 1 ? 'max(' + terms.join(', ') + ') = max(' + vals.join(', ') + ')' : terms[0]) + ' = <b>' + ET[x] + '</b></li>';
+      });
+      const sorted = paths.slice().sort();
+      return {
+        title: 'Kritická cesta', points: 10, kind: 'inline',
+        prompt: 'Nalezněte všechny kritické cesty daného projektu. Ohodnocení hran udává dobu trvání činností.<div class="czu-figs">' + draw(false) + '</div>',
+        rows: [
+          ['Délka kritické cesty (nejkratší možná doba trvání projektu):', { num: true, ans: ET[9], pts: 4 }],
+          ['Všechny kritické cesty:', { text: true, w: 260, check: (x) => normPaths(x) === sorted.join(','), show: sorted.join(', '), pts: 6 }],
+          ['<span class="note">Cestu pište jako vrcholy za sebou bez mezer (např. SACDT), více cest oddělte čárkou.</span>'],
+        ],
+        explain: '<p>Kritická cesta je <b>nejdelší</b> cesta ze <i>S</i> do <i>T</i>: projekt nemůže skončit dřív, než proběhnou všechny činnosti na ní. ' +
+          'Postupujeme v topologickém pořadí a každému vrcholu spočítáme <b>nejdřívější možný čas</b> t = maximum přes všechny hrany, které do něj vedou:</p>' +
+          '<ol class="ex-list"><li>t(S) = <b>0</b></li>' + steps.join('') + '</ol>' +
+          '<p>Délka kritické cesty je t(T) = <b>' + ET[9] + '</b>. Kritické cesty najdeme zpětně od <i>T</i>: jdeme jen po hranách, u kterých platí t(u) + délka = t(v), tedy po hranách bez rezervy (v obrázku zeleně).</p>' +
+          '<div class="czu-figs">' + draw(true) + '</div>' +
+          '<p>' + (sorted.length > 1 ? 'Kritické cesty jsou ' + sorted.length + ': ' : 'Kritická cesta: ') + sorted.map((p) => '<b>' + p + '</b>').join(', ') + '.</p>',
+      };
+    }
+  }
+
+  // =====================================================================
+  // 6B. DIJKSTRŮV ALGORITMUS (10 b) – varianta B podle skutečného zápočtu
+  // =====================================================================
+  // Mřížka 3 × 3 s úhlopříčkami jako na přednášce J. Hory: dole s a b, uprostřed c d e, nahoře f g h.
+  const DN = ['s', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  const DPOS = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({ x: (i % 3) * 140, y: 280 - Math.floor(i / 3) * 140 }));
+  const DBASE = [[0, 1], [1, 2], [3, 4], [4, 5], [6, 7], [7, 8], [0, 3], [3, 6], [1, 4], [4, 7], [2, 5], [5, 8]];
+  const DDIAG = [[[0, 4], [1, 3]], [[1, 5], [2, 4]], [[3, 7], [4, 6]], [[4, 8], [5, 7]]];
+  function dijkstra(E, w, n) {
+    const d = Array(n).fill(Infinity), pred = Array(n).fill(-1), done = Array(n).fill(false), log = [];
+    d[0] = 0;
+    for (let k = 0; k < n; k++) {
+      let x = -1;
+      for (let i = 0; i < n; i++) if (!done[i] && (x < 0 || d[i] < d[x])) x = i;
+      done[x] = true;
+      const upd = [];
+      E.forEach(([u, v], i) => {
+        const y = u === x ? v : v === x ? u : -1;
+        if (y < 0 || done[y]) return;
+        if (d[x] + w[i] < d[y]) { upd.push({ y, from: d[y], to: d[x] + w[i] }); d[y] = d[x] + w[i]; pred[y] = x; }
+      });
+      log.push({ x, dx: d[x], upd, snap: d.map((v, i) => ({ d: v, p: pred[i], done: done[i] })) });
+    }
+    return { d, pred, log };
+  }
+  function qDijkstra(r) {
+    for (let attempt = 0; attempt < 5000; attempt++) {
+      const E = DBASE.slice();
+      DDIAG.forEach((pair) => { if (r() < 0.85) E.push(pick(r, pair)); });
+      const w = E.map(() => ri(r, 1, 12));
+      const { d, pred, log } = dijkstra(E, w, 9);
+      // jednoznačnost: každý vrchol má jediného předchůdce na nejkratší cestě
+      const ties = DN.some((_, v) => v > 0 && E.filter(([a, b], i) => (a === v || b === v) && d[a === v ? b : a] + w[i] === d[v]).length !== 1);
+      if (ties) continue;
+      // ať to není triviální: aspoň jedna hrana z s není nejkratší cestou a vzdálenosti nejsou malé
+      const nonDirect = E.filter(([a, b], i) => (a === 0 || b === 0) && w[i] !== d[a === 0 ? b : a]).length;
+      if (nonDirect < 1 || Math.max(...d) < 12) continue;
+      const lab = ([u, v]) => {
+        if (v === u + 1) return { side: 1 };                         // vodorovné: nad hranou
+        if (v === u + 3) return { side: u % 3 === 0 ? 1 : -1 };     // svislé: vlevo u levého sloupce, jinak vpravo
+        return { t: 0.38, side: v === u + 4 ? -1 : 1 };              // úhlopříčky
+      };
+      const inTree = E.map(([u, v]) => pred[v] === u || pred[u] === v);
+      const draw = (hl) => svgGraph({
+        nodes: DPOS.map((p, i) => ({ ...p, label: DN[i], hl: hl && i === 0 })), r: 15, off: 11,
+        edges: E.map((e, i) => ({ u: e[0], v: e[1], w: w[i], ...lab(e), hl: hl && inTree[i], dim: hl && !inTree[i] })),
+      });
+      const cell = (c) => (c.d === Infinity ? '∞' : DN[c.p] === undefined ? String(c.d) : DN[c.p] + ' ' + c.d);
+      // sloupec 0 = počáteční stav, sloupec k = stav po k-tém kroku; zeleně vrchol, který se z daného sloupce uzavře
+      const cols = [DN.map((_, i) => ({ d: i ? Infinity : 0, p: -1 }))].concat(log.slice(0, -1).map((l) => l.snap));
+      const closedAt = Array(9); log.forEach((l, k) => { closedAt[l.x] = k; });
+      const tbl = '<div class="czu-ttwrap"><table class="czu-tt"><thead><tr><th></th>' + cols.map((_, k) => '<th>' + k + '</th>').join('') + '</tr></thead><tbody>' +
+        DN.map((v, i) => '<tr><td><i>' + v + '</i></td>' + cols.map((c, k) => {
+          if (k > closedAt[i]) return '<td></td>';
+          return '<td>' + (k === closedAt[i] ? '<b class="ok">' + cell(c[i]) + '</b>' : cell(c[i])) + '</td>';
+        }).join('') + '</tr>').join('') + '</tbody></table></div>';
+      const path = (v) => { const out = []; for (let x = v; x >= 0; x = pred[x]) out.unshift(DN[x]); return out.join(' – '); };
+      return {
+        title: 'Dijkstrův algoritmus', points: 10, kind: 'inline',
+        prompt: 'Pomocí Dijkstrova algoritmu nalezněte nejkratší cestu z vrcholu <i>s</i> do všech ostatních vrcholů. Ke každému vrcholu uveďte délku nejkratší cesty a vrchol, ze kterého do něj nejkratší cesta přichází.<div class="czu-figs">' + draw(false) + '</div>',
+        table: {
+          head: ['Vrchol', 'Délka nejkratší cesty', 'Předchozí vrchol'],
+          rows: DN.slice(1).map((v, k) => ['<i>' + v + '</i>', { num: true, ans: d[k + 1] }, { sel: DN, ans: pred[k + 1], ph: '–', pts: 0.25 }]),
+        },
+        explain: '<p>Na začátku má <i>s</i> vzdálenost 0 a ostatní ∞. V každém kroku vybereme nehotový vrchol s nejmenší vzdáleností (tím je jeho vzdálenost definitivní) a zkusíme přes něj zkrátit cestu k jeho nehotovým sousedům.</p>' +
+          '<ol class="ex-list" start="0">' + log.map((l) => '<li>Vybereme <b>' + DN[l.x] + '</b> (' + l.dx + ')' +
+            (l.upd.length ? ': ' + l.upd.map((u) => vi(DN[u.y]) + ' ' + (u.from === Infinity ? '∞' : u.from) + ' → <b>' + u.to + '</b>').join(', ') : ', nic se nezlepší') + '</li>').join('') + '</ol>' +
+          '<p>Tabulka jako na přednášce (sloupec = krok, v buňce předchůdce a vzdálenost, zeleně vrchol, který se v daném kroku uzavřel):</p>' + tbl +
+          '<p>Strom nejkratších cest:</p><div class="czu-figs">' + draw(true) + '</div>' +
+          '<ul class="ex-list">' + DN.slice(1).map((v, k) => '<li>' + vi(v) + ': ' + path(k + 1) + ' = <b>' + d[k + 1] + '</b></li>').join('') + '</ul>',
+      };
+    }
+  }
+
   const BUILDERS = [qScore, qIso, qEuler, qPrefix, qFlow, qMST];
 
-  function generate(seed) {
-    const questions = BUILDERS.map((b, i) => {
-      const q = b(mulberry32(seed * 7919 + i * 104729 + 31));
-      q.id = 'q' + (i + 1);
-      return q;
-    });
-    return { timeLimitMin: 50, questions };
+  // Varianta B podle skutečného zápočtu: místo toku a kostry kritická cesta a Dijkstra
+  const BUILDERS_B = [qScore, qIso, qEuler, qPrefix, qCrit, qDijkstra];
+
+  function build(builders, salt) {
+    return function (seed) {
+      const questions = builders.map((b, i) => {
+        const q = b(mulberry32(seed * 7919 + i * 104729 + 31 + salt));
+        q.id = 'q' + (i + 1);
+        return q;
+      });
+      return { timeLimitMin: 50, questions };
+    };
   }
+  const generate = build(BUILDERS, 0);
+  const generateB = build(BUILDERS_B, 500009); // jiný salt, ať se úlohy 1–4 neopakují z varianty A
 
   if (typeof window !== 'undefined') {
     window.CZU_GENERATORS = window.CZU_GENERATORS || {};
     window.CZU_GENERATORS.grf = generate;
+    window.CZU_GENERATORS.grf2 = generateB;
   }
-  if (typeof module !== 'undefined') module.exports = { generate, _internal: { havelHakimi, isoPerm, maxFlow, uniqueFlow, eulerTrail, evalE, pre, post, normPost, cutCap } };
+  if (typeof module !== 'undefined') module.exports = { generate, generateB, _internal: { dijkstra, havelHakimi, isoPerm, maxFlow, uniqueFlow, eulerTrail, evalE, pre, post, normPost, cutCap } };
 })();

@@ -3,6 +3,7 @@ Registr studijních trenažérů.
 
 Nový předmět = nový záznam v SUBJECTS + generátor v assets/<generator>.js
 (window.CZU_GENERATORS['<generator>'] = function (seed) { ... }).
+Když víc generátorů sdílí jeden soubor, záznam má 'asset': '<soubor bez .js>'.
 Engine, šablony i ukládání pokusů jsou společné pro všechny předměty.
 """
 
@@ -43,6 +44,26 @@ SUBJECTS = {
             '6. Minimální kostra (10 b)',
         ],
         'note': 'Trenažér na druhý zápočtový test: grafy, toky v sítích, kostry a notace výrazů.',
+    },
+    'grafy-b': {
+        'name': 'Matematická logika a grafy – 2. zápočet, varianta B',
+        'code': 'TAE75E / TAE41E',
+        'semester': 'ZS 2026/27',
+        'semester_label': '1. semestr – Informatika (kombinovaně)',
+        'generator': 'grf2',
+        'asset': 'grf',  # stejný soubor jako varianta A, jen jiná sada úloh
+        'tests': 10,
+        'time_limit_min': 50,
+        'structure': '6 úloh za 38 bodů',
+        'topics': [
+            '1. Skóre grafu (2 b)',
+            '2. Izomorfismus orientovaných grafů (6 b)',
+            '3. Eulerovský graf (4 b)',
+            '4. Prefixová a postfixová notace (6 b)',
+            '5. Kritická cesta (10 b)',
+            '6. Dijkstrův algoritmus – nejkratší cesty z jednoho vrcholu (10 b)',
+        ],
+        'note': 'Podle skutečného zápočtu 25. 11. 2026: místo toku a kostry byly poslední dvě úlohy kritická cesta a Dijkstrův algoritmus.',
     },
 }
 
